@@ -5,7 +5,7 @@ provider: Hume AI
 providerId: hume-ai
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - AI
 - Voice
@@ -15,10 +15,14 @@ tags:
 - FinOps
 - Cost Management
 - FOCUS
-description: FOCUS-aligned FinOps placeholder for Hume AI. Pipeline will replace with real billing details.
-notes: Initial scaffold — billing model has not yet been reconciled.
+description: >-
+  FOCUS-aligned FinOps view of Hume AI. Hume bills via subscription plan tiers (with bundled
+  TTS characters and EVI minutes) plus per-character TTS overage and per-minute EVI overage.
+  Expression Measurement is fully pay-as-you-go priced per minute, image, or word.
+notes: Plan-tier sizing is the dominant FinOps decision; right-size based on monthly TTS character + EVI minute projections.
 sources:
-- https://www.hume.ai/
+- https://www.hume.ai/pricing
+- https://dev.hume.ai/
 - https://focus.finops.org/focus-specification/v1-3/
 alignedWith:
   framework: FinOps Foundation Framework
@@ -29,7 +33,7 @@ alignedWith:
 publisherName: Hume AI
 serviceCategory: AI
 billingModel:
-  pricingCategory: To Be Reconciled
+  pricingCategory: Subscription + Usage
   billingFrequency: Monthly
   billingCurrency: USD
   chargeCategories:
@@ -37,7 +41,7 @@ billingModel:
   - Purchase
   - Adjustment
 focusColumns:
-  ServiceName: Hume AI
+  ServiceName: Hume AI Voice and Expression Measurement
   ServiceCategory: AI
   ProviderName: Hume AI
   PublisherName: Hume AI
@@ -45,22 +49,57 @@ focusColumns:
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-- name: api_usage
-  description: Catch-all meter pending reconciliation.
-  unit: varies
+- name: tts_characters
+  description: Monthly TTS character allowance with overage at $0.05-0.15 per 1,000.
+  unit: character
   aggregation: sum
   dimensions:
   - account
-  - resource
+  - voice
+- name: evi_minutes
+  description: EVI speech-to-speech monthly minute allowance with overage at $0.04-0.06/min.
+  unit: minute
+  aggregation: sum
+  dimensions:
+  - account
+  - chat_group
+- name: expression_video_minutes
+  description: Video-with-audio expression measurement at $0.0828/min.
+  unit: minute
+  aggregation: sum
+  dimensions:
+  - account
+  - job
+- name: expression_audio_minutes
+  description: Audio-only expression measurement at $0.0639/min.
+  unit: minute
+  aggregation: sum
+  dimensions:
+  - account
+  - job
+- name: expression_images
+  description: Image expression measurement at $0.00204 each.
+  unit: image
+  aggregation: sum
+  dimensions:
+  - account
+  - job
+- name: expression_words
+  description: Text expression measurement at $0.00024/word.
+  unit: word
+  aggregation: sum
+  dimensions:
+  - account
+  - job
 principles:
 - name: Visibility
-  description: Pull provider invoices or usage exports until a self-serve usage feed is documented.
+  description: Use Hume billing dashboard to track TTS characters, EVI minutes, and Expression Measurement usage by job.
 - name: Allocation
-  description: Tag invoice line items to consuming business units in your FinOps store.
+  description: Tag voices, EVI configs, and Expression Measurement jobs to business units.
 - name: Optimization
-  description: Levers depend on the provider's billing model; review at renewal once reconciled.
+  description: Right-size plan tier; for Expression Measurement, batch larger jobs and prefer audio-only over video where possible.
 - name: Accountability
-  description: Assign a contract owner to review billing against negotiated terms.
+  description: Assign owners for TTS, EVI, and Expression Measurement budget lines separately.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

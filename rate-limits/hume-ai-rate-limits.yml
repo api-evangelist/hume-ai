@@ -5,7 +5,7 @@ provider: Hume AI
 providerId: hume-ai
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: partial
 tags:
 - AI
 - Voice
@@ -15,21 +15,44 @@ tags:
 - Rate Limiting
 - Quotas
 - Throttling
-description: Placeholder rate-limit artifact for Hume AI. Replace with real limits once researched.
-notes: Initial scaffold — limits have not yet been reconciled.
+description: >-
+  Hume rate-limits primarily through plan-based monthly TTS character allowances, EVI minutes,
+  and concurrent connection caps. Specific HTTP RPS limits are not publicly documented;
+  Expression Measurement is gated by job throughput.
+notes: Plan-tier monthly quotas are the documented scaling lever. Concurrent connections start at 1 on Free.
 sources:
-- https://www.hume.ai/
+- https://www.hume.ai/pricing
+- https://dev.hume.ai/
 responseCodes:
   throttled: 429
 limits:
-- name: Default
+- name: TTS Characters/Month (Free)
   scope: account
-  metric: varies
-  limit: see provider documentation
-  notes: Pending reconciliation.
+  metric: characters
+  limit: 10000
+  notes: ~10 minutes of TTS audio.
+- name: EVI Minutes/Month (Free)
+  scope: account
+  metric: minutes
+  limit: 5
+- name: Concurrent Connections (Free)
+  scope: account
+  metric: concurrent_connections
+  limit: 1
+- name: EVI Minutes/Month (Business)
+  scope: account
+  metric: minutes
+  limit: 12500
+- name: HTTP Requests
+  scope: account
+  metric: requests
+  limit: not publicly documented
+  notes: Verify with Hume support; standard 429 backoff applies.
 policies:
 - name: Backoff Strategy
   description: Clients should implement exponential backoff with jitter and honor any Retry-After header.
+- name: Plan Sizing
+  description: Choose plan tier based on monthly TTS character and EVI minute usage projections.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

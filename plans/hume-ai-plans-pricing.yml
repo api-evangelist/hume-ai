@@ -5,7 +5,7 @@ provider: Hume AI
 providerId: hume-ai
 created: '2026-05-08'
 modified: '2026-05-08'
-reconciled: false
+reconciled: true
 tags:
 - AI
 - Voice
@@ -13,29 +13,193 @@ tags:
 - Emotion
 - Multimodal
 - Plans
-description: Placeholder plans/pricing artifact for Hume AI. Replace with real published pricing once
-  the pipeline researches the provider's plans page.
-notes: Initial scaffold — plans/pricing have not yet been reconciled.
+description: >-
+  Hume AI offers seven plans (Free, Starter, Creator, Pro, Scale, Business, Enterprise) for
+  TTS and EVI usage, plus pay-as-you-go pricing for Expression Measurement. Each plan bundles
+  monthly TTS character allowances and EVI minutes; overage rates fall as tier rises.
+notes: Reconciled from Hume's public pricing page (May 2026). Expression Measurement is pay-as-you-go.
 sources:
-- https://www.hume.ai/
+- https://www.hume.ai/pricing
 plans:
-- id: hume-ai-default
-  name: To Be Reconciled
-  type: enterprise
-  description: Initial scaffold; replace with provider plan tiers once pricing is reconciled.
+- id: hume-ai-free
+  name: Free
+  type: free
+  description: Free tier with limited TTS, EVI, and 1 concurrent connection.
   entries:
-  - label: API Access
-    name: api_access
+  - label: Plan Fee
+    name: plan_fee
     type: flat
-    metric: varies
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 0 USD/month
+    userMultiplied: false
+  elements:
+  - name: 10,000 TTS characters/month (~10 minutes)
+  - name: 5 EVI minutes/month
+  - name: 1 concurrent connection
+  - name: Unlimited voice cloning
+  - name: 3 team seats
+  - name: Discord support
+- id: hume-ai-starter
+  name: Starter
+  type: subscription
+  description: Entry paid tier.
+  entries:
+  - label: Plan Fee
+    name: plan_fee
+    type: flat
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 3 USD/month
+    userMultiplied: false
+- id: hume-ai-creator
+  name: Creator
+  type: subscription
+  description: Creator tier with TTS overage at $0.15/1,000 chars.
+  entries:
+  - label: Plan Fee
+    name: plan_fee
+    type: flat
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 7 USD/month (3.50 first month)
+    userMultiplied: false
+  - label: TTS Overage
+    name: tts_overage
+    type: per_unit
+    metric: characters
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1000
+    price: 0.15 USD per 1,000 characters
+    userMultiplied: false
+- id: hume-ai-pro
+  name: Pro
+  type: subscription
+  description: Pro tier.
+  entries:
+  - label: Plan Fee
+    name: plan_fee
+    type: flat
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 70 USD/month
+    userMultiplied: false
+- id: hume-ai-scale
+  name: Scale
+  type: subscription
+  description: Scale tier.
+  entries:
+  - label: Plan Fee
+    name: plan_fee
+    type: flat
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 200 USD/month
+    userMultiplied: false
+- id: hume-ai-business
+  name: Business
+  type: subscription
+  description: Business tier with TTS overage at $0.05/1,000 characters and ~12,500 EVI minutes.
+  entries:
+  - label: Plan Fee
+    name: plan_fee
+    type: flat
+    metric: month
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 500 USD/month
+    userMultiplied: false
+  - label: TTS Overage
+    name: tts_overage
+    type: per_unit
+    metric: characters
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1000
+    price: 0.05 USD per 1,000 characters
+    userMultiplied: false
+  elements:
+  - name: 12,500 EVI minutes/month
+- id: hume-ai-enterprise
+  name: Enterprise
+  type: enterprise
+  description: Custom contracts with unlimited TTS allowances and custom EVI rates.
+  entries:
+  - label: Enterprise Contract
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: annual
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+- id: hume-ai-expression-payg
+  name: Expression Measurement (Pay-as-you-go)
+  type: usage
+  description: Multimodal expression analysis priced per minute or per item.
+  entries:
+  - label: Video with Audio
+    name: video_audio
+    type: per_minute
+    metric: minute
     limit: -1
     timeFrame: usage
     geo: global
     unit: 1
-    price: see https://www.hume.ai/
+    price: 0.0828 USD/min
     userMultiplied: false
-  elements:
-  - name: Pending Reconciliation
+  - label: Audio Only
+    name: audio_only
+    type: per_minute
+    metric: minute
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: 0.0639 USD/min
+    userMultiplied: false
+  - label: Images
+    name: images
+    type: per_unit
+    metric: image
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: 0.00204 USD per image
+    userMultiplied: false
+  - label: Text
+    name: text
+    type: per_unit
+    metric: word
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: 0.00024 USD per word
+    userMultiplied: false
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
