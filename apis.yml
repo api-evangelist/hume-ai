@@ -1,7 +1,7 @@
 aid: hume-ai
 url: https://raw.githubusercontent.com/api-evangelist/hume-ai/refs/heads/main/apis.yml
 name: Hume AI
-x-type: company
+kind: company
 description: >-
   Hume AI builds empathic voice and emotional AI models. The platform exposes four published
   APIs: Voices, Octave Text-to-Speech, Empathic Voice Interface (EVI / speech-to-speech),
