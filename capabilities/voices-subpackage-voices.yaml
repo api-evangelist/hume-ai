@@ -1,0 +1,194 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Voices — subpackage_voices
+  description: 'Voices — subpackage_voices. 3 operations. Lead operation: Create voice. Self-contained Naftiko capability
+    covering one Hume Ai business surface.'
+  tags:
+  - Hume Ai
+  - subpackage_voices
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUME_AI_API_KEY: HUME_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: voices-subpackage-voices
+    baseUri: https://api.hume.ai
+    description: Voices — subpackage_voices business capability. Self-contained, no shared references.
+    resources:
+    - name: v0-tts-voices
+      path: /v0/tts/voices
+      operations:
+      - name: create
+        method: POST
+        description: Create voice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: list
+        method: GET
+        description: List voices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: provider
+          in: query
+          type: string
+          description: 'Specify the voice provider to filter voices returned by the endpoint:'
+          required: true
+        - name: page_number
+          in: query
+          type: integer
+          description: Specifies the page number to retrieve, enabling pagination.
+        - name: page_size
+          in: query
+          type: integer
+          description: Specifies the maximum number of results to include per page, enabling pagination. The value must be
+            between 1 and 100, inclusive.
+        - name: ascending_order
+          in: query
+          type: boolean
+        - name: filter_tag
+          in: query
+          type: array
+          description: Filter voices by tag using `TAG:TAG_VALUE` syntax.
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+      - name: delete
+        method: DELETE
+        description: Delete voice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: Name of the voice to delete
+          required: true
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: X-Hume-Api-Key
+      value: '{{env.HUME_AI_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: voices-subpackage-voices-rest
+    port: 8080
+    description: REST adapter for Voices — subpackage_voices. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/v0/tts/voices
+      name: v0-tts-voices
+      description: REST surface for v0-tts-voices.
+      operations:
+      - method: POST
+        name: create
+        description: Create voice
+        call: voices-subpackage-voices.create
+        with:
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: list
+        description: List voices
+        call: voices-subpackage-voices.list
+        with:
+          provider: rest.provider
+          page_number: rest.page_number
+          page_size: rest.page_size
+          ascending_order: rest.ascending_order
+          filter_tag: rest.filter_tag
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: delete
+        description: Delete voice
+        call: voices-subpackage-voices.delete
+        with:
+          name: rest.name
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: voices-subpackage-voices-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Voices — subpackage_voices. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-voice
+      description: Create voice
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: voices-subpackage-voices.create
+      with:
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-voices
+      description: List voices
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: voices-subpackage-voices.list
+      with:
+        provider: tools.provider
+        page_number: tools.page_number
+        page_size: tools.page_size
+        ascending_order: tools.ascending_order
+        filter_tag: tools.filter_tag
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-voice
+      description: Delete voice
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: voices-subpackage-voices.delete
+      with:
+        name: tools.name
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.

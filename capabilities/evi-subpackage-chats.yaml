@@ -1,0 +1,229 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Speech-to-speech (EVI) — subpackage_chats
+  description: 'Speech-to-speech (EVI) — subpackage_chats. 3 operations. Lead operation: List chats. Self-contained Naftiko
+    capability covering one Hume Ai business surface.'
+  tags:
+  - Hume Ai
+  - subpackage_chats
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUME_AI_API_KEY: HUME_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: evi-subpackage-chats
+    baseUri: https://api.hume.ai
+    description: Speech-to-speech (EVI) — subpackage_chats business capability. Self-contained, no shared references.
+    resources:
+    - name: v0-evi-chats
+      path: /v0/evi/chats
+      operations:
+      - name: listchats
+        method: GET
+        description: List chats
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page_number
+          in: query
+          type: integer
+          description: Specifies the page number to retrieve, enabling pagination.
+        - name: page_size
+          in: query
+          type: integer
+          description: Specifies the maximum number of results to include per page, enabling pagination. The value must be
+            between 1 and 100, inclusive.
+        - name: ascending_order
+          in: query
+          type: boolean
+          description: Specifies the sorting order of the results based on their creation date. Set to true for ascending
+            order (chronological, with the oldest records first) and fals
+        - name: config_id
+          in: query
+          type: string
+          description: Filter to only include chats that used this config.
+        - name: status
+          in: query
+          type: string
+          description: Chat status to apply to the chat. String from the ChatStatus enum.
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    - name: v0-evi-chats-id
+      path: /v0/evi/chats/{id}
+      operations:
+      - name: listchatevents
+        method: GET
+        description: List chat events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Identifier for a Chat. Formatted as a UUID.
+          required: true
+        - name: page_size
+          in: query
+          type: integer
+          description: Specifies the maximum number of results to include per page, enabling pagination. The value must be
+            between 1 and 100, inclusive.
+        - name: page_number
+          in: query
+          type: integer
+          description: Specifies the page number to retrieve, enabling pagination.
+        - name: ascending_order
+          in: query
+          type: boolean
+          description: Specifies the sorting order of the results based on their creation date. Set to true for ascending
+            order (chronological, with the oldest records first) and fals
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    - name: v0-evi-chats-id-audio
+      path: /v0/evi/chats/{id}/audio
+      operations:
+      - name: getaudio
+        method: GET
+        description: Get chat audio
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: Identifier for a Chat. Formatted as a UUID.
+          required: true
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: X-Hume-Api-Key
+      value: '{{env.HUME_AI_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: evi-subpackage-chats-rest
+    port: 8080
+    description: REST adapter for Speech-to-speech (EVI) — subpackage_chats. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v0/evi/chats
+      name: v0-evi-chats
+      description: REST surface for v0-evi-chats.
+      operations:
+      - method: GET
+        name: listchats
+        description: List chats
+        call: evi-subpackage-chats.listchats
+        with:
+          page_number: rest.page_number
+          page_size: rest.page_size
+          ascending_order: rest.ascending_order
+          config_id: rest.config_id
+          status: rest.status
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v0/evi/chats/{id}
+      name: v0-evi-chats-id
+      description: REST surface for v0-evi-chats-id.
+      operations:
+      - method: GET
+        name: listchatevents
+        description: List chat events
+        call: evi-subpackage-chats.listchatevents
+        with:
+          id: rest.id
+          page_size: rest.page_size
+          page_number: rest.page_number
+          ascending_order: rest.ascending_order
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v0/evi/chats/{id}/audio
+      name: v0-evi-chats-id-audio
+      description: REST surface for v0-evi-chats-id-audio.
+      operations:
+      - method: GET
+        name: getaudio
+        description: Get chat audio
+        call: evi-subpackage-chats.getaudio
+        with:
+          id: rest.id
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: evi-subpackage-chats-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Speech-to-speech (EVI) — subpackage_chats. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-chats
+      description: List chats
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: evi-subpackage-chats.listchats
+      with:
+        page_number: tools.page_number
+        page_size: tools.page_size
+        ascending_order: tools.ascending_order
+        config_id: tools.config_id
+        status: tools.status
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-chat-events
+      description: List chat events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: evi-subpackage-chats.listchatevents
+      with:
+        id: tools.id
+        page_size: tools.page_size
+        page_number: tools.page_number
+        ascending_order: tools.ascending_order
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-chat-audio
+      description: Get chat audio
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: evi-subpackage-chats.getaudio
+      with:
+        id: tools.id
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.

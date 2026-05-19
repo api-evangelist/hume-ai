@@ -1,0 +1,94 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Speech-to-speech (EVI) — subpackage_controlPlane
+  description: 'Speech-to-speech (EVI) — subpackage_controlPlane. 1 operations. Lead operation: Send Message. Self-contained
+    Naftiko capability covering one Hume Ai business surface.'
+  tags:
+  - Hume Ai
+  - subpackage_controlPlane
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUME_AI_API_KEY: HUME_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: evi-subpackage-controlplane
+    baseUri: https://api.hume.ai
+    description: Speech-to-speech (EVI) — subpackage_controlPlane business capability. Self-contained, no shared references.
+    resources:
+    - name: v0-evi-chat-chat_id-send
+      path: /v0/evi/chat/{chat_id}/send
+      operations:
+      - name: send
+        method: POST
+        description: Send Message
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: chat_id
+          in: path
+          type: string
+          required: true
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: apikey
+      key: X-Hume-Api-Key
+      value: '{{env.HUME_AI_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: evi-subpackage-controlplane-rest
+    port: 8080
+    description: REST adapter for Speech-to-speech (EVI) — subpackage_controlPlane. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v0/evi/chat/{chat-id}/send
+      name: v0-evi-chat-chat-id-send
+      description: REST surface for v0-evi-chat-chat_id-send.
+      operations:
+      - method: POST
+        name: send
+        description: Send Message
+        call: evi-subpackage-controlplane.send
+        with:
+          chat_id: rest.chat_id
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: evi-subpackage-controlplane-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Speech-to-speech (EVI) — subpackage_controlPlane. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: send-message
+      description: Send Message
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: evi-subpackage-controlplane.send
+      with:
+        chat_id: tools.chat_id
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,296 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Expression Measurement API — subpackage_batch
+  description: 'Expression Measurement API — subpackage_batch. 5 operations. Lead operation: List jobs. Self-contained Naftiko
+    capability covering one Hume Ai business surface.'
+  tags:
+  - Hume Ai
+  - subpackage_batch
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    HUME_AI_API_KEY: HUME_AI_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: expression-subpackage-batch
+    baseUri: https://api.hume.ai
+    description: Expression Measurement API — subpackage_batch business capability. Self-contained, no shared references.
+    resources:
+    - name: v0-batch-jobs
+      path: /v0/batch/jobs
+      operations:
+      - name: listjobs
+        method: GET
+        description: List jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: limit
+          in: query
+          type: integer
+          description: The maximum number of jobs to include in the response.
+        - name: status
+          in: query
+          type: array
+          description: 'Include only jobs of this status in the response. There are four possible statuses:'
+        - name: when
+          in: query
+          type: string
+          description: Specify whether to include jobs created before or after a given `timestamp_ms`.
+        - name: timestamp_ms
+          in: query
+          type: integer
+          description: Provide a timestamp in milliseconds to filter jobs.
+        - name: sort_by
+          in: query
+          type: string
+          description: Specify which timestamp to sort the jobs by.
+        - name: direction
+          in: query
+          type: string
+          description: Specify the order in which to sort the jobs. Defaults to descending order.
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+      - name: startinferencejobfromlocalfile
+        method: POST
+        description: Start inference job from local file
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: v0-batch-jobs-id
+      path: /v0/batch/jobs/{id}
+      operations:
+      - name: getjobdetails
+        method: GET
+        description: Get job details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier for the job.
+          required: true
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    - name: v0-batch-jobs-id-artifacts
+      path: /v0/batch/jobs/{id}/artifacts
+      operations:
+      - name: getjobartifacts
+        method: GET
+        description: Get job artifacts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier for the job.
+          required: true
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    - name: v0-batch-jobs-id-predictions
+      path: /v0/batch/jobs/{id}/predictions
+      operations:
+      - name: getjobpredictions
+        method: GET
+        description: Get job predictions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The unique identifier for the job.
+          required: true
+        - name: X-Hume-Api-Key
+          in: header
+          type: string
+          required: true
+    authentication:
+      type: apikey
+      key: X-Hume-Api-Key
+      value: '{{env.HUME_AI_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: expression-subpackage-batch-rest
+    port: 8080
+    description: REST adapter for Expression Measurement API — subpackage_batch. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v0/batch/jobs
+      name: v0-batch-jobs
+      description: REST surface for v0-batch-jobs.
+      operations:
+      - method: GET
+        name: listjobs
+        description: List jobs
+        call: expression-subpackage-batch.listjobs
+        with:
+          limit: rest.limit
+          status: rest.status
+          when: rest.when
+          timestamp_ms: rest.timestamp_ms
+          sort_by: rest.sort_by
+          direction: rest.direction
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: startinferencejobfromlocalfile
+        description: Start inference job from local file
+        call: expression-subpackage-batch.startinferencejobfromlocalfile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v0/batch/jobs/{id}
+      name: v0-batch-jobs-id
+      description: REST surface for v0-batch-jobs-id.
+      operations:
+      - method: GET
+        name: getjobdetails
+        description: Get job details
+        call: expression-subpackage-batch.getjobdetails
+        with:
+          id: rest.id
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v0/batch/jobs/{id}/artifacts
+      name: v0-batch-jobs-id-artifacts
+      description: REST surface for v0-batch-jobs-id-artifacts.
+      operations:
+      - method: GET
+        name: getjobartifacts
+        description: Get job artifacts
+        call: expression-subpackage-batch.getjobartifacts
+        with:
+          id: rest.id
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v0/batch/jobs/{id}/predictions
+      name: v0-batch-jobs-id-predictions
+      description: REST surface for v0-batch-jobs-id-predictions.
+      operations:
+      - method: GET
+        name: getjobpredictions
+        description: Get job predictions
+        call: expression-subpackage-batch.getjobpredictions
+        with:
+          id: rest.id
+          X-Hume-Api-Key: rest.X-Hume-Api-Key
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: expression-subpackage-batch-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Expression Measurement API — subpackage_batch. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-jobs
+      description: List jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: expression-subpackage-batch.listjobs
+      with:
+        limit: tools.limit
+        status: tools.status
+        when: tools.when
+        timestamp_ms: tools.timestamp_ms
+        sort_by: tools.sort_by
+        direction: tools.direction
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: start-inference-job-local-file
+      description: Start inference job from local file
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: expression-subpackage-batch.startinferencejobfromlocalfile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-job-details
+      description: Get job details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: expression-subpackage-batch.getjobdetails
+      with:
+        id: tools.id
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-job-artifacts
+      description: Get job artifacts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: expression-subpackage-batch.getjobartifacts
+      with:
+        id: tools.id
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-job-predictions
+      description: Get job predictions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: expression-subpackage-batch.getjobpredictions
+      with:
+        id: tools.id
+        X-Hume-Api-Key: tools.X-Hume-Api-Key
+      outputParameters:
+      - type: object
+        mapping: $.
