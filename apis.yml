@@ -13,7 +13,7 @@ tags:
   - Emotion
   - Multimodal
 created: '2026-05-08'
-modified: '2026-05-19'
+modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
   - aid: hume-ai:voices
@@ -75,6 +75,8 @@ apis:
       url: openapi/hume-ai-evi-openapi.yml
     - type: AsyncAPI
       url: https://dev.hume.ai/asyncapi.yaml
+    - type: AsyncAPI
+      url: asyncapi/hume-ai-asyncapi.yml
     - type: NaftikoCapability
       url: capabilities/evi-subpackage-chatgroups.yaml
     - type: NaftikoCapability
@@ -105,6 +107,8 @@ apis:
       url: https://dev.hume.ai/docs/expression-measurement
     - type: OpenAPI
       url: openapi/hume-ai-expression-openapi.yml
+    - type: AsyncAPI
+      url: asyncapi/hume-ai-asyncapi.yml
     - type: NaftikoCapability
       url: capabilities/expression-subpackage-batch.yaml
 common:

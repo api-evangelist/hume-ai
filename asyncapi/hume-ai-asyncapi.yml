@@ -1,0 +1,811 @@
+asyncapi: 2.6.0
+info:
+  title: Hume AI WebSocket APIs
+  version: 1.0.0
+  description: |
+    Consolidated AsyncAPI definition for Hume AI's two production WebSocket
+    surfaces:
+
+    - **Empathic Voice Interface (EVI)** — bidirectional speech-to-speech
+      voice conversation at `wss://api.hume.ai/v0/evi/chat`, plus a
+      read/write secondary connection at `wss://api.hume.ai/v0/evi/chat/{chat_id}/connect`.
+    - **Expression Measurement (Stream)** — streaming multimodal emotion
+      inference at `wss://api.hume.ai/v0/stream/models` over face, prosody,
+      language and burst models.
+
+    Message names, payload field names and `type` discriminator values are
+    taken from Hume's own published AsyncAPI documents at
+    https://dev.hume.ai/asyncapi/speech-to-speech-evi.yaml and
+    https://dev.hume.ai/asyncapi/expression-measurement-api.yaml.
+  contact:
+    name: Hume AI Developer Platform
+    url: https://dev.hume.ai/
+  license:
+    name: Proprietary - Hume AI Terms of Service
+    url: https://www.hume.ai/terms-of-service
+
+servers:
+  evi:
+    url: wss://api.hume.ai/v0/evi
+    protocol: wss
+    description: Empathic Voice Interface (EVI) WebSocket server.
+    security:
+      - apiKey: []
+      - accessToken: []
+  stream:
+    url: wss://api.hume.ai/v0/stream
+    protocol: wss
+    description: Expression Measurement streaming inference WebSocket server.
+    security:
+      - humeApiKeyHeader: []
+
+channels:
+  /chat:
+    description: |
+      Real-time EVI chat. Client sends audio and control messages; server
+      streams transcripts, assistant text, synthesized audio and tool events.
+      Connection URL: `wss://api.hume.ai/v0/evi/chat`.
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            access_token:
+              type: string
+              description: Short-lived access token (Bearer).
+            api_key:
+              type: string
+              description: Hume API key (alternative to access_token).
+            config_id:
+              type: string
+              description: ID of the EVI configuration to use.
+            config_version:
+              type: integer
+              description: Specific version of the EVI configuration to use.
+            event_limit:
+              type: integer
+              description: Maximum number of events to return for this chat session.
+            resumed_chat_group_id:
+              type: string
+              description: ID of an existing chat group to resume.
+            verbose_transcription:
+              type: boolean
+              default: false
+              description: When true, emits interim transcription updates.
+            allow_connection:
+              type: boolean
+              default: false
+              description: When true, allows a secondary client to connect to this chat via `/chat/{chat_id}/connect`.
+    publish:
+      operationId: eviChatSend
+      summary: Messages the client sends to EVI.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/AudioInput'
+          - $ref: '#/components/messages/SessionSettings'
+          - $ref: '#/components/messages/UserInput'
+          - $ref: '#/components/messages/AssistantInput'
+          - $ref: '#/components/messages/ToolResponseMessage'
+          - $ref: '#/components/messages/ToolErrorMessage'
+          - $ref: '#/components/messages/PauseAssistantMessage'
+          - $ref: '#/components/messages/ResumeAssistantMessage'
+    subscribe:
+      operationId: eviChatReceive
+      summary: Messages EVI streams back to the client.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ChatMetadata'
+          - $ref: '#/components/messages/UserMessage'
+          - $ref: '#/components/messages/AssistantMessage'
+          - $ref: '#/components/messages/AssistantProsody'
+          - $ref: '#/components/messages/AudioOutput'
+          - $ref: '#/components/messages/AssistantEnd'
+          - $ref: '#/components/messages/UserInterruption'
+          - $ref: '#/components/messages/ToolCallMessage'
+          - $ref: '#/components/messages/ToolResponseMessage'
+          - $ref: '#/components/messages/ToolErrorMessage'
+          - $ref: '#/components/messages/WebSocketError'
+
+  /chat/{chat_id}/connect:
+    description: |
+      Secondary connection to an in-progress EVI chat. The original chat
+      must have been opened with `allow_connection=true`. The secondary
+      connection can send the same control-plane messages as `/chat`
+      except `audio_input`, and receives the same subscribe events.
+      Connection URL: `wss://api.hume.ai/v0/evi/chat/{chat_id}/connect`.
+    parameters:
+      chat_id:
+        description: The ID of the chat to connect to.
+        schema:
+          type: string
+    bindings:
+      ws:
+        query:
+          type: object
+          properties:
+            access_token:
+              type: string
+    publish:
+      operationId: eviChatConnectSend
+      summary: Control-plane messages the secondary client sends to EVI.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/SessionSettings'
+          - $ref: '#/components/messages/UserInput'
+          - $ref: '#/components/messages/AssistantInput'
+          - $ref: '#/components/messages/ToolResponseMessage'
+          - $ref: '#/components/messages/ToolErrorMessage'
+          - $ref: '#/components/messages/PauseAssistantMessage'
+          - $ref: '#/components/messages/ResumeAssistantMessage'
+    subscribe:
+      operationId: eviChatConnectReceive
+      summary: Events streamed to the secondary client.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ChatMetadata'
+          - $ref: '#/components/messages/UserMessage'
+          - $ref: '#/components/messages/AssistantMessage'
+          - $ref: '#/components/messages/AssistantProsody'
+          - $ref: '#/components/messages/AudioOutput'
+          - $ref: '#/components/messages/AssistantEnd'
+          - $ref: '#/components/messages/UserInterruption'
+          - $ref: '#/components/messages/ToolCallMessage'
+          - $ref: '#/components/messages/ToolResponseMessage'
+          - $ref: '#/components/messages/ToolErrorMessage'
+          - $ref: '#/components/messages/WebSocketError'
+
+  /models:
+    description: |
+      Streaming multimodal expression measurement inference.
+      Connection URL: `wss://api.hume.ai/v0/stream/models`.
+      Each client message includes a `models` configuration and the
+      `data` payload (Base64-encoded media or raw text). Hume returns
+      a per-model predictions envelope, an error envelope, or a warning.
+    bindings:
+      ws:
+        headers:
+          type: object
+          properties:
+            X-Hume-Api-Key:
+              type: string
+              description: Hume API key used to authenticate the stream.
+    publish:
+      operationId: streamModelsSend
+      summary: Streaming inference request from the client.
+      message:
+        $ref: '#/components/messages/ModelsInput'
+    subscribe:
+      operationId: streamModelsReceive
+      summary: Streaming inference response from the server.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ModelsSuccess'
+          - $ref: '#/components/messages/ModelsError'
+          - $ref: '#/components/messages/ModelsWarning'
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: query
+      name: api_key
+      description: Hume API key supplied as a query parameter.
+    accessToken:
+      type: apiKey
+      in: query
+      name: access_token
+      description: Short-lived access token supplied as a query parameter.
+    humeApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Hume-Api-Key
+      description: Hume API key supplied as a connection header.
+
+  messages:
+    # ---------- EVI client-sent (publish) ----------
+    AudioInput:
+      name: audio_input
+      title: Audio Input
+      summary: Base64-encoded audio chunk treated as user speech.
+      payload:
+        $ref: '#/components/schemas/AudioInput'
+    SessionSettings:
+      name: session_settings
+      title: Session Settings
+      summary: Configure session-level parameters such as audio encoding, context, language model, tools and variables.
+      payload:
+        $ref: '#/components/schemas/SessionSettings'
+    UserInput:
+      name: user_input
+      title: User Input
+      summary: Plain text inserted into the conversation as the user.
+      payload:
+        $ref: '#/components/schemas/UserInput'
+    AssistantInput:
+      name: assistant_input
+      title: Assistant Input
+      summary: Plain text the assistant should synthesize and speak.
+      payload:
+        $ref: '#/components/schemas/AssistantInput'
+    PauseAssistantMessage:
+      name: pause_assistant_message
+      title: Pause Assistant Message
+      summary: Pause assistant responses while still recording user audio.
+      payload:
+        $ref: '#/components/schemas/PauseAssistantMessage'
+    ResumeAssistantMessage:
+      name: resume_assistant_message
+      title: Resume Assistant Message
+      summary: Resume assistant responses after a pause.
+      payload:
+        $ref: '#/components/schemas/ResumeAssistantMessage'
+
+    # ---------- EVI server-sent (subscribe) ----------
+    ChatMetadata:
+      name: chat_metadata
+      title: Chat Metadata
+      summary: Sent once at the start of a connection with chat and chat-group identifiers.
+      payload:
+        $ref: '#/components/schemas/ChatMetadata'
+    UserMessage:
+      name: user_message
+      title: User Message
+      summary: Transcript and prosody scores for a user utterance.
+      payload:
+        $ref: '#/components/schemas/UserMessage'
+    AssistantMessage:
+      name: assistant_message
+      title: Assistant Message
+      summary: A piece of generated assistant text returned by the language model.
+      payload:
+        $ref: '#/components/schemas/AssistantMessage'
+    AssistantProsody:
+      name: assistant_prosody
+      title: Assistant Prosody
+      summary: Predicted expression scores for an assistant utterance.
+      payload:
+        $ref: '#/components/schemas/AssistantProsody'
+    AudioOutput:
+      name: audio_output
+      title: Audio Output
+      summary: Base64-encoded chunk of synthesized assistant audio.
+      payload:
+        $ref: '#/components/schemas/AudioOutput'
+    AssistantEnd:
+      name: assistant_end
+      title: Assistant End
+      summary: Marks the end of an assistant turn.
+      payload:
+        $ref: '#/components/schemas/AssistantEnd'
+    UserInterruption:
+      name: user_interruption
+      title: User Interruption
+      summary: Signals that the user started speaking and EVI interrupted itself.
+      payload:
+        $ref: '#/components/schemas/UserInterruption'
+    ToolCallMessage:
+      name: tool_call
+      title: Tool Call
+      summary: Request from EVI to invoke a registered tool.
+      payload:
+        $ref: '#/components/schemas/ToolCallMessage'
+
+    # ---------- Shared (sent by either side) ----------
+    ToolResponseMessage:
+      name: tool_response
+      title: Tool Response
+      summary: Successful response to a tool call.
+      payload:
+        $ref: '#/components/schemas/ToolResponseMessage'
+    ToolErrorMessage:
+      name: tool_error
+      title: Tool Error
+      summary: Error response to a tool call.
+      payload:
+        $ref: '#/components/schemas/ToolErrorMessage'
+    WebSocketError:
+      name: error
+      title: WebSocket Error
+      summary: WebSocket-level error emitted by the EVI server.
+      payload:
+        $ref: '#/components/schemas/WebSocketError'
+
+    # ---------- Expression Measurement ----------
+    ModelsInput:
+      name: models_input
+      title: Models Input
+      summary: Streaming inference request - models config + media payload.
+      payload:
+        $ref: '#/components/schemas/ModelsInput'
+    ModelsSuccess:
+      name: models_success
+      title: Models Success
+      summary: Per-model predictions for a streamed input.
+      payload:
+        $ref: '#/components/schemas/ModelsSuccess'
+    ModelsError:
+      name: models_error
+      title: Models Error
+      summary: Error returned by the streaming inference server.
+      payload:
+        $ref: '#/components/schemas/ModelsError'
+    ModelsWarning:
+      name: models_warning
+      title: Models Warning
+      summary: Non-fatal warning returned by the streaming inference server.
+      payload:
+        $ref: '#/components/schemas/ModelsWarning'
+
+  schemas:
+
+    # ---------- EVI: client-sent ----------
+    AudioInput:
+      type: object
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          enum: [audio_input]
+        data:
+          type: string
+          format: base64
+          description: Base64-encoded audio chunk.
+        custom_session_id:
+          type: string
+          nullable: true
+
+    UserInput:
+      type: object
+      required: [type, text]
+      properties:
+        type:
+          type: string
+          enum: [user_input]
+        text:
+          type: string
+        custom_session_id:
+          type: string
+          nullable: true
+
+    AssistantInput:
+      type: object
+      required: [type, text]
+      properties:
+        type:
+          type: string
+          enum: [assistant_input]
+        text:
+          type: string
+        custom_session_id:
+          type: string
+          nullable: true
+
+    PauseAssistantMessage:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [pause_assistant_message]
+        custom_session_id:
+          type: string
+          nullable: true
+
+    ResumeAssistantMessage:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [resume_assistant_message]
+        custom_session_id:
+          type: string
+          nullable: true
+
+    SessionSettings:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [session_settings]
+        audio:
+          type: object
+          description: Audio encoding settings (channels, encoding, sample_rate).
+          properties:
+            channels:
+              type: integer
+            encoding:
+              type: string
+              enum: [linear16]
+            sample_rate:
+              type: integer
+        context:
+          type: object
+          description: Context text appended to user messages, either persistent or temporary.
+          properties:
+            text:
+              type: string
+            type:
+              type: string
+              enum: [persistent, temporary]
+        system_prompt:
+          type: string
+          nullable: true
+        language_model:
+          type: object
+          description: Override the language model used by EVI for this session.
+          properties:
+            model_provider:
+              type: string
+            model_resource:
+              type: string
+            temperature:
+              type: number
+        voice:
+          type: object
+          description: Override the voice used by EVI for this session.
+        tools:
+          type: array
+          description: Tools available to the assistant for this session.
+          items:
+            type: object
+        builtin_tools:
+          type: array
+          items:
+            type: object
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+          description: Dynamic variables interpolated into the system prompt.
+        metadata:
+          type: object
+          additionalProperties: true
+        custom_session_id:
+          type: string
+          nullable: true
+
+    # ---------- EVI: shared tool messages ----------
+    ToolResponseMessage:
+      type: object
+      required: [type, tool_call_id, content]
+      properties:
+        type:
+          type: string
+          enum: [tool_response]
+        tool_call_id:
+          type: string
+        content:
+          type: string
+          description: Result returned to the assistant from the tool.
+        tool_name:
+          type: string
+        tool_type:
+          type: string
+          enum: [builtin, function]
+        custom_session_id:
+          type: string
+          nullable: true
+
+    ToolErrorMessage:
+      type: object
+      required: [type, tool_call_id, error]
+      properties:
+        type:
+          type: string
+          enum: [tool_error]
+        tool_call_id:
+          type: string
+        error:
+          type: string
+          description: Error message from the tool call, not exposed to the user.
+        code:
+          type: string
+        content:
+          type: string
+          description: User-facing content to surface in place of the failed tool result.
+        level:
+          type: string
+          enum: [warn]
+        tool_type:
+          type: string
+          enum: [builtin, function]
+        custom_session_id:
+          type: string
+          nullable: true
+
+    # ---------- EVI: server-sent ----------
+    ChatMetadata:
+      type: object
+      required: [type, chat_id, chat_group_id]
+      properties:
+        type:
+          type: string
+          enum: [chat_metadata]
+        chat_id:
+          type: string
+        chat_group_id:
+          type: string
+        request_id:
+          type: string
+        custom_session_id:
+          type: string
+          nullable: true
+
+    UserMessage:
+      type: object
+      required: [type, message]
+      properties:
+        type:
+          type: string
+          enum: [user_message]
+        message:
+          type: object
+          properties:
+            role:
+              type: string
+              enum: [user]
+            content:
+              type: string
+        models:
+          type: object
+          description: Expression measurement predictions for the user utterance.
+          properties:
+            prosody:
+              type: object
+        from_text:
+          type: boolean
+        interim:
+          type: boolean
+        time:
+          type: object
+          properties:
+            begin:
+              type: integer
+            end:
+              type: integer
+        custom_session_id:
+          type: string
+          nullable: true
+
+    AssistantMessage:
+      type: object
+      required: [type, message]
+      properties:
+        type:
+          type: string
+          enum: [assistant_message]
+        id:
+          type: string
+        message:
+          type: object
+          properties:
+            role:
+              type: string
+              enum: [assistant]
+            content:
+              type: string
+        models:
+          type: object
+        from_text:
+          type: boolean
+        custom_session_id:
+          type: string
+          nullable: true
+
+    AssistantProsody:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [assistant_prosody]
+        id:
+          type: string
+        models:
+          type: object
+        custom_session_id:
+          type: string
+          nullable: true
+
+    AudioOutput:
+      type: object
+      required: [type, data]
+      properties:
+        type:
+          type: string
+          enum: [audio_output]
+        id:
+          type: string
+        data:
+          type: string
+          format: base64
+          description: Base64-encoded synthesized assistant audio chunk.
+        custom_session_id:
+          type: string
+          nullable: true
+
+    AssistantEnd:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [assistant_end]
+        custom_session_id:
+          type: string
+          nullable: true
+
+    UserInterruption:
+      type: object
+      required: [type, time]
+      properties:
+        type:
+          type: string
+          enum: [user_interruption]
+        time:
+          type: integer
+        custom_session_id:
+          type: string
+          nullable: true
+
+    ToolCallMessage:
+      type: object
+      required: [type, tool_call_id, name, parameters]
+      properties:
+        type:
+          type: string
+          enum: [tool_call]
+        tool_call_id:
+          type: string
+        name:
+          type: string
+        parameters:
+          type: string
+          description: JSON-encoded arguments for the tool call.
+        tool_type:
+          type: string
+          enum: [builtin, function]
+        response_required:
+          type: boolean
+        custom_session_id:
+          type: string
+          nullable: true
+
+    WebSocketError:
+      type: object
+      required: [type, message, code]
+      properties:
+        type:
+          type: string
+          enum: [error]
+        code:
+          type: string
+        slug:
+          type: string
+        message:
+          type: string
+        custom_session_id:
+          type: string
+          nullable: true
+
+    # ---------- Expression Measurement ----------
+    ModelsInput:
+      type: object
+      required: [models]
+      properties:
+        models:
+          type: object
+          description: Map of models to run. Each key may be `face`, `prosody`, `language`, or `burst`.
+          properties:
+            face:
+              type: object
+              description: Facial expression model configuration.
+              properties:
+                facs:
+                  type: object
+                descriptions:
+                  type: object
+                identify_faces:
+                  type: boolean
+                fps_pred:
+                  type: number
+                prob_threshold:
+                  type: number
+                min_face_size:
+                  type: number
+                save_faces:
+                  type: boolean
+            prosody:
+              type: object
+              description: Vocal prosody (speech) model configuration.
+              properties:
+                granularity:
+                  type: string
+                  enum: [word, sentence, utterance, conversational_turn]
+                identify_speakers:
+                  type: boolean
+            language:
+              type: object
+              description: Language (text) model configuration.
+              properties:
+                granularity:
+                  type: string
+                  enum: [word, sentence, utterance, conversational_turn]
+                identify_speakers:
+                  type: boolean
+            burst:
+              type: object
+              description: Vocal burst model configuration.
+        data:
+          type: string
+          format: base64
+          description: Base64-encoded media payload (image, audio or video) or, for the language model, the raw text.
+        raw_text:
+          type: boolean
+          description: When true with the language model, treat `data` as raw UTF-8 text rather than a Base64-encoded file.
+        job_details:
+          type: boolean
+          description: Include job-level details in the response.
+        payload_id:
+          type: string
+          description: Client-supplied correlation id echoed back on the response.
+        reset_stream:
+          type: boolean
+          description: Reset accumulated context (e.g. face identification, prosody context) on this stream.
+        stream_window_ms:
+          type: number
+          description: Sliding window length, in milliseconds, used to aggregate streamed audio/video.
+
+    ModelsSuccess:
+      type: object
+      properties:
+        face:
+          type: object
+          description: Facial expression predictions.
+        prosody:
+          type: object
+          description: Vocal prosody predictions.
+        language:
+          type: object
+          description: Language (text) predictions.
+        burst:
+          type: object
+          description: Vocal burst predictions.
+        job_details:
+          type: object
+          properties:
+            job_id:
+              type: string
+        payload_id:
+          type: string
+        time:
+          type: object
+          properties:
+            begin:
+              type: integer
+            end:
+              type: integer
+
+    ModelsError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+        payload_id:
+          type: string
+
+    ModelsWarning:
+      type: object
+      required: [warning]
+      properties:
+        warning:
+          type: string
+        code:
+          type: string
+        payload_id:
+          type: string
