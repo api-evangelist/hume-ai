@@ -2,9 +2,11 @@ aid: hume-ai
 url: https://raw.githubusercontent.com/api-evangelist/hume-ai/refs/heads/main/apis.yml
 name: Hume AI
 kind: company
-description: 'Hume AI builds empathic voice and emotional AI models. The platform exposes four published APIs: Voices, Octave
-  Text-to-Speech, Empathic Voice Interface (EVI / speech-to-speech), and Expression Measurement (multimodal emotion analysis).
-  REST + WebSocket interfaces are documented with public OpenAPI and AsyncAPI specifications at https://dev.hume.ai/.'
+description: >-
+  Hume AI builds empathic voice and emotional AI models. The platform exposes four published APIs: Voices, Octave
+  Text-to-Speech, Empathic Voice Interface (EVI / speech-to-speech), and Expression Measurement (multimodal emotion
+  analysis). REST + WebSocket interfaces are documented with public OpenAPI and AsyncAPI specifications at
+  https://dev.hume.ai/.
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - AI
@@ -18,99 +20,86 @@ specificationVersion: '0.19'
 apis:
   - aid: hume-ai:voices
     name: Hume Voices API
-    description: REST API for managing custom voices used by Hume's TTS and EVI products. Supports voice creation, listing,
-      and deletion. Bearer token auth.
+    description: >-
+      REST API for managing custom voices used by Hume's TTS and EVI products. Supports voice creation, listing, and
+      deletion. Bearer token auth.
     image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://dev.hume.ai/reference
     baseURL: https://api.hume.ai
     tags:
-    - Voices
-    - Voice Cloning
-    - TTS
+      - Voices
+      - Voice Cloning
+      - TTS
     properties:
-    - type: Documentation
-      url: https://dev.hume.ai/reference
-    - type: OpenAPI
-      url: openapi/hume-ai-voices-openapi.yml
-    - type: NaftikoCapability
-      url: capabilities/voices-subpackage-voices.yaml
+      - type: Documentation
+        url: https://dev.hume.ai/reference
+      - type: OpenAPI
+        url: openapi/hume-ai-voices-openapi.yml
   - aid: hume-ai:tts
     name: Hume Octave Text-to-Speech API
-    description: REST API for synthesizing expressive speech using Octave. Supports streamed JSON/file and standard JSON/file
+    description: >-
+      REST API for synthesizing expressive speech using Octave. Supports streamed JSON/file and standard JSON/file
       responses, plus voice conversion endpoints.
     image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://dev.hume.ai/docs/text-to-speech-tts
     baseURL: https://api.hume.ai
     tags:
-    - TTS
-    - Speech Synthesis
-    - Streaming
-    - Octave
+      - TTS
+      - Speech Synthesis
+      - Streaming
+      - Octave
     properties:
-    - type: Documentation
-      url: https://dev.hume.ai/docs/text-to-speech-tts
-    - type: OpenAPI
-      url: openapi/hume-ai-tts-openapi.yml
-    - type: Pricing
-      url: https://www.hume.ai/pricing
-    - type: NaftikoCapability
-      url: capabilities/tts.yaml
+      - type: Documentation
+        url: https://dev.hume.ai/docs/text-to-speech-tts
+      - type: OpenAPI
+        url: openapi/hume-ai-tts-openapi.yml
+      - type: Pricing
+        url: https://www.hume.ai/pricing
   - aid: hume-ai:evi
     name: Hume Empathic Voice Interface (EVI) API
-    description: Real-time emotionally intelligent speech-to-speech voice interface delivered over WebSockets. Includes configuration,
-      prompt, and tool management plus chat history, chat group operations, and webhook events for tool calls and chat lifecycle.
+    description: >-
+      Real-time emotionally intelligent speech-to-speech voice interface delivered over WebSockets. Includes
+      configuration, prompt, and tool management plus chat history, chat group operations, and webhook events for tool
+      calls and chat lifecycle.
     image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://dev.hume.ai/docs/speech-to-speech-evi
     baseURL: https://api.hume.ai
     tags:
-    - EVI
-    - Speech-to-Speech
-    - WebSocket
-    - Realtime
-    - Empathic
+      - EVI
+      - Speech-to-Speech
+      - WebSocket
+      - Realtime
+      - Empathic
     properties:
-    - type: Documentation
-      url: https://dev.hume.ai/docs/speech-to-speech-evi
-    - type: OpenAPI
-      url: openapi/hume-ai-evi-openapi.yml
-    - type: AsyncAPI
-      url: https://dev.hume.ai/asyncapi.yaml
-    - type: AsyncAPI
-      url: asyncapi/hume-ai-asyncapi.yml
-    - type: NaftikoCapability
-      url: capabilities/evi-subpackage-chatgroups.yaml
-    - type: NaftikoCapability
-      url: capabilities/evi-subpackage-chats.yaml
-    - type: NaftikoCapability
-      url: capabilities/evi-subpackage-configs.yaml
-    - type: NaftikoCapability
-      url: capabilities/evi-subpackage-controlplane.yaml
-    - type: NaftikoCapability
-      url: capabilities/evi-subpackage-prompts.yaml
-    - type: NaftikoCapability
-      url: capabilities/evi-subpackage-tools.yaml
+      - type: Documentation
+        url: https://dev.hume.ai/docs/speech-to-speech-evi
+      - type: OpenAPI
+        url: openapi/hume-ai-evi-openapi.yml
+      - type: AsyncAPI
+        url: https://dev.hume.ai/asyncapi.yaml
+      - type: AsyncAPI
+        url: asyncapi/hume-ai-asyncapi.yml
   - aid: hume-ai:expression
     name: Hume Expression Measurement API
-    description: Multimodal emotion analysis API for face, voice, language, and burst expression. Offers batch inference jobs
-      over images/audio/video/text, and streaming inference.
+    description: >-
+      Multimodal emotion analysis API for face, voice, language, and burst expression. Offers batch inference jobs over
+      images/audio/video/text, and streaming inference.
     image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     humanURL: https://dev.hume.ai/docs/expression-measurement
     baseURL: https://api.hume.ai
     tags:
-    - Expression Measurement
-    - Emotion
-    - Multimodal
-    - Batch
-    - Streaming
+      - Expression Measurement
+      - Emotion
+      - Multimodal
+      - Batch
+      - Streaming
     properties:
-    - type: Documentation
-      url: https://dev.hume.ai/docs/expression-measurement
-    - type: OpenAPI
-      url: openapi/hume-ai-expression-openapi.yml
-    - type: AsyncAPI
-      url: asyncapi/hume-ai-asyncapi.yml
-    - type: NaftikoCapability
-      url: capabilities/expression-subpackage-batch.yaml
+      - type: Documentation
+        url: https://dev.hume.ai/docs/expression-measurement
+      - type: OpenAPI
+        url: openapi/hume-ai-expression-openapi.yml
+      - type: AsyncAPI
+        url: asyncapi/hume-ai-asyncapi.yml
 common:
   - type: GitHubOrganization
     url: https://github.com/HumeAI

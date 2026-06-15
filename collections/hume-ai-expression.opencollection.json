@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Expression Measurement API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_batch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.hume.ai/v0/batch/jobs",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of jobs to include in the response."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Include only jobs of this status in the response. There are four possible statuses:\n\n- `QUEUED`: The job has been received and is waiting to be processed.\n\n- `IN_PROGRESS`: The job is currently being processed. \n\n- `COMPLETED`: The job has finished processing.\n\n- `FAILED`: The job encountered an error and could not be completed successfully."
+              },
+              {
+                "name": "when",
+                "value": "",
+                "type": "query",
+                "description": "Specify whether to include jobs created before or after a given `timestamp_ms`."
+              },
+              {
+                "name": "timestamp_ms",
+                "value": "",
+                "type": "query",
+                "description": "Provide a timestamp in milliseconds to filter jobs.\n\n When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided."
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Specify which timestamp to sort the jobs by.\n\n- `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.\n\n- `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.\n\n- `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Specify the order in which to sort the jobs. Defaults to descending order.\n\n- `asc`: Sort in ascending order (chronological, with the oldest records first).\n\n- `desc`: Sort in descending order (reverse-chronological, with the newest records first)."
+              }
+            ]
+          },
+          "docs": "Sort and filter jobs."
+        },
+        {
+          "info": {
+            "name": "Start inference job from local file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/batch/jobs",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "json",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Start a new batch inference job."
+        },
+        {
+          "info": {
+            "name": "Get job details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.hume.ai/v0/batch/jobs/:id",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the job."
+              }
+            ]
+          },
+          "docs": "Get the request details and state of a given job."
+        },
+        {
+          "info": {
+            "name": "Get job predictions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.hume.ai/v0/batch/jobs/:id/predictions",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the job."
+              }
+            ]
+          },
+          "docs": "Get the JSON predictions of a completed inference job."
+        },
+        {
+          "info": {
+            "name": "Get job artifacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.hume.ai/v0/batch/jobs/:id/artifacts",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the job."
+              }
+            ]
+          },
+          "docs": "Get the artifacts ZIP of a completed inference job."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

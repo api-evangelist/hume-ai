@@ -1,0 +1,1244 @@
+{
+  "item": [
+    {
+      "id": "244ae078-3f38-4498-a677-4e35bc5f4f7e",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "913e6053-045a-4240-9267-42a3d4725e40",
+          "name": "Text-to-Speech (Streamed JSON)",
+          "request": {
+            "name": "Text-to-Speech (Streamed JSON)",
+            "description": {
+              "content": "Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. \n\nThe response is a stream of JSON objects including audio encoded in base64.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "tts",
+                "stream",
+                "json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"<uuid4>\"\n  },\n  \"format\": {\n    \"type\": \"<string>\"\n  },\n  \"include_timestamp_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instant_mode\": true,\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ffbc9ea3-24e1-4724-9ab5-e9391cf3d786",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "stream",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"instant_mode\": true,\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "84e932ff-f7aa-4ea8-bab1-87a21f9dc648",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "stream",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"instant_mode\": true,\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19c31d45-3c6d-4019-851d-279ded6a1b1f",
+          "name": "Text-to-Speech (Streamed File)",
+          "request": {
+            "name": "Text-to-Speech (Streamed File)",
+            "description": {
+              "content": "Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "tts",
+                "stream",
+                "file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"<uuid4>\"\n  },\n  \"format\": {\n    \"type\": \"<string>\"\n  },\n  \"include_timestamp_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"instant_mode\": true,\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "09828277-f57e-4183-af4b-4062462483bc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "stream",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"instant_mode\": true,\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c8296d04-c7d8-4e90-9f18-512315a9b0dd",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "stream",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"instant_mode\": true,\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9dd4d91c-1d41-442a-822e-8a0d511e344b",
+          "name": "Text-to-Speech (Json)",
+          "request": {
+            "name": "Text-to-Speech (Json)",
+            "description": {
+              "content": "Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.\n\nThe response includes the base64-encoded audio and metadata in JSON format.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "tts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"<uuid4>\"\n  },\n  \"format\": {\n    \"type\": \"<string>\"\n  },\n  \"include_timestamp_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d44b8113-1e25-42a2-bc96-b610bdeff86c",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"generations\": [\n    {\n      \"audio\": \"string\",\n      \"duration\": 3051.4415009055674,\n      \"encoding\": {\n        \"format\": \"wav\",\n        \"sample_rate\": 8117\n      },\n      \"file_size\": 659,\n      \"generation_id\": \"string\",\n      \"snippets\": [\n        [\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 4774\n          },\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 3459\n          }\n        ],\n        [\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 9677\n          },\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 2828\n          }\n        ]\n      ]\n    },\n    {\n      \"audio\": \"string\",\n      \"duration\": 3004.3766421150976,\n      \"encoding\": {\n        \"format\": \"wav\",\n        \"sample_rate\": 3144\n      },\n      \"file_size\": 9937,\n      \"generation_id\": \"string\",\n      \"snippets\": [\n        [\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 5083\n          },\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 3004\n          }\n        ],\n        [\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 3218\n          },\n          {\n            \"audio\": \"string\",\n            \"generation_id\": \"string\",\n            \"id\": \"string\",\n            \"text\": \"string\",\n            \"timestamps\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ],\n            \"transcribed_text\": \"string\",\n            \"utterance_index\": 3106\n          }\n        ]\n      ]\n    }\n  ],\n  \"request_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba722bb7-758b-4723-b061-e3d7f01fea83",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a29ce78a-13a0-4adc-aac1-61eb12889638",
+          "name": "Text-to-Speech (File)",
+          "request": {
+            "name": "Text-to-Speech (File)",
+            "description": {
+              "content": "Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. \n\nThe response contains the generated audio file in the requested format.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "tts",
+                "file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"<string>\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"<uuid4>\"\n  },\n  \"format\": {\n    \"type\": \"<string>\"\n  },\n  \"include_timestamp_types\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8290689f-99cd-4d9b-a7cd-f7016dc64899",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "512fdd09-6cd1-437a-a646-10b76896bc01",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"utterances\": [\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"text\": \"string\",\n      \"description\": \"string\",\n      \"speed\": 1,\n      \"trailing_silence\": 0,\n      \"voice\": {\n        \"id\": \"string\",\n        \"provider\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"context\": {\n    \"generation_id\": \"string\"\n  },\n  \"format\": {\n    \"type\": \"mp3\"\n  },\n  \"include_timestamp_types\": [\n    \"word\",\n    \"word\"\n  ],\n  \"num_generations\": 1,\n  \"split_utterances\": true,\n  \"strip_headers\": false,\n  \"version\": \"1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3390257a-1816-47e4-9204-c77bb4da4a56",
+          "name": "Voice Conversion (Streamed File)",
+          "request": {
+            "name": "Voice Conversion (Streamed File)",
+            "description": {},
+            "url": {
+              "path": [
+                "v0",
+                "tts",
+                "voice_conversion",
+                "file"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/octet-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "description": "(Required) Audio file containing speech to be converted to the target voice. Supported formats include `MP3`, `WAV`, `M4A`, and `OGG`."
+                },
+                {
+                  "key": "strip_headers",
+                  "value": "<boolean>",
+                  "type": "text",
+                  "description": "If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable)."
+                },
+                {
+                  "key": "context",
+                  "value": "{\"generation_id\":\"<uuid4>\"}",
+                  "type": "text",
+                  "description": "Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output."
+                },
+                {
+                  "key": "voice",
+                  "value": "{\"id\":\"<string>\",\"provider\":\"<string>\"}",
+                  "type": "text",
+                  "description": ""
+                },
+                {
+                  "key": "format",
+                  "value": "{\"type\":\"<string>\"}",
+                  "type": "text",
+                  "description": "Specifies the output audio file format."
+                },
+                {
+                  "key": "include_timestamp_types",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "700bfe07-44af-41f0-b8f8-0614e78e5d56",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "voice_conversion",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/octet-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Audio file containing speech to be converted to the target voice. Supported formats include `MP3`, `WAV`, `M4A`, and `OGG`.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).",
+                        "type": "text/plain"
+                      },
+                      "key": "strip_headers",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.",
+                        "type": "text/plain"
+                      },
+                      "key": "context",
+                      "value": "{\"generation_id\":\"string\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice",
+                      "value": "{\"id\":\"string\",\"provider\":\"CUSTOM_VOICE\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Specifies the output audio file format.",
+                        "type": "text/plain"
+                      },
+                      "key": "format",
+                      "value": "{\"type\":\"mp3\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.",
+                        "type": "text/plain"
+                      },
+                      "key": "include_timestamp_types",
+                      "value": "[\"word\",\"word\"]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/octet-stream"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "462b1b7d-77e8-4355-ac25-cb6c6272d2c1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "voice_conversion",
+                    "file"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Audio file containing speech to be converted to the target voice. Supported formats include `MP3`, `WAV`, `M4A`, and `OGG`.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).",
+                        "type": "text/plain"
+                      },
+                      "key": "strip_headers",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.",
+                        "type": "text/plain"
+                      },
+                      "key": "context",
+                      "value": "{\"generation_id\":\"string\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice",
+                      "value": "{\"id\":\"string\",\"provider\":\"HUME_AI\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Specifies the output audio file format.",
+                        "type": "text/plain"
+                      },
+                      "key": "format",
+                      "value": "{\"type\":\"mp3\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.",
+                        "type": "text/plain"
+                      },
+                      "key": "include_timestamp_types",
+                      "value": "[\"word\",\"phoneme\"]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "912b35fc-d81b-4764-8518-b161b7eeb35c",
+          "name": "Voice Conversion (Streamed JSON)",
+          "request": {
+            "name": "Voice Conversion (Streamed JSON)",
+            "description": {},
+            "url": {
+              "path": [
+                "v0",
+                "tts",
+                "voice_conversion",
+                "json"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "strip_headers",
+                  "value": "<boolean>",
+                  "type": "text",
+                  "description": "If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable)."
+                },
+                {
+                  "key": "audio",
+                  "type": "file",
+                  "description": "Audio file containing speech to be converted to the target voice. Supported formats include `MP3`, `WAV`, `M4A`, and `OGG`."
+                },
+                {
+                  "key": "context",
+                  "value": "{\"generation_id\":\"<uuid4>\"}",
+                  "type": "text",
+                  "description": "Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output."
+                },
+                {
+                  "key": "voice",
+                  "value": "{\"id\":\"<string>\",\"provider\":\"<string>\"}",
+                  "type": "text",
+                  "description": ""
+                },
+                {
+                  "key": "format",
+                  "value": "{\"type\":\"<string>\"}",
+                  "type": "text",
+                  "description": "Specifies the output audio file format."
+                },
+                {
+                  "key": "include_timestamp_types",
+                  "value": "[\"<string>\",\"<string>\"]",
+                  "type": "text",
+                  "description": "The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests."
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "f9d9b63b-90e7-4974-8881-4aa327d82e15",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "voice_conversion",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).",
+                        "type": "text/plain"
+                      },
+                      "key": "strip_headers",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio file containing speech to be converted to the target voice. Supported formats include `MP3`, `WAV`, `M4A`, and `OGG`.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.",
+                        "type": "text/plain"
+                      },
+                      "key": "context",
+                      "value": "{\"generation_id\":\"string\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice",
+                      "value": "{\"id\":\"string\",\"provider\":\"HUME_AI\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Specifies the output audio file format.",
+                        "type": "text/plain"
+                      },
+                      "key": "format",
+                      "value": "{\"type\":\"mp3\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.",
+                        "type": "text/plain"
+                      },
+                      "key": "include_timestamp_types",
+                      "value": "[\"phoneme\",\"phoneme\"]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "036a7336-03f0-4c23-a737-0f47e1b6abff",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "tts",
+                    "voice_conversion",
+                    "json"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).",
+                        "type": "text/plain"
+                      },
+                      "key": "strip_headers",
+                      "value": "<boolean>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Audio file containing speech to be converted to the target voice. Supported formats include `MP3`, `WAV`, `M4A`, and `OGG`.",
+                        "type": "text/plain"
+                      },
+                      "key": "audio",
+                      "value": "<binary>",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.",
+                        "type": "text/plain"
+                      },
+                      "key": "context",
+                      "value": "{\"generation_id\":\"string\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "",
+                        "type": "text/plain"
+                      },
+                      "key": "voice",
+                      "value": "{\"id\":\"string\",\"provider\":\"CUSTOM_VOICE\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "Specifies the output audio file format.",
+                        "type": "text/plain"
+                      },
+                      "key": "format",
+                      "value": "{\"type\":\"mp3\"}",
+                      "type": "text"
+                    },
+                    {
+                      "description": {
+                        "content": "The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.",
+                        "type": "text/plain"
+                      },
+                      "key": "include_timestamp_types",
+                      "value": "[\"phoneme\",\"phoneme\"]",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.hume.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0bf11bfb-4f81-4589-a123-9f7960b88260",
+    "name": "Text-to-Speech (TTS)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

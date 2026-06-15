@@ -1,0 +1,206 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Text-to-Speech (TTS)",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Text-to-Speech (Streamed JSON)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/tts/stream/json",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. \n\nThe response is a stream of JSON objects including audio encoded in base64."
+        },
+        {
+          "info": {
+            "name": "Text-to-Speech (Streamed File)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/tts/stream/file",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody."
+        },
+        {
+          "info": {
+            "name": "Text-to-Speech (Json)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/tts",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody.\n\nThe response includes the base64-encoded audio and metadata in JSON format."
+        },
+        {
+          "info": {
+            "name": "Text-to-Speech (File)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/tts/file",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. \n\nThe response contains the generated audio file in the requested format."
+        },
+        {
+          "info": {
+            "name": "Voice Conversion (Streamed File)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/tts/voice_conversion/file",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "strip_headers",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "audio",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "context",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "voice",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "format",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "include_timestamp_types",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Voice Conversion (Streamed File)"
+        },
+        {
+          "info": {
+            "name": "Voice Conversion (Streamed JSON)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/tts/voice_conversion/json",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "strip_headers",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "audio",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "context",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "voice",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "format",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "include_timestamp_types",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Voice Conversion (Streamed JSON)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
