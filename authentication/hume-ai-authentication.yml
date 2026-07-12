@@ -1,0 +1,19 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/hume-ai-evi-openapi.yml, openapi/hume-ai-expression-openapi.yml, openapi/hume-ai-tts-openapi.yml,
+  openapi/hume-ai-voices-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: bearerAuth
+  type: apiKey
+  in: header
+  parameter: X-Hume-Api-Key
+  sources:
+  - openapi/hume-ai-evi-openapi.yml
+  - openapi/hume-ai-expression-openapi.yml
+  - openapi/hume-ai-tts-openapi.yml
+  - openapi/hume-ai-voices-openapi.yml

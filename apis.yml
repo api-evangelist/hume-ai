@@ -101,6 +101,10 @@ apis:
       - type: AsyncAPI
         url: asyncapi/hume-ai-asyncapi.yml
 common:
+  - type: DomainSecurity
+    url: security/hume-ai-domain-security.yml
+  - type: Authentication
+    url: authentication/hume-ai-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/HumeAI
   - type: LinkedIn
@@ -115,6 +119,8 @@ common:
     url: rate-limits/hume-ai-rate-limits.yml
   - type: FinOps
     url: finops/hume-ai-finops.yml
+  - url: https://www.hume.ai/blog
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
