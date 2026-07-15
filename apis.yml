@@ -101,6 +101,8 @@ apis:
       - type: AsyncAPI
         url: asyncapi/hume-ai-asyncapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/hume-ai-agentic-access.yml
   - type: DomainSecurity
     url: security/hume-ai-domain-security.yml
   - type: Authentication
