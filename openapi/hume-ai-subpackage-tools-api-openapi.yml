@@ -1,0 +1,594 @@
+openapi: 3.1.0
+info:
+  title: Speech-to-speech (EVI) subpackage_tools API
+  version: 1.0.0
+servers:
+- url: https://api.hume.ai
+tags:
+- name: subpackage_tools
+paths:
+  /v0/evi/tools:
+    post:
+      operationId: create-tool
+      summary: Create tool
+      description: 'Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_user_defined_tool'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_user_defined_tool'
+    get:
+      operationId: list-tools
+      summary: List tools
+      description: 'Fetches a paginated list of **Tools**.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: page_number
+        in: query
+        description: 'Specifies the page number to retrieve, enabling pagination.
+
+
+          This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.'
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: page_size
+        in: query
+        description: 'Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+
+          For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.'
+        required: false
+        schema:
+          type: integer
+      - name: restrict_to_most_recent
+        in: query
+        description: By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+        required: false
+        schema:
+          type: boolean
+      - name: name
+        in: query
+        description: Filter to only include tools with name.
+        required: false
+        schema:
+          type: string
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_paged_user_defined_tools'
+  /v0/evi/tools/{id}:
+    get:
+      operationId: list-tool-versions
+      summary: List tool versions
+      description: 'Fetches a list of a **Tool''s** versions.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page_number
+        in: query
+        description: 'Specifies the page number to retrieve, enabling pagination.
+
+
+          This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.'
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: page_size
+        in: query
+        description: 'Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+
+          For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.'
+        required: false
+        schema:
+          type: integer
+      - name: restrict_to_most_recent
+        in: query
+        description: By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false.
+        required: false
+        schema:
+          type: boolean
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_paged_user_defined_tools'
+    post:
+      operationId: create-tool-version
+      summary: Create tool version
+      description: 'Updates a **Tool** by creating a new version of the **Tool**.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Tool. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_user_defined_tool'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_user_defined_tool_version'
+    patch:
+      operationId: update-tool-name
+      summary: Update tool name
+      description: 'Updates the name of a **Tool**.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Tool. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tools_update-tool-name_Response_200'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_user_defined_tool_name'
+    delete:
+      operationId: delete-tool
+      summary: Delete tool
+      description: 'Deletes a **Tool** and its versions.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Tool. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tools_delete-tool_Response_200'
+  /v0/evi/tools/{id}/version/{version}:
+    get:
+      operationId: get-tool-version
+      summary: Get tool version
+      description: 'Fetches a specified version of a **Tool**.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Tool. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: 'Version number for a Tool.
+
+
+          Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.'
+        required: true
+        schema:
+          type: integer
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_user_defined_tool'
+    patch:
+      operationId: update-tool-description
+      summary: Update tool description
+      description: 'Updates the description of a specified **Tool** version.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Tool. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: 'Version number for a Tool.
+
+
+          Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.'
+        required: true
+        schema:
+          type: integer
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_user_defined_tool'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_user_defined_tool_version_description'
+    delete:
+      operationId: delete-tool-version
+      summary: Delete tool version
+      description: 'Deletes a specified version of a **Tool**.
+
+
+        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+      tags:
+      - subpackage_tools
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Tool. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: 'Version number for a Tool.
+
+
+          Tools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number.'
+        required: true
+        schema:
+          type: integer
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tools_delete-tool-version_Response_200'
+components:
+  schemas:
+    posted_user_defined_tool:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+        parameters:
+          type: string
+          description: 'Stringified JSON defining the parameters used by this version of the Tool.
+
+
+            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+      required:
+      - name
+      - parameters
+      description: A tool to be posted to the server
+      title: posted_user_defined_tool
+    return_paged_user_defined_tools:
+      type: object
+      properties:
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        tools_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_user_defined_tool'
+          description: List of tools returned for the specified `page_number` and `page_size`.
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - page_number
+      - page_size
+      - tools_page
+      - total_pages
+      description: A paginated list of user defined tool versions returned from the server
+      title: return_paged_user_defined_tools
+    ReturnUserDefinedToolToolType:
+      type: string
+      enum:
+      - BUILTIN
+      - FUNCTION
+      title: ReturnUserDefinedToolToolType
+    tools_update-tool-name_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_update-tool-name_Response_200
+    posted_user_defined_tool_name:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+      required:
+      - name
+      description: A tool name change to be posted to the server
+      title: posted_user_defined_tool_name
+    tools_delete-tool_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_delete-tool_Response_200
+    tools_delete-tool-version_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_delete-tool-version_Response_200
+    posted_user_defined_tool_version_description:
+      type: object
+      properties:
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+      description: A tool version description to be posted to the server
+      title: posted_user_defined_tool_version_description
+    posted_user_defined_tool_version:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        parameters:
+          type: string
+          description: 'Stringified JSON defining the parameters used by this version of the Tool.
+
+
+            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+      required:
+      - parameters
+      description: A new version of an existing tool to be posted to the server
+      title: posted_user_defined_tool_version
+    return_user_defined_tool:
+      type: object
+      properties:
+        created_on:
+          type: integer
+          format: int64
+          description: The timestamp when the first version of this tool was created.
+        description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        id:
+          type: string
+          description: Identifier for a Tool. Formatted as a UUID.
+        modified_on:
+          type: integer
+          format: int64
+          description: The timestamp when this version of the tool was created.
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+        parameters:
+          type: string
+          description: 'Stringified JSON defining the parameters used by this version of the Tool.
+
+
+            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
+        tool_type:
+          $ref: '#/components/schemas/ReturnUserDefinedToolToolType'
+        version:
+          type: integer
+          description: Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+        version_type:
+          $ref: '#/components/schemas/ReturnUserDefinedToolVersionType'
+      required:
+      - created_on
+      - id
+      - modified_on
+      - name
+      - parameters
+      - tool_type
+      - version
+      - version_type
+      description: A specific tool version returned from the server
+      title: return_user_defined_tool
+    ReturnUserDefinedToolVersionType:
+      type: string
+      enum:
+      - FIXED
+      - LATEST
+      title: ReturnUserDefinedToolVersionType
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      in: header
+      name: X-Hume-Api-Key

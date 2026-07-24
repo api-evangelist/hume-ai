@@ -1,0 +1,592 @@
+openapi: 3.1.0
+info:
+  title: Speech-to-speech (EVI) subpackage_prompts API
+  version: 1.0.0
+servers:
+- url: https://api.hume.ai
+tags:
+- name: subpackage_prompts
+paths:
+  /v0/evi/prompts:
+    post:
+      operationId: create-prompt
+      summary: Create prompt
+      description: 'Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_prompt_public'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_prompt'
+    get:
+      operationId: list-prompts
+      summary: List prompts
+      description: 'Fetches a paginated list of **Prompts**.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: page_number
+        in: query
+        description: 'Specifies the page number to retrieve, enabling pagination.
+
+
+          This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.'
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: page_size
+        in: query
+        description: 'Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+
+          For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.'
+        required: false
+        schema:
+          type: integer
+      - name: restrict_to_most_recent
+        in: query
+        description: By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+        required: false
+        schema:
+          type: boolean
+      - name: name
+        in: query
+        description: Filter to only include prompts with name.
+        required: false
+        schema:
+          type: string
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_paged_prompts'
+  /v0/evi/prompts/{id}:
+    get:
+      operationId: list-prompt-versions
+      summary: List prompt versions
+      description: 'Fetches a list of a **Prompt''s** versions.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: page_number
+        in: query
+        description: 'Specifies the page number to retrieve, enabling pagination.
+
+
+          This parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page.'
+        required: false
+        schema:
+          type: integer
+          default: 0
+      - name: page_size
+        in: query
+        description: 'Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.
+
+
+          For example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10.'
+        required: false
+        schema:
+          type: integer
+      - name: restrict_to_most_recent
+        in: query
+        description: By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false.
+        required: false
+        schema:
+          type: boolean
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_paged_prompts'
+    post:
+      operationId: create-prompt-version
+      summary: Create prompt version
+      description: 'Updates a **Prompt** by creating a new version of the **Prompt**.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Prompt. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_prompt_public'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_prompt_version'
+    patch:
+      operationId: update-prompt-name
+      summary: Update prompt name
+      description: 'Updates the name of a **Prompt**.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Prompt. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/prompts_update-prompt-name_Response_200'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/posted_prompt_name'
+    delete:
+      operationId: delete-prompt
+      summary: Delete prompt
+      description: 'Deletes a **Prompt** and its versions.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Prompt. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/prompts_delete-prompt_Response_200'
+  /v0/evi/prompts/{id}/version/{version}:
+    get:
+      operationId: get-prompt-version
+      summary: Get prompt version
+      description: 'Fetches a specified version of a **Prompt**.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Prompt. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: 'Version number for a Prompt.
+
+
+          Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.'
+        required: true
+        schema:
+          type: integer
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_prompt_public'
+    patch:
+      operationId: update-prompt-description
+      summary: Update prompt description
+      description: 'Updates the description of a **Prompt**.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Prompt. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: 'Version number for a Prompt.
+
+
+          Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.'
+        required: true
+        schema:
+          type: integer
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/return_prompt_public'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/patched_prompt_version_description'
+    delete:
+      operationId: delete-prompt-version
+      summary: Delete prompt version
+      description: 'Deletes a specified version of a **Prompt**.
+
+
+        See our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.'
+      tags:
+      - subpackage_prompts
+      parameters:
+      - name: id
+        in: path
+        description: Identifier for a Prompt. Formatted as a UUID.
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: version
+        in: path
+        description: 'Version number for a Prompt.
+
+
+          Prompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.
+
+
+          Version numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number.'
+        required: true
+        schema:
+          type: integer
+      - name: X-Hume-Api-Key
+        in: header
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/prompts_delete-prompt-version_Response_200'
+components:
+  schemas:
+    posted_prompt_name:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name applied to all versions of a particular Prompt.
+      required:
+      - name
+      description: A prompt name change to be posted to the server
+      title: posted_prompt_name
+    posted_prompt:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name applied to all versions of a particular Prompt.
+        prompt_expansion:
+          $ref: '#/components/schemas/prompt_expansion_spec'
+        text:
+          type: string
+          description: 'Instructions used to shape EVI''s behavior, responses, and style.
+
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
+      required:
+      - name
+      - text
+      description: A prompt to be posted to the server
+      title: posted_prompt
+    prompts_delete-prompt-version_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: prompts_delete-prompt-version_Response_200
+    prompts_update-prompt-name_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: prompts_update-prompt-name_Response_200
+    patched_prompt_version_description:
+      type: object
+      properties:
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
+      description: A prompt version description to be patched to the server
+      title: patched_prompt_version_description
+    ReturnPromptVersionType:
+      type: string
+      enum:
+      - FIXED
+      - LATEST
+      title: ReturnPromptVersionType
+    posted_prompt_version:
+      type: object
+      properties:
+        prompt_expansion:
+          $ref: '#/components/schemas/prompt_expansion_spec'
+        text:
+          type: string
+          description: 'Instructions used to shape EVI''s behavior, responses, and style.
+
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
+      required:
+      - text
+      description: A new version of an existing prompt to be posted to the server
+      title: posted_prompt_version
+    return_prompt:
+      type: object
+      properties:
+        created_on:
+          type: integer
+          format: int64
+          description: Time at which the Prompt was created. Measured in seconds since the Unix epoch.
+        id:
+          type: string
+          description: Identifier for a Prompt. Formatted as a UUID.
+        modified_on:
+          type: integer
+          format: int64
+          description: Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
+        name:
+          type: string
+          description: Name applied to all versions of a particular Prompt.
+        text:
+          type: string
+          description: 'Instructions used to shape EVI''s behavior, responses, and style.
+
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
+        version:
+          type: integer
+          description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
+        version_type:
+          $ref: '#/components/schemas/ReturnPromptVersionType'
+      required:
+      - created_on
+      - id
+      - modified_on
+      - name
+      - text
+      - version
+      - version_type
+      description: A Prompt associated with this Config.
+      title: return_prompt
+    prompts_delete-prompt_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: prompts_delete-prompt_Response_200
+    prompt_expansion_spec:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: 'Boolean indicating whether prompt expansion is enabled.
+
+
+            Defaults to `true`. When set to `false`, no additional instructions are appended to the system prompt, giving full control over the prompt content. Only applicable when using an external supplemental language model.'
+      description: Configuration for prompt expansion behavior.
+      title: prompt_expansion_spec
+    return_prompt_public:
+      type: object
+      properties:
+        created_on:
+          type: integer
+          format: int64
+          description: Time at which the Prompt was created. Measured in seconds since the Unix epoch.
+        id:
+          type: string
+          description: Identifier for a Prompt. Formatted as a UUID.
+        modified_on:
+          type: integer
+          format: int64
+          description: Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
+        name:
+          type: string
+          description: Name applied to all versions of a particular Prompt.
+        prompt_expansion:
+          $ref: '#/components/schemas/prompt_expansion_spec'
+        text:
+          type: string
+          description: 'Instructions used to shape EVI''s behavior, responses, and style.
+
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
+        version:
+          type: integer
+          description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
+        version_type:
+          type: string
+          description: Indicates whether this prompt is using a fixed version number or auto-updating to the latest version. Values from the VersionType enum.
+      required:
+      - created_on
+      - id
+      - modified_on
+      - name
+      - text
+      - version
+      - version_type
+      description: A specific prompt version returned from the server
+      title: return_prompt_public
+    return_paged_prompts:
+      type: object
+      properties:
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        prompts_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_prompt'
+          description: List of prompts returned for the specified `page_number` and `page_size`.
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - page_number
+      - page_size
+      - prompts_page
+      - total_pages
+      description: A paginated list of prompt versions returned from the server
+      title: return_paged_prompts
+  securitySchemes:
+    bearerAuth:
+      type: apiKey
+      in: header
+      name: X-Hume-Api-Key
