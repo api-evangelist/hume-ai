@@ -7,7 +7,20 @@ description: >-
   Text-to-Speech, Empathic Voice Interface (EVI / speech-to-speech), and Expression Measurement (multimodal emotion
   analysis). REST + WebSocket interfaces are documented with public OpenAPI and AsyncAPI specifications at
   https://dev.hume.ai/.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hume-ai.png
 tags:
   - AI
   - Voice
@@ -18,88 +31,223 @@ created: '2026-05-08'
 modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
-  - aid: hume-ai:voices
-    name: Hume Voices API
-    description: >-
-      REST API for managing custom voices used by Hume's TTS and EVI products. Supports voice creation, listing, and
-      deletion. Bearer token auth.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://dev.hume.ai/reference
-    baseURL: https://api.hume.ai
-    tags:
-      - Voices
-      - Voice Cloning
-      - TTS
-    properties:
-      - type: Documentation
-        url: https://dev.hume.ai/reference
-      - type: OpenAPI
-        url: openapi/hume-ai-voices-openapi.yml
-  - aid: hume-ai:tts
-    name: Hume Octave Text-to-Speech API
-    description: >-
-      REST API for synthesizing expressive speech using Octave. Supports streamed JSON/file and standard JSON/file
-      responses, plus voice conversion endpoints.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://dev.hume.ai/docs/text-to-speech-tts
-    baseURL: https://api.hume.ai
-    tags:
-      - TTS
-      - Speech Synthesis
-      - Streaming
-      - Octave
-    properties:
-      - type: Documentation
-        url: https://dev.hume.ai/docs/text-to-speech-tts
-      - type: OpenAPI
-        url: openapi/hume-ai-tts-openapi.yml
-      - type: Pricing
-        url: https://www.hume.ai/pricing
-  - aid: hume-ai:evi
-    name: Hume Empathic Voice Interface (EVI) API
-    description: >-
-      Real-time emotionally intelligent speech-to-speech voice interface delivered over WebSockets. Includes
-      configuration, prompt, and tool management plus chat history, chat group operations, and webhook events for tool
-      calls and chat lifecycle.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://dev.hume.ai/docs/speech-to-speech-evi
-    baseURL: https://api.hume.ai
-    tags:
-      - EVI
-      - Speech-to-Speech
-      - WebSocket
-      - Realtime
-      - Empathic
-    properties:
-      - type: Documentation
-        url: https://dev.hume.ai/docs/speech-to-speech-evi
-      - type: OpenAPI
-        url: openapi/hume-ai-evi-openapi.yml
-      - type: AsyncAPI
-        url: https://dev.hume.ai/asyncapi.yaml
-      - type: AsyncAPI
-        url: asyncapi/hume-ai-asyncapi.yml
-  - aid: hume-ai:expression
-    name: Hume Expression Measurement API
-    description: >-
-      Multimodal emotion analysis API for face, voice, language, and burst expression. Offers batch inference jobs over
-      images/audio/video/text, and streaming inference.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://dev.hume.ai/docs/expression-measurement
-    baseURL: https://api.hume.ai
-    tags:
-      - Expression Measurement
-      - Emotion
-      - Multimodal
-      - Batch
-      - Streaming
-    properties:
-      - type: Documentation
-        url: https://dev.hume.ai/docs/expression-measurement
-      - type: OpenAPI
-        url: openapi/hume-ai-expression-openapi.yml
-      - type: AsyncAPI
-        url: asyncapi/hume-ai-asyncapi.yml
+- aid: hume-ai:hume-ai-default-api
+  name: Hume AI Ai Default API
+  description: The Ai Default API from Hume AI — 6 operation(s) for ai default.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - Ai Default
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-default-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-batch-api
+  name: Hume AI subpackage_batch API
+  description: The subpackage_batch API from Hume AI — 4 operation(s) for subpackage_batch.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_batch
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-batch-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-chatgroups-api
+  name: Hume AI subpackage_chatGroups API
+  description: The subpackage_chatGroups API from Hume AI — 4 operation(s) for subpackage_chatgroups.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_chatGroups
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-chatgroups-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-chats-api
+  name: Hume AI subpackage_chats API
+  description: The subpackage_chats API from Hume AI — 3 operation(s) for subpackage_chats.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_chats
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-chats-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-configs-api
+  name: Hume AI subpackage_configs API
+  description: The subpackage_configs API from Hume AI — 3 operation(s) for subpackage_configs.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_configs
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-configs-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-controlplane-api
+  name: Hume AI subpackage_controlPlane API
+  description: >-
+    The subpackage_controlPlane API from Hume AI — 1 operation(s) for subpackage_controlplane.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_controlPlane
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-controlplane-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-prompts-api
+  name: Hume AI subpackage_prompts API
+  description: The subpackage_prompts API from Hume AI — 3 operation(s) for subpackage_prompts.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_prompts
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-prompts-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-tools-api
+  name: Hume AI subpackage_tools API
+  description: The subpackage_tools API from Hume AI — 3 operation(s) for subpackage_tools.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_tools
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-tools-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-subpackage-voices-api
+  name: Hume AI subpackage_voices API
+  description: The subpackage_voices API from Hume AI — 1 operation(s) for subpackage_voices.
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - subpackage_voices
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-subpackage-voices-api-openapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/reference
+  - type: Documentation
+    url: https://dev.hume.ai/docs/text-to-speech-tts
+  - type: Pricing
+    url: https://www.hume.ai/pricing
+  - type: Documentation
+    url: https://dev.hume.ai/docs/speech-to-speech-evi
+  - type: AsyncAPI
+    url: https://dev.hume.ai/asyncapi.yaml
+  - type: AsyncAPI
+    url: asyncapi/hume-ai-asyncapi.yml
+  - type: Documentation
+    url: https://dev.hume.ai/docs/expression-measurement
 common:
   - type: AgenticAccess
     url: agentic-access/hume-ai-agentic-access.yml
