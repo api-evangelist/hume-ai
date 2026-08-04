@@ -1,0 +1,1541 @@
+openapi: 3.1.0
+info:
+  title: Expression Measurement API
+  version: 1.0.0
+paths:
+  /v0/batch/jobs:
+    get:
+      operationId: list-jobs
+      summary: List jobs
+      description: Sort and filter jobs.
+      tags:
+        - subpackage_batch
+      parameters:
+        - name: limit
+          in: query
+          description: The maximum number of jobs to include in the response.
+          required: false
+          schema:
+            type: integer
+            default: 50
+        - name: status
+          in: query
+          description: |-
+            Include only jobs of this status in the response. There are four possible statuses:
+
+            - `QUEUED`: The job has been received and is waiting to be processed.
+
+            - `IN_PROGRESS`: The job is currently being processed. 
+
+            - `COMPLETED`: The job has finished processing.
+
+            - `FAILED`: The job encountered an error and could not be completed successfully.
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/batch:Status'
+        - name: when
+          in: query
+          description: Specify whether to include jobs created before or after a given `timestamp_ms`.
+          required: false
+          schema:
+            $ref: '#/components/schemas/batch:V0BatchJobsGetParametersWhen'
+        - name: timestamp_ms
+          in: query
+          description: |-
+            Provide a timestamp in milliseconds to filter jobs.
+
+             When combined with the `when` parameter, you can filter jobs before or after the given timestamp. Defaults to the current Unix timestamp if one is not provided.
+          required: false
+          schema:
+            type: integer
+            format: int64
+            default: 1704319392247
+        - name: sort_by
+          in: query
+          description: |-
+            Specify which timestamp to sort the jobs by.
+
+            - `created`: Sort jobs by the time of creation, indicated by `created_timestamp_ms`.
+
+            - `started`: Sort jobs by the time processing started, indicated by `started_timestamp_ms`.
+
+            - `ended`: Sort jobs by the time processing ended, indicated by `ended_timestamp_ms`.
+          required: false
+          schema:
+            $ref: '#/components/schemas/batch:V0BatchJobsGetParametersSortBy'
+        - name: direction
+          in: query
+          description: |-
+            Specify the order in which to sort the jobs. Defaults to descending order.
+
+            - `asc`: Sort in ascending order (chronological, with the oldest records first).
+
+            - `desc`: Sort in descending order (reverse-chronological, with the newest records first).
+          required: false
+          schema:
+            $ref: '#/components/schemas/batch:V0BatchJobsGetParametersDirection'
+        - name: X-Hume-Api-Key
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/batch:UnionJob'
+    post:
+      operationId: start-inference-job-from-local-file
+      summary: Start inference job from local file
+      description: Start a new batch inference job.
+      tags:
+        - subpackage_batch
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/batch:JobId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                json:
+                  $ref: '#/components/schemas/batch:V0BatchJobsPostRequestBodyContentMultipartFormDataSchemaJson'
+                  description: Stringified JSON object containing the inference job configuration.
+                file:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: >-
+                    Local media files (see recommended input filetypes) to be processed.
+
+
+                    If you wish to supply more than 100 files, consider providing them as an archive (`.zip`, `.tar.gz`,
+                    `.tar.bz2`, `.tar.xz`).
+              required:
+                - file
+  /v0/batch/jobs/{id}:
+    get:
+      operationId: get-job-details
+      summary: Get job details
+      description: Get the request details and state of a given job.
+      tags:
+        - subpackage_batch
+      parameters:
+        - name: id
+          in: path
+          description: The unique identifier for the job.
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Hume-Api-Key
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/batch:UnionJob'
+  /v0/batch/jobs/{id}/predictions:
+    get:
+      operationId: get-job-predictions
+      summary: Get job predictions
+      description: Get the JSON predictions of a completed inference job.
+      tags:
+        - subpackage_batch
+      parameters:
+        - name: id
+          in: path
+          description: The unique identifier for the job.
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Hume-Api-Key
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/batch:UnionPredictResult'
+  /v0/batch/jobs/{id}/artifacts:
+    get:
+      operationId: get-job-artifacts
+      summary: Get job artifacts
+      description: Get the artifacts ZIP of a completed inference job.
+      tags:
+        - subpackage_batch
+      parameters:
+        - name: id
+          in: path
+          description: The unique identifier for the job.
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: X-Hume-Api-Key
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+servers:
+  - url: https://api.hume.ai
+components:
+  schemas:
+    batch:Status:
+      type: string
+      enum:
+        - QUEUED
+        - IN_PROGRESS
+        - COMPLETED
+        - FAILED
+      title: Status
+    batch:V0BatchJobsGetParametersWhen:
+      type: object
+      properties: {}
+      title: V0BatchJobsGetParametersWhen
+    batch:V0BatchJobsGetParametersSortBy:
+      type: object
+      properties: {}
+      title: V0BatchJobsGetParametersSortBy
+    batch:V0BatchJobsGetParametersDirection:
+      type: object
+      properties: {}
+      title: V0BatchJobsGetParametersDirection
+    batch:FaceFacs:
+      type: object
+      properties: {}
+      title: FaceFacs
+    batch:FaceDescriptions:
+      type: object
+      properties: {}
+      title: FaceDescriptions
+    batch:ModelsFace:
+      type: object
+      properties:
+        fps_pred:
+          type: number
+          format: double
+          default: 3
+          description: >-
+            Number of frames per second to process. Other frames will be omitted from the response. Set to `0` to
+            process every frame.
+        prob_threshold:
+          type: number
+          format: double
+          default: 0.99
+          description: >-
+            Face detection probability threshold. Faces detected with a probability less than this threshold will be
+            omitted from the response.
+        identify_faces:
+          type: boolean
+          default: false
+          description: >-
+            Whether to return identifiers for faces across frames. If `true`, unique identifiers will be assigned to
+            face bounding boxes to differentiate different faces. If `false`, all faces will be tagged with an `unknown`
+            ID.
+        min_face_size:
+          type: integer
+          format: uint64
+          description: >-
+            Minimum bounding box side length in pixels to treat as a face. Faces detected with a bounding box side
+            length in pixels less than this threshold will be omitted from the response.
+        facs:
+          $ref: '#/components/schemas/batch:FaceFacs'
+        descriptions:
+          $ref: '#/components/schemas/batch:FaceDescriptions'
+        save_faces:
+          type: boolean
+          default: false
+          description: Whether to extract and save the detected faces in the artifacts zip created by each job.
+      title: ModelsFace
+    batch:ModelsBurst:
+      type: object
+      properties: {}
+      title: ModelsBurst
+    batch:ProsodyGranularity:
+      type: object
+      properties: {}
+      title: ProsodyGranularity
+    batch:ProsodyWindow:
+      type: object
+      properties:
+        length:
+          type: number
+          format: double
+          default: 4
+          description: The length of the sliding window.
+        step:
+          type: number
+          format: double
+          default: 1
+          description: The step size of the sliding window.
+      title: ProsodyWindow
+    batch:ModelsProsody:
+      type: object
+      properties:
+        granularity:
+          $ref: '#/components/schemas/batch:ProsodyGranularity'
+        window:
+          $ref: '#/components/schemas/batch:ProsodyWindow'
+        identify_speakers:
+          type: boolean
+          default: false
+          description: >-
+            Whether to return identifiers for speakers over time. If `true`, unique identifiers will be assigned to
+            spoken words to differentiate different speakers. If `false`, all speakers will be tagged with an `unknown`
+            ID.
+      title: ModelsProsody
+    batch:LanguageGranularity:
+      type: object
+      properties: {}
+      title: LanguageGranularity
+    batch:LanguageSentiment:
+      type: object
+      properties: {}
+      title: LanguageSentiment
+    batch:LanguageToxicity:
+      type: object
+      properties: {}
+      title: LanguageToxicity
+    batch:ModelsLanguage:
+      type: object
+      properties:
+        granularity:
+          $ref: '#/components/schemas/batch:LanguageGranularity'
+        sentiment:
+          $ref: '#/components/schemas/batch:LanguageSentiment'
+        toxicity:
+          $ref: '#/components/schemas/batch:LanguageToxicity'
+        identify_speakers:
+          type: boolean
+          default: false
+          description: >-
+            Whether to return identifiers for speakers over time. If `true`, unique identifiers will be assigned to
+            spoken words to differentiate different speakers. If `false`, all speakers will be tagged with an `unknown`
+            ID.
+      title: ModelsLanguage
+    batch:ModelsNer:
+      type: object
+      properties:
+        identify_speakers:
+          type: boolean
+          default: false
+          description: >-
+            Whether to return identifiers for speakers over time. If `true`, unique identifiers will be assigned to
+            spoken words to differentiate different speakers. If `false`, all speakers will be tagged with an `unknown`
+            ID.
+      title: ModelsNer
+    batch:ModelsFacemesh:
+      type: object
+      properties: {}
+      title: ModelsFacemesh
+    batch:InferenceRequestModels:
+      type: object
+      properties:
+        face:
+          $ref: '#/components/schemas/batch:ModelsFace'
+        burst:
+          $ref: '#/components/schemas/batch:ModelsBurst'
+        prosody:
+          $ref: '#/components/schemas/batch:ModelsProsody'
+        language:
+          $ref: '#/components/schemas/batch:ModelsLanguage'
+        ner:
+          $ref: '#/components/schemas/batch:ModelsNer'
+        facemesh:
+          $ref: '#/components/schemas/batch:ModelsFacemesh'
+      title: InferenceRequestModels
+    batch:TranscriptionLanguage:
+      type: object
+      properties: {}
+      description: >-
+        By default, we use an automated language detection method for our Speech Prosody, Language, and NER models.
+        However, if you know what language is being spoken in your media samples, you can specify it via its BCP-47 tag
+        and potentially obtain more accurate results.
+
+
+        You can specify any of the following languages:
+
+        - Chinese: `zh`
+
+        - Danish: `da`
+
+        - Dutch: `nl`
+
+        - English: `en`
+
+        - English (Australia): `en-AU`
+
+        - English (India): `en-IN`
+
+        - English (New Zealand): `en-NZ`
+
+        - English (United Kingdom): `en-GB`
+
+        - French: `fr`
+
+        - French (Canada): `fr-CA`
+
+        - German: `de`
+
+        - Hindi: `hi`
+
+        - Hindi (Roman Script): `hi-Latn`
+
+        - Indonesian: `id`
+
+        - Italian: `it`
+
+        - Japanese: `ja`
+
+        - Korean: `ko`
+
+        - Norwegian: `no`
+
+        - Polish: `pl`
+
+        - Portuguese: `pt`
+
+        - Portuguese (Brazil): `pt-BR`
+
+        - Portuguese (Portugal): `pt-PT`
+
+        - Russian: `ru`
+
+        - Spanish: `es`
+
+        - Spanish (Latin America): `es-419`
+
+        - Swedish: `sv`
+
+        - Tamil: `ta`
+
+        - Turkish: `tr`
+
+        - Ukrainian: `uk`
+      title: TranscriptionLanguage
+    batch:InferenceRequestTranscription:
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/batch:TranscriptionLanguage'
+          description: >-
+            By default, we use an automated language detection method for our Speech Prosody, Language, and NER models.
+            However, if you know what language is being spoken in your media samples, you can specify it via its BCP-47
+            tag and potentially obtain more accurate results.
+
+
+            You can specify any of the following languages:
+
+            - Chinese: `zh`
+
+            - Danish: `da`
+
+            - Dutch: `nl`
+
+            - English: `en`
+
+            - English (Australia): `en-AU`
+
+            - English (India): `en-IN`
+
+            - English (New Zealand): `en-NZ`
+
+            - English (United Kingdom): `en-GB`
+
+            - French: `fr`
+
+            - French (Canada): `fr-CA`
+
+            - German: `de`
+
+            - Hindi: `hi`
+
+            - Hindi (Roman Script): `hi-Latn`
+
+            - Indonesian: `id`
+
+            - Italian: `it`
+
+            - Japanese: `ja`
+
+            - Korean: `ko`
+
+            - Norwegian: `no`
+
+            - Polish: `pl`
+
+            - Portuguese: `pt`
+
+            - Portuguese (Brazil): `pt-BR`
+
+            - Portuguese (Portugal): `pt-PT`
+
+            - Russian: `ru`
+
+            - Spanish: `es`
+
+            - Spanish (Latin America): `es-419`
+
+            - Swedish: `sv`
+
+            - Tamil: `ta`
+
+            - Turkish: `tr`
+
+            - Ukrainian: `uk`
+        identify_speakers:
+          type: boolean
+          default: false
+          description: >-
+            Whether to return identifiers for speakers over time. If `true`, unique identifiers will be assigned to
+            spoken words to differentiate different speakers. If `false`, all speakers will be tagged with an `unknown`
+            ID.
+        confidence_threshold:
+          type: number
+          format: double
+          default: 0.5
+          description: >-
+            Transcript confidence threshold. Transcripts generated with a confidence less than this threshold will be
+            considered invalid and not used as an input for model inference.
+      title: InferenceRequestTranscription
+    batch:File:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: The name of the file.
+        content_type:
+          type: string
+          description: The content type of the file.
+        md5sum:
+          type: string
+          description: The MD5 checksum of the file.
+      required:
+        - md5sum
+      description: The list of files submitted for analysis.
+      title: File
+    batch:InferenceRequest:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/batch:InferenceRequestModels'
+        transcription:
+          $ref: '#/components/schemas/batch:InferenceRequestTranscription'
+        urls:
+          type: array
+          items:
+            type: string
+            format: url
+          description: >-
+            URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended
+            input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+            If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`,
+            `.tar.bz2`, `.tar.xz`).
+        text:
+          type: array
+          items:
+            type: string
+          description: Text to supply directly to our language and NER models.
+        callback_url:
+          type: string
+          format: url
+          description: >-
+            If provided, a `POST` request will be made to the URL with the generated predictions on completion or the
+            error message on failure.
+        notify:
+          type: boolean
+          default: false
+          description: Whether to send an email notification to the user upon job completion/failure.
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:File'
+      required:
+        - files
+      title: InferenceRequest
+    batch:State<Inference>:
+      oneOf:
+        - type: object
+          properties:
+            status:
+              type: string
+            created_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job was created (Unix timestamp in milliseconds).
+          required:
+            - status
+            - created_timestamp_ms
+          description: QUEUED variant
+        - type: object
+          properties:
+            status:
+              type: string
+            created_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job was created (Unix timestamp in milliseconds).
+            started_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job started (Unix timestamp in milliseconds).
+          required:
+            - status
+            - created_timestamp_ms
+            - started_timestamp_ms
+          description: IN_PROGRESS variant
+        - type: object
+          properties:
+            status:
+              type: string
+            created_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job was created (Unix timestamp in milliseconds).
+            started_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job started (Unix timestamp in milliseconds).
+            ended_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job ended (Unix timestamp in milliseconds).
+            num_predictions:
+              type: integer
+              format: uint64
+              description: The number of predictions that were generated by this job.
+            num_errors:
+              type: integer
+              format: uint64
+              description: The number of errors that occurred while running this job.
+          required:
+            - status
+            - created_timestamp_ms
+            - started_timestamp_ms
+            - ended_timestamp_ms
+            - num_predictions
+            - num_errors
+          description: COMPLETED variant
+        - type: object
+          properties:
+            status:
+              type: string
+            created_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job was created (Unix timestamp in milliseconds).
+            started_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job started (Unix timestamp in milliseconds).
+            ended_timestamp_ms:
+              type: integer
+              format: int64
+              description: When this job ended (Unix timestamp in milliseconds).
+            message:
+              type: string
+              description: An error message.
+          required:
+            - status
+            - created_timestamp_ms
+            - started_timestamp_ms
+            - ended_timestamp_ms
+            - message
+          description: FAILED variant
+      discriminator:
+        propertyName: status
+      title: State<Inference>
+    batch:UnionJob_Job<Inference>:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The ID associated with this job.
+        request:
+          $ref: '#/components/schemas/batch:InferenceRequest'
+          description: The request that initiated the job.
+        state:
+          $ref: '#/components/schemas/batch:State<Inference>'
+          description: The current state of the job.
+        type:
+          type: string
+          description: |-
+            Denotes the job type.
+
+            Jobs created with the Expression Measurement API will have this field set to `INFERENCE`.
+      required:
+        - job_id
+        - request
+        - state
+        - type
+      title: UnionJob_Job<Inference>
+    batch:UnionJob:
+      oneOf:
+        - $ref: '#/components/schemas/batch:UnionJob_Job<Inference>'
+      title: UnionJob
+    batch:InferenceBaseRequestModels:
+      type: object
+      properties:
+        face:
+          $ref: '#/components/schemas/batch:ModelsFace'
+        burst:
+          $ref: '#/components/schemas/batch:ModelsBurst'
+        prosody:
+          $ref: '#/components/schemas/batch:ModelsProsody'
+        language:
+          $ref: '#/components/schemas/batch:ModelsLanguage'
+        ner:
+          $ref: '#/components/schemas/batch:ModelsNer'
+        facemesh:
+          $ref: '#/components/schemas/batch:ModelsFacemesh'
+      description: |-
+        Specify the models to use for inference.
+
+        If this field is not explicitly set, then all models will run by default.
+      title: InferenceBaseRequestModels
+    batch:InferenceBaseRequestTranscription:
+      type: object
+      properties:
+        language:
+          $ref: '#/components/schemas/batch:TranscriptionLanguage'
+          description: >-
+            By default, we use an automated language detection method for our Speech Prosody, Language, and NER models.
+            However, if you know what language is being spoken in your media samples, you can specify it via its BCP-47
+            tag and potentially obtain more accurate results.
+
+
+            You can specify any of the following languages:
+
+            - Chinese: `zh`
+
+            - Danish: `da`
+
+            - Dutch: `nl`
+
+            - English: `en`
+
+            - English (Australia): `en-AU`
+
+            - English (India): `en-IN`
+
+            - English (New Zealand): `en-NZ`
+
+            - English (United Kingdom): `en-GB`
+
+            - French: `fr`
+
+            - French (Canada): `fr-CA`
+
+            - German: `de`
+
+            - Hindi: `hi`
+
+            - Hindi (Roman Script): `hi-Latn`
+
+            - Indonesian: `id`
+
+            - Italian: `it`
+
+            - Japanese: `ja`
+
+            - Korean: `ko`
+
+            - Norwegian: `no`
+
+            - Polish: `pl`
+
+            - Portuguese: `pt`
+
+            - Portuguese (Brazil): `pt-BR`
+
+            - Portuguese (Portugal): `pt-PT`
+
+            - Russian: `ru`
+
+            - Spanish: `es`
+
+            - Spanish (Latin America): `es-419`
+
+            - Swedish: `sv`
+
+            - Tamil: `ta`
+
+            - Turkish: `tr`
+
+            - Ukrainian: `uk`
+        identify_speakers:
+          type: boolean
+          default: false
+          description: >-
+            Whether to return identifiers for speakers over time. If `true`, unique identifiers will be assigned to
+            spoken words to differentiate different speakers. If `false`, all speakers will be tagged with an `unknown`
+            ID.
+        confidence_threshold:
+          type: number
+          format: double
+          default: 0.5
+          description: >-
+            Transcript confidence threshold. Transcripts generated with a confidence less than this threshold will be
+            considered invalid and not used as an input for model inference.
+      title: InferenceBaseRequestTranscription
+    batch:InferenceBaseRequest:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/batch:InferenceBaseRequestModels'
+          description: |-
+            Specify the models to use for inference.
+
+            If this field is not explicitly set, then all models will run by default.
+        transcription:
+          $ref: '#/components/schemas/batch:InferenceBaseRequestTranscription'
+        urls:
+          type: array
+          items:
+            type: string
+            format: url
+          description: >-
+            URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended
+            input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+            If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`,
+            `.tar.bz2`, `.tar.xz`).
+        text:
+          type: array
+          items:
+            type: string
+          description: Text supplied directly to our Emotional Language and NER models for analysis.
+        callback_url:
+          type: string
+          format: url
+          description: >-
+            If provided, a `POST` request will be made to the URL with the generated predictions on completion or the
+            error message on failure.
+        notify:
+          type: boolean
+          default: false
+          description: Whether to send an email notification to the user upon job completion/failure.
+      title: InferenceBaseRequest
+    batch:JobId:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+          description: The ID of the started job.
+      required:
+        - job_id
+      title: JobId
+    batch:Source:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+            url:
+              type: string
+              description: The URL of the source media file.
+          required:
+            - type
+            - url
+          description: url variant
+        - type: object
+          properties:
+            type:
+              type: string
+            filename:
+              type: string
+              description: The name of the file.
+            content_type:
+              type: string
+              description: The content type of the file.
+            md5sum:
+              type: string
+              description: The MD5 checksum of the file.
+          required:
+            - type
+            - md5sum
+          description: file variant
+        - type: object
+          properties:
+            type:
+              type: string
+          required:
+            - type
+          description: text variant
+      discriminator:
+        propertyName: type
+      title: Source
+    batch:Null:
+      type: object
+      properties: {}
+      description: No associated metadata for this model. Value will be `null`.
+      title: 'Null'
+    batch:BoundingBox:
+      type: object
+      properties:
+        x:
+          type: number
+          format: double
+          description: x-coordinate of bounding box top left corner.
+        'y':
+          type: number
+          format: double
+          description: y-coordinate of bounding box top left corner.
+        w:
+          type: number
+          format: double
+          description: Bounding box width.
+        h:
+          type: number
+          format: double
+          description: Bounding box height.
+      required:
+        - x
+        - 'y'
+        - w
+        - h
+      description: A bounding box around a face.
+      title: BoundingBox
+    batch:EmotionScore:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the emotion being expressed.
+        score:
+          type: number
+          format: double
+          description: Embedding value for the emotion being expressed.
+      required:
+        - name
+        - score
+      title: EmotionScore
+    batch:FacsScore:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the FACS 2.0 feature being expressed.
+        score:
+          type: number
+          format: double
+          description: Embedding value for the FACS 2.0 feature being expressed.
+      required:
+        - name
+        - score
+      title: FacsScore
+    batch:DescriptionsScore:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the descriptive feature being expressed.
+        score:
+          type: number
+          format: double
+          description: Embedding value for the descriptive feature being expressed.
+      required:
+        - name
+        - score
+      title: DescriptionsScore
+    batch:FacePrediction:
+      type: object
+      properties:
+        frame:
+          type: integer
+          format: uint64
+          description: Frame number
+        time:
+          type: number
+          format: double
+          description: Time in seconds when face detection occurred.
+        prob:
+          type: number
+          format: double
+          description: The predicted probability that a detected face was actually a face.
+        box:
+          $ref: '#/components/schemas/batch:BoundingBox'
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:EmotionScore'
+          description: A high-dimensional embedding in emotion space.
+        facs:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:FacsScore'
+          description: FACS 2.0 features and their scores.
+        descriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:DescriptionsScore'
+          description: Modality-specific descriptive features and their scores.
+      required:
+        - frame
+        - time
+        - prob
+        - box
+        - emotions
+      title: FacePrediction
+    batch:GroupedPredictions<FacePrediction>:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            An automatically generated label to identify individuals in your media file. Will be `unknown` if you have
+            chosen to disable identification, or if the model is unable to distinguish between individuals.
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:FacePrediction'
+      required:
+        - id
+        - predictions
+      title: GroupedPredictions<FacePrediction>
+    batch:ModelsPredictionsFace:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/batch:Null'
+        grouped_predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:GroupedPredictions<FacePrediction>'
+      required:
+        - grouped_predictions
+      title: ModelsPredictionsFace
+    batch:TimeInterval:
+      type: object
+      properties:
+        begin:
+          type: number
+          format: double
+          description: Beginning of time range in seconds.
+        end:
+          type: number
+          format: double
+          description: End of time range in seconds.
+      required:
+        - begin
+        - end
+      description: A time range with a beginning and end, measured in seconds.
+      title: TimeInterval
+    batch:BurstPrediction:
+      type: object
+      properties:
+        time:
+          $ref: '#/components/schemas/batch:TimeInterval'
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:EmotionScore'
+          description: A high-dimensional embedding in emotion space.
+        descriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:DescriptionsScore'
+          description: Modality-specific descriptive features and their scores.
+      required:
+        - time
+        - emotions
+        - descriptions
+      title: BurstPrediction
+    batch:GroupedPredictions<BurstPrediction>:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            An automatically generated label to identify individuals in your media file. Will be `unknown` if you have
+            chosen to disable identification, or if the model is unable to distinguish between individuals.
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:BurstPrediction'
+      required:
+        - id
+        - predictions
+      title: GroupedPredictions<BurstPrediction>
+    batch:ModelsPredictionsBurst:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/batch:Null'
+        grouped_predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:GroupedPredictions<BurstPrediction>'
+      required:
+        - grouped_predictions
+      title: ModelsPredictionsBurst
+    batch:TranscriptionMetadataDetectedLanguage:
+      type: object
+      properties: {}
+      title: TranscriptionMetadataDetectedLanguage
+    batch:TranscriptionMetadata:
+      type: object
+      properties:
+        confidence:
+          type: number
+          format: double
+          description: >-
+            Value between `0.0` and `1.0` indicating our transcription model's relative confidence in the transcription
+            of your media file.
+        detected_language:
+          $ref: '#/components/schemas/batch:TranscriptionMetadataDetectedLanguage'
+      required:
+        - confidence
+      description: Transcription metadata for your media file.
+      title: TranscriptionMetadata
+    batch:ProsodyPrediction:
+      type: object
+      properties:
+        text:
+          type: string
+          description: A segment of text (like a word or a sentence).
+        time:
+          $ref: '#/components/schemas/batch:TimeInterval'
+        confidence:
+          type: number
+          format: double
+          description: Value between `0.0` and `1.0` that indicates our transcription model's relative confidence in this text.
+        speaker_confidence:
+          type: number
+          format: double
+          description: >-
+            Value between `0.0` and `1.0` that indicates our transcription model's relative confidence that this text
+            was spoken by this speaker.
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:EmotionScore'
+          description: A high-dimensional embedding in emotion space.
+      required:
+        - time
+        - emotions
+      title: ProsodyPrediction
+    batch:GroupedPredictions<ProsodyPrediction>:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            An automatically generated label to identify individuals in your media file. Will be `unknown` if you have
+            chosen to disable identification, or if the model is unable to distinguish between individuals.
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:ProsodyPrediction'
+      required:
+        - id
+        - predictions
+      title: GroupedPredictions<ProsodyPrediction>
+    batch:ModelsPredictionsProsody:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/batch:TranscriptionMetadata'
+        grouped_predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:GroupedPredictions<ProsodyPrediction>'
+      required:
+        - grouped_predictions
+      title: ModelsPredictionsProsody
+    batch:PositionInterval:
+      type: object
+      properties:
+        begin:
+          type: integer
+          format: uint64
+          description: The index of the first character in the text segment, inclusive.
+        end:
+          type: integer
+          format: uint64
+          description: The index of the last character in the text segment, exclusive.
+      required:
+        - begin
+        - end
+      description: >-
+        Position of a segment of text within a larger document, measured in characters. Uses zero-based indexing. The
+        beginning index is inclusive and the end index is exclusive.
+      title: PositionInterval
+    batch:SentimentScore:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Level of sentiment, ranging from `1` (negative) to `9` (positive)
+        score:
+          type: number
+          format: double
+          description: Prediction for this level of sentiment
+      required:
+        - name
+        - score
+      title: SentimentScore
+    batch:ToxicityScore:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Category of toxicity.
+        score:
+          type: number
+          format: double
+          description: Prediction for this category of toxicity
+      required:
+        - name
+        - score
+      title: ToxicityScore
+    batch:LanguagePrediction:
+      type: object
+      properties:
+        text:
+          type: string
+          description: A segment of text (like a word or a sentence).
+        position:
+          $ref: '#/components/schemas/batch:PositionInterval'
+        time:
+          $ref: '#/components/schemas/batch:TimeInterval'
+        confidence:
+          type: number
+          format: double
+          description: Value between `0.0` and `1.0` that indicates our transcription model's relative confidence in this text.
+        speaker_confidence:
+          type: number
+          format: double
+          description: >-
+            Value between `0.0` and `1.0` that indicates our transcription model's relative confidence that this text
+            was spoken by this speaker.
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:EmotionScore'
+          description: A high-dimensional embedding in emotion space.
+        sentiment:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:SentimentScore'
+          description: >-
+            Sentiment predictions returned as a distribution. This model predicts the probability that a given text
+            could be interpreted as having each sentiment level from `1` (negative) to `9` (positive).
+
+
+            Compared to returning one estimate of sentiment, this enables a more nuanced analysis of a text's meaning.
+            For example, a text with very neutral sentiment would have an average rating of `5`. But also a text that
+            could be interpreted as having very positive sentiment or very negative sentiment would also have an average
+            rating of `5`. The average sentiment is less informative than the distribution over sentiment, so this API
+            returns a value for each sentiment level.
+        toxicity:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:ToxicityScore'
+          description: >-
+            Toxicity predictions returned as probabilities that the text can be classified into the following
+            categories: `toxic`, `severe_toxic`, `obscene`, `threat`, `insult`, and `identity_hate`.
+      required:
+        - text
+        - position
+        - emotions
+      title: LanguagePrediction
+    batch:GroupedPredictions<LanguagePrediction>:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            An automatically generated label to identify individuals in your media file. Will be `unknown` if you have
+            chosen to disable identification, or if the model is unable to distinguish between individuals.
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:LanguagePrediction'
+      required:
+        - id
+        - predictions
+      title: GroupedPredictions<LanguagePrediction>
+    batch:ModelsPredictionsLanguage:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/batch:TranscriptionMetadata'
+        grouped_predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:GroupedPredictions<LanguagePrediction>'
+      required:
+        - grouped_predictions
+      title: ModelsPredictionsLanguage
+    batch:NerPrediction:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: The recognized topic or entity.
+        position:
+          $ref: '#/components/schemas/batch:PositionInterval'
+        entity_confidence:
+          type: number
+          format: double
+          description: Our NER model's relative confidence in the recognized topic or entity.
+        support:
+          type: number
+          format: double
+          description: A measure of how often the entity is linked to by other entities.
+        uri:
+          type: string
+          description: A URL which provides more information about the recognized topic or entity.
+        link_word:
+          type: string
+          description: The specific word to which the emotion predictions are linked.
+        time:
+          $ref: '#/components/schemas/batch:TimeInterval'
+        confidence:
+          type: number
+          format: double
+          description: Value between `0.0` and `1.0` that indicates our transcription model's relative confidence in this text.
+        speaker_confidence:
+          type: number
+          format: double
+          description: >-
+            Value between `0.0` and `1.0` that indicates our transcription model's relative confidence that this text
+            was spoken by this speaker.
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:EmotionScore'
+          description: A high-dimensional embedding in emotion space.
+      required:
+        - entity
+        - position
+        - entity_confidence
+        - support
+        - uri
+        - link_word
+        - emotions
+      title: NerPrediction
+    batch:GroupedPredictions<NerPrediction>:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            An automatically generated label to identify individuals in your media file. Will be `unknown` if you have
+            chosen to disable identification, or if the model is unable to distinguish between individuals.
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:NerPrediction'
+      required:
+        - id
+        - predictions
+      title: GroupedPredictions<NerPrediction>
+    batch:ModelsPredictionsNer:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/batch:TranscriptionMetadata'
+        grouped_predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:GroupedPredictions<NerPrediction>'
+      required:
+        - grouped_predictions
+      title: ModelsPredictionsNer
+    batch:FacemeshPrediction:
+      type: object
+      properties:
+        emotions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:EmotionScore'
+          description: A high-dimensional embedding in emotion space.
+      required:
+        - emotions
+      title: FacemeshPrediction
+    batch:GroupedPredictions<FacemeshPrediction>:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            An automatically generated label to identify individuals in your media file. Will be `unknown` if you have
+            chosen to disable identification, or if the model is unable to distinguish between individuals.
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:FacemeshPrediction'
+      required:
+        - id
+        - predictions
+      title: GroupedPredictions<FacemeshPrediction>
+    batch:ModelsPredictionsFacemesh:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/batch:Null'
+        grouped_predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:GroupedPredictions<FacemeshPrediction>'
+      required:
+        - grouped_predictions
+      title: ModelsPredictionsFacemesh
+    batch:ModelsPredictions:
+      type: object
+      properties:
+        face:
+          $ref: '#/components/schemas/batch:ModelsPredictionsFace'
+        burst:
+          $ref: '#/components/schemas/batch:ModelsPredictionsBurst'
+        prosody:
+          $ref: '#/components/schemas/batch:ModelsPredictionsProsody'
+        language:
+          $ref: '#/components/schemas/batch:ModelsPredictionsLanguage'
+        ner:
+          $ref: '#/components/schemas/batch:ModelsPredictionsNer'
+        facemesh:
+          $ref: '#/components/schemas/batch:ModelsPredictionsFacemesh'
+      title: ModelsPredictions
+    batch:InferencePrediction:
+      type: object
+      properties:
+        file:
+          type: string
+          description: A file path relative to the top level source URL or file.
+        models:
+          $ref: '#/components/schemas/batch:ModelsPredictions'
+      required:
+        - file
+        - models
+      title: InferencePrediction
+    batch:Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: An error message.
+        file:
+          type: string
+          description: A file path relative to the top level source URL or file.
+      required:
+        - message
+        - file
+      title: Error
+    batch:InferenceResults:
+      type: object
+      properties:
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:InferencePrediction'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/batch:Error'
+      required:
+        - predictions
+        - errors
+      title: InferenceResults
+    batch:InferenceSourcePredictResult:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/batch:Source'
+        results:
+          $ref: '#/components/schemas/batch:InferenceResults'
+        error:
+          type: string
+          description: An error message.
+      required:
+        - source
+      title: InferenceSourcePredictResult
+    batch:UnionPredictResult:
+      oneOf:
+        - $ref: '#/components/schemas/batch:InferenceSourcePredictResult'
+      title: UnionPredictResult
+    batch:V0BatchJobsPostRequestBodyContentMultipartFormDataSchemaJson:
+      type: object
+      properties:
+        models:
+          $ref: '#/components/schemas/batch:InferenceBaseRequestModels'
+          description: |-
+            Specify the models to use for inference.
+
+            If this field is not explicitly set, then all models will run by default.
+        transcription:
+          $ref: '#/components/schemas/batch:InferenceBaseRequestTranscription'
+        urls:
+          type: array
+          items:
+            type: string
+            format: url
+          description: >-
+            URLs to the media files to be processed. Each must be a valid public URL to a media file (see recommended
+            input filetypes) or an archive (`.zip`, `.tar.gz`, `.tar.bz2`, `.tar.xz`) of media files.
+
+
+            If you wish to supply more than 100 URLs, consider providing them as an archive (`.zip`, `.tar.gz`,
+            `.tar.bz2`, `.tar.xz`).
+        text:
+          type: array
+          items:
+            type: string
+          description: Text supplied directly to our Emotional Language and NER models for analysis.
+        callback_url:
+          type: string
+          format: url
+          description: >-
+            If provided, a `POST` request will be made to the URL with the generated predictions on completion or the
+            error message on failure.
+        notify:
+          type: boolean
+          default: false
+          description: Whether to send an email notification to the user upon job completion/failure.
+      description: Stringified JSON object containing the inference job configuration.
+      title: V0BatchJobsPostRequestBodyContentMultipartFormDataSchemaJson
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-Hume-Api-Key

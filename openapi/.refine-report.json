@@ -1,0 +1,30 @@
+{
+  "provider": "hume-ai",
+  "sources": [
+    "hume-ai-default-api-openapi.yml",
+    "hume-ai-subpackage-batch-api-openapi.yml",
+    "hume-ai-subpackage-chatgroups-api-openapi.yml",
+    "hume-ai-subpackage-chats-api-openapi.yml",
+    "hume-ai-subpackage-configs-api-openapi.yml",
+    "hume-ai-subpackage-controlplane-api-openapi.yml",
+    "hume-ai-subpackage-prompts-api-openapi.yml",
+    "hume-ai-subpackage-tools-api-openapi.yml",
+    "hume-ai-subpackage-voices-api-openapi.yml"
+  ],
+  "outputs": [
+    "hume-ai-default-api-openapi.yml",
+    "hume-ai-subpackage-batch-api-openapi.yml",
+    "hume-ai-subpackage-chatgroups-api-openapi.yml",
+    "hume-ai-subpackage-chats-api-openapi.yml",
+    "hume-ai-subpackage-configs-api-openapi.yml",
+    "hume-ai-subpackage-controlplane-api-openapi.yml",
+    "hume-ai-subpackage-prompts-api-openapi.yml",
+    "hume-ai-subpackage-tools-api-openapi.yml",
+    "hume-ai-subpackage-voices-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
