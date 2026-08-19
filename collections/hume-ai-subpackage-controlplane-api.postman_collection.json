@@ -1,0 +1,220 @@
+{
+  "item": [
+    {
+      "id": "5f866aa0-e6f3-46c0-b119-dfe7b919a6f6",
+      "name": "subpackage_controlPlane",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "afe79e29-b58e-4590-92f0-39c2986042dc",
+          "name": "Send Message",
+          "request": {
+            "name": "Send Message",
+            "description": {
+              "content": "Send a message to a specific chat.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "chat",
+                ":chat_id",
+                "send"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "chat_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"<string>\",\n  \"audio\": {\n    \"channels\": \"<integer>\",\n    \"encoding\": \"<string>\",\n    \"sample_rate\": \"<integer>\",\n    \"codec\": \"<string,null>\"\n  },\n  \"builtin_tools\": [\n    {\n      \"name\": \"<string>\",\n      \"fallback_content\": \"<string,null>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"fallback_content\": \"<string,null>\"\n    }\n  ],\n  \"context\": {\n    \"text\": \"<string>\",\n    \"type\": \"<string>\"\n  },\n  \"custom_session_id\": \"<string,null>\",\n  \"language_model_api_key\": \"<string,null>\",\n  \"metadata\": {\n    \"key_0\": {},\n    \"key_1\": {}\n  },\n  \"system_prompt\": \"<string,null>\",\n  \"tools\": [\n    {\n      \"name\": \"<string>\",\n      \"parameters\": \"<string>\",\n      \"type\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"fallback_content\": \"<string,null>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"parameters\": \"<string>\",\n      \"type\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"fallback_content\": \"<string,null>\"\n    }\n  ],\n  \"variables\": {\n    \"key_0\": {}\n  },\n  \"voice_id\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "36425db1-8388-442c-bfd6-b46be21a8786",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "chat",
+                    ":chat_id",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chat_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"session_settings\",\n  \"audio\": {\n    \"channels\": 2694,\n    \"encoding\": \"linear16\",\n    \"sample_rate\": 3305,\n    \"codec\": \"string\"\n  },\n  \"builtin_tools\": [\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"context\": {\n    \"text\": \"string\",\n    \"type\": \"persistent\"\n  },\n  \"custom_session_id\": \"string\",\n  \"language_model_api_key\": \"string\",\n  \"metadata\": {\n    \"key_0\": {}\n  },\n  \"system_prompt\": \"string\",\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"type\": \"builtin\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"type\": \"function\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"variables\": {\n    \"key_0\": {}\n  },\n  \"voice_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8f32afb6-ad15-44a4-91c0-f4be47e7117c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "chat",
+                    ":chat_id",
+                    "send"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "chat_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": \"session_settings\",\n  \"audio\": {\n    \"channels\": 2694,\n    \"encoding\": \"linear16\",\n    \"sample_rate\": 3305,\n    \"codec\": \"string\"\n  },\n  \"builtin_tools\": [\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"context\": {\n    \"text\": \"string\",\n    \"type\": \"persistent\"\n  },\n  \"custom_session_id\": \"string\",\n  \"language_model_api_key\": \"string\",\n  \"metadata\": {\n    \"key_0\": {}\n  },\n  \"system_prompt\": \"string\",\n  \"tools\": [\n    {\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"type\": \"builtin\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"type\": \"function\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"variables\": {\n    \"key_0\": {}\n  },\n  \"voice_id\": \"string\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.hume.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "7040530c-7e0b-408d-b741-c8a7ca4bee22",
+    "name": "Speech-to-speech (EVI) subpackage_controlPlane API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

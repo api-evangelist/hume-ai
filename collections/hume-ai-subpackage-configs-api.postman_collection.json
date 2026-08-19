@@ -1,0 +1,1144 @@
+{
+  "item": [
+    {
+      "id": "5c9de152-3433-420c-975d-7caa2e9d3cb4",
+      "name": "subpackage_configs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ab49c728-1c96-4605-8065-2082102b1f27",
+          "name": "Create config",
+          "request": {
+            "name": "Create config",
+            "description": {
+              "content": "Creates a **Config** which can be applied to EVI.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"evi_version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"builtin_tools\": [\n    {\n      \"name\": \"<string>\",\n      \"fallback_content\": \"<string,null>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"fallback_content\": \"<string,null>\"\n    }\n  ],\n  \"ellm_model\": {\n    \"allow_short_responses\": \"<boolean,null>\"\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": \"<boolean>\",\n      \"text\": \"<string,null>\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": \"<boolean>\",\n      \"text\": \"<string,null>\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": \"<boolean>\",\n      \"text\": \"<string,null>\"\n    }\n  },\n  \"interruption\": {\n    \"min_interruption_ms\": \"<integer,null>\"\n  },\n  \"language_model\": {\n    \"model_provider\": \"<string>\",\n    \"model_resource\": \"<string>\",\n    \"temperature\": \"<number,null-double>\"\n  },\n  \"nudges\": {\n    \"enabled\": \"<boolean,null>\",\n    \"interval_secs\": \"<integer,null>\"\n  },\n  \"prompt\": {\n    \"id\": \"<string,null>\",\n    \"prompt_expansion\": {\n      \"enabled\": \"<boolean>\"\n    },\n    \"text\": \"<string,null>\",\n    \"version\": \"<integer,null>\"\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": \"<boolean>\",\n      \"duration_secs\": \"<integer,null>\"\n    },\n    \"max_duration\": {\n      \"enabled\": \"<boolean>\",\n      \"duration_secs\": \"<integer,null>\"\n    }\n  },\n  \"tools\": [\n    {\n      \"id\": \"<string>\",\n      \"version\": \"<integer,null>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"version\": \"<integer,null>\"\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": \"<integer,null>\",\n    \"prefix_padding_ms\": \"<integer,null>\",\n    \"speech_detection_threshold\": \"<number,null-double>\"\n  },\n  \"version_description\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"<string>\",\n    \"provider\": \"<string>\"\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"url\": \"<string>\"\n    },\n    {\n      \"events\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1388900f-1e99-4d16-8845-f01366fbf8ea",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"evi_version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"builtin_tools\": [\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"ellm_model\": {\n    \"allow_short_responses\": true\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    }\n  },\n  \"interruption\": {\n    \"min_interruption_ms\": 410\n  },\n  \"language_model\": {\n    \"model_provider\": \"GROQ\",\n    \"model_resource\": \"accounts/fireworks/models/llama-v3p1-405b-instruct\",\n    \"temperature\": 2192.864475618128\n  },\n  \"nudges\": {\n    \"enabled\": true,\n    \"interval_secs\": 7978\n  },\n  \"prompt\": {\n    \"id\": \"string\",\n    \"prompt_expansion\": {\n      \"enabled\": false\n    },\n    \"text\": \"string\",\n    \"version\": 4653\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": true,\n      \"duration_secs\": 8333\n    },\n    \"max_duration\": {\n      \"enabled\": true,\n      \"duration_secs\": 4882\n    }\n  },\n  \"tools\": [\n    {\n      \"id\": \"string\",\n      \"version\": 8091\n    },\n    {\n      \"id\": \"string\",\n      \"version\": 8668\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": 7608,\n    \"prefix_padding_ms\": 5840,\n    \"speech_detection_threshold\": 4671.5092267196405\n  },\n  \"version_description\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"string\",\n    \"provider\": \"HUME_AI\"\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"chat_started\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"events\": [\n        \"tool_call\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"builtin_tools\": [\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"created_on\": 4116,\n  \"ellm_model\": {\n    \"allow_short_responses\": true\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    }\n  },\n  \"evi_version\": \"string\",\n  \"id\": \"string\",\n  \"interruption\": {\n    \"min_interruption_ms\": 4034\n  },\n  \"language_model\": {\n    \"model_provider\": \"CUSTOM_LANGUAGE_MODEL\",\n    \"model_resource\": \"sonar-pro\",\n    \"temperature\": 9849.732771964735\n  },\n  \"modified_on\": 7763,\n  \"name\": \"string\",\n  \"nudges\": {\n    \"enabled\": true,\n    \"interval_secs\": 7734\n  },\n  \"prompt\": {\n    \"created_on\": 8535,\n    \"id\": \"string\",\n    \"modified_on\": 4722,\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"version\": 867,\n    \"version_type\": \"string\",\n    \"prompt_expansion\": {\n      \"enabled\": false\n    },\n    \"version_description\": \"string\"\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": false,\n      \"duration_secs\": 7368\n    },\n    \"max_duration\": {\n      \"enabled\": true,\n      \"duration_secs\": 1973\n    }\n  },\n  \"tools\": [\n    {\n      \"created_on\": 9751,\n      \"id\": \"string\",\n      \"modified_on\": 3760,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"version\": 3853,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 5450,\n      \"id\": \"string\",\n      \"modified_on\": 7903,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"version\": 2561,\n      \"version_type\": \"LATEST\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": 7538,\n    \"prefix_padding_ms\": 1447,\n    \"speech_detection_threshold\": 9542.604990636679\n  },\n  \"version\": 7107,\n  \"version_description\": \"string\",\n  \"voice\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"provider\": \"CUSTOM_VOICE\",\n    \"compatible_octave_models\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"tool_call\",\n        \"chat_started\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"events\": [\n        \"chat_started\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d0e6db25-a52e-430a-b6d4-f789653f14ae",
+          "name": "List configs",
+          "request": {
+            "name": "List configs",
+            "description": {
+              "content": "Fetches a paginated list of **Configs**.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrict_to_most_recent",
+                  "value": "<boolean>",
+                  "description": "By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter to only include configs with this name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e4711cc0-ddab-45fa-901b-246220d3903a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "restrict_to_most_recent",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_pages\": 8337,\n  \"configs_page\": [\n    {\n      \"builtin_tools\": [\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"fallback_content\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"fallback_content\": \"string\"\n        }\n      ],\n      \"created_on\": 1433,\n      \"ellm_model\": {\n        \"allow_short_responses\": true\n      },\n      \"event_messages\": {\n        \"on_inactivity_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_max_duration_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_new_chat\": {\n          \"enabled\": true,\n          \"text\": \"string\"\n        }\n      },\n      \"evi_version\": \"string\",\n      \"id\": \"string\",\n      \"interruption\": {\n        \"min_interruption_ms\": 1479\n      },\n      \"language_model\": {\n        \"model_provider\": \"HUME_AI\",\n        \"model_resource\": \"accounts/fireworks/models/llama-v3p1-405b-instruct\",\n        \"temperature\": 4924.406100619729\n      },\n      \"modified_on\": 2336,\n      \"name\": \"string\",\n      \"nudges\": {\n        \"enabled\": true,\n        \"interval_secs\": 2004\n      },\n      \"prompt\": {\n        \"created_on\": 6061,\n        \"id\": \"string\",\n        \"modified_on\": 9809,\n        \"name\": \"string\",\n        \"text\": \"string\",\n        \"version\": 9476,\n        \"version_type\": \"LATEST\",\n        \"version_description\": \"string\"\n      },\n      \"timeouts\": {\n        \"inactivity\": {\n          \"enabled\": true,\n          \"duration_secs\": 4463\n        },\n        \"max_duration\": {\n          \"enabled\": false,\n          \"duration_secs\": 7805\n        }\n      },\n      \"tools\": [\n        {\n          \"created_on\": 8379,\n          \"id\": \"string\",\n          \"modified_on\": 8277,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"version\": 690,\n          \"version_type\": \"LATEST\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        },\n        {\n          \"created_on\": 4553,\n          \"id\": \"string\",\n          \"modified_on\": 1263,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"version\": 3169,\n          \"version_type\": \"FIXED\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        }\n      ],\n      \"turn_detection\": {\n        \"end_of_turn_silence_ms\": 4101,\n        \"prefix_padding_ms\": 2580,\n        \"speech_detection_threshold\": 3362.303880668512\n      },\n      \"version\": 926,\n      \"version_description\": \"string\",\n      \"voice\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"provider\": \"CUSTOM_VOICE\",\n        \"compatible_octave_models\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"webhooks\": [\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"chat_started\"\n          ],\n          \"url\": \"string\"\n        },\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"tool_call\"\n          ],\n          \"url\": \"string\"\n        }\n      ]\n    },\n    {\n      \"builtin_tools\": [\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"fallback_content\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"fallback_content\": \"string\"\n        }\n      ],\n      \"created_on\": 8683,\n      \"ellm_model\": {\n        \"allow_short_responses\": false\n      },\n      \"event_messages\": {\n        \"on_inactivity_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_max_duration_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_new_chat\": {\n          \"enabled\": true,\n          \"text\": \"string\"\n        }\n      },\n      \"evi_version\": \"string\",\n      \"id\": \"string\",\n      \"interruption\": {\n        \"min_interruption_ms\": 2679\n      },\n      \"language_model\": {\n        \"model_provider\": \"CUSTOM_LANGUAGE_MODEL\",\n        \"model_resource\": \"custom-language-model\",\n        \"temperature\": 6621.554294112298\n      },\n      \"modified_on\": 2998,\n      \"name\": \"string\",\n      \"nudges\": {\n        \"enabled\": true,\n        \"interval_secs\": 4311\n      },\n      \"prompt\": {\n        \"created_on\": 2498,\n        \"id\": \"string\",\n        \"modified_on\": 2419,\n        \"name\": \"string\",\n        \"text\": \"string\",\n        \"version\": 7932,\n        \"version_type\": \"LATEST\",\n        \"version_description\": \"string\"\n      },\n      \"timeouts\": {\n        \"inactivity\": {\n          \"enabled\": true,\n          \"duration_secs\": 381\n        },\n        \"max_duration\": {\n          \"enabled\": false,\n          \"duration_secs\": 1908\n        }\n      },\n      \"tools\": [\n        {\n          \"created_on\": 498,\n          \"id\": \"string\",\n          \"modified_on\": 4953,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"version\": 5395,\n          \"version_type\": \"FIXED\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        },\n        {\n          \"created_on\": 4064,\n          \"id\": \"string\",\n          \"modified_on\": 6720,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"version\": 6494,\n          \"version_type\": \"FIXED\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        }\n      ],\n      \"turn_detection\": {\n        \"end_of_turn_silence_ms\": 9006,\n        \"prefix_padding_ms\": 6850,\n        \"speech_detection_threshold\": 92.7402143803957\n      },\n      \"version\": 2128,\n      \"version_description\": \"string\",\n      \"voice\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"provider\": \"CUSTOM_VOICE\",\n        \"compatible_octave_models\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"webhooks\": [\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"chat_ended\"\n          ],\n          \"url\": \"string\"\n        },\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"chat_started\"\n          ],\n          \"url\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"page_number\": 5245,\n  \"page_size\": 6704\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e2fe9806-7154-48ef-8077-70ddd2643287",
+          "name": "List config versions",
+          "request": {
+            "name": "List config versions",
+            "description": {
+              "content": "Fetches a list of a **Config's** versions.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrict_to_most_recent",
+                  "value": "<boolean>",
+                  "description": "By default, `restrict_to_most_recent` is set to true, returning only the latest version of each config. To include all versions of each config in the list, set `restrict_to_most_recent` to false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9685a2ea-bfab-417d-9c63-46092fbd2ea5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "restrict_to_most_recent",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_pages\": 8337,\n  \"configs_page\": [\n    {\n      \"builtin_tools\": [\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"fallback_content\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"fallback_content\": \"string\"\n        }\n      ],\n      \"created_on\": 1433,\n      \"ellm_model\": {\n        \"allow_short_responses\": true\n      },\n      \"event_messages\": {\n        \"on_inactivity_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_max_duration_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_new_chat\": {\n          \"enabled\": true,\n          \"text\": \"string\"\n        }\n      },\n      \"evi_version\": \"string\",\n      \"id\": \"string\",\n      \"interruption\": {\n        \"min_interruption_ms\": 1479\n      },\n      \"language_model\": {\n        \"model_provider\": \"HUME_AI\",\n        \"model_resource\": \"accounts/fireworks/models/llama-v3p1-405b-instruct\",\n        \"temperature\": 4924.406100619729\n      },\n      \"modified_on\": 2336,\n      \"name\": \"string\",\n      \"nudges\": {\n        \"enabled\": true,\n        \"interval_secs\": 2004\n      },\n      \"prompt\": {\n        \"created_on\": 6061,\n        \"id\": \"string\",\n        \"modified_on\": 9809,\n        \"name\": \"string\",\n        \"text\": \"string\",\n        \"version\": 9476,\n        \"version_type\": \"LATEST\",\n        \"version_description\": \"string\"\n      },\n      \"timeouts\": {\n        \"inactivity\": {\n          \"enabled\": true,\n          \"duration_secs\": 4463\n        },\n        \"max_duration\": {\n          \"enabled\": false,\n          \"duration_secs\": 7805\n        }\n      },\n      \"tools\": [\n        {\n          \"created_on\": 8379,\n          \"id\": \"string\",\n          \"modified_on\": 8277,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"version\": 690,\n          \"version_type\": \"LATEST\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        },\n        {\n          \"created_on\": 4553,\n          \"id\": \"string\",\n          \"modified_on\": 1263,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"version\": 3169,\n          \"version_type\": \"FIXED\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        }\n      ],\n      \"turn_detection\": {\n        \"end_of_turn_silence_ms\": 4101,\n        \"prefix_padding_ms\": 2580,\n        \"speech_detection_threshold\": 3362.303880668512\n      },\n      \"version\": 926,\n      \"version_description\": \"string\",\n      \"voice\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"provider\": \"CUSTOM_VOICE\",\n        \"compatible_octave_models\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"webhooks\": [\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"chat_started\"\n          ],\n          \"url\": \"string\"\n        },\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"tool_call\"\n          ],\n          \"url\": \"string\"\n        }\n      ]\n    },\n    {\n      \"builtin_tools\": [\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"fallback_content\": \"string\"\n        },\n        {\n          \"name\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"fallback_content\": \"string\"\n        }\n      ],\n      \"created_on\": 8683,\n      \"ellm_model\": {\n        \"allow_short_responses\": false\n      },\n      \"event_messages\": {\n        \"on_inactivity_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_max_duration_timeout\": {\n          \"enabled\": false,\n          \"text\": \"string\"\n        },\n        \"on_new_chat\": {\n          \"enabled\": true,\n          \"text\": \"string\"\n        }\n      },\n      \"evi_version\": \"string\",\n      \"id\": \"string\",\n      \"interruption\": {\n        \"min_interruption_ms\": 2679\n      },\n      \"language_model\": {\n        \"model_provider\": \"CUSTOM_LANGUAGE_MODEL\",\n        \"model_resource\": \"custom-language-model\",\n        \"temperature\": 6621.554294112298\n      },\n      \"modified_on\": 2998,\n      \"name\": \"string\",\n      \"nudges\": {\n        \"enabled\": true,\n        \"interval_secs\": 4311\n      },\n      \"prompt\": {\n        \"created_on\": 2498,\n        \"id\": \"string\",\n        \"modified_on\": 2419,\n        \"name\": \"string\",\n        \"text\": \"string\",\n        \"version\": 7932,\n        \"version_type\": \"LATEST\",\n        \"version_description\": \"string\"\n      },\n      \"timeouts\": {\n        \"inactivity\": {\n          \"enabled\": true,\n          \"duration_secs\": 381\n        },\n        \"max_duration\": {\n          \"enabled\": false,\n          \"duration_secs\": 1908\n        }\n      },\n      \"tools\": [\n        {\n          \"created_on\": 498,\n          \"id\": \"string\",\n          \"modified_on\": 4953,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"FUNCTION\",\n          \"version\": 5395,\n          \"version_type\": \"FIXED\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        },\n        {\n          \"created_on\": 4064,\n          \"id\": \"string\",\n          \"modified_on\": 6720,\n          \"name\": \"string\",\n          \"parameters\": \"string\",\n          \"tool_type\": \"BUILTIN\",\n          \"version\": 6494,\n          \"version_type\": \"FIXED\",\n          \"description\": \"string\",\n          \"fallback_content\": \"string\",\n          \"version_description\": \"string\"\n        }\n      ],\n      \"turn_detection\": {\n        \"end_of_turn_silence_ms\": 9006,\n        \"prefix_padding_ms\": 6850,\n        \"speech_detection_threshold\": 92.7402143803957\n      },\n      \"version\": 2128,\n      \"version_description\": \"string\",\n      \"voice\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"provider\": \"CUSTOM_VOICE\",\n        \"compatible_octave_models\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"webhooks\": [\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"chat_ended\"\n          ],\n          \"url\": \"string\"\n        },\n        {\n          \"events\": [\n            \"chat_ended\",\n            \"chat_started\"\n          ],\n          \"url\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"page_number\": 5245,\n  \"page_size\": 6704\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "974016af-4292-44ab-8db6-fb736ecbec66",
+          "name": "Create config version",
+          "request": {
+            "name": "Create config version",
+            "description": {
+              "content": "Updates a **Config** by creating a new version of the **Config**.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"evi_version\": \"<string>\",\n  \"builtin_tools\": [\n    {\n      \"name\": \"<string>\",\n      \"fallback_content\": \"<string,null>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"fallback_content\": \"<string,null>\"\n    }\n  ],\n  \"ellm_model\": {\n    \"allow_short_responses\": \"<boolean,null>\"\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": \"<boolean>\",\n      \"text\": \"<string,null>\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": \"<boolean>\",\n      \"text\": \"<string,null>\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": \"<boolean>\",\n      \"text\": \"<string,null>\"\n    }\n  },\n  \"interruption\": {\n    \"min_interruption_ms\": \"<integer,null>\"\n  },\n  \"language_model\": {\n    \"model_provider\": \"<string>\",\n    \"model_resource\": \"<string>\",\n    \"temperature\": \"<number,null-double>\"\n  },\n  \"nudges\": {\n    \"enabled\": \"<boolean,null>\",\n    \"interval_secs\": \"<integer,null>\"\n  },\n  \"prompt\": {\n    \"id\": \"<string,null>\",\n    \"prompt_expansion\": {\n      \"enabled\": \"<boolean>\"\n    },\n    \"text\": \"<string,null>\",\n    \"version\": \"<integer,null>\"\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": \"<boolean>\",\n      \"duration_secs\": \"<integer,null>\"\n    },\n    \"max_duration\": {\n      \"enabled\": \"<boolean>\",\n      \"duration_secs\": \"<integer,null>\"\n    }\n  },\n  \"tools\": [\n    {\n      \"id\": \"<string>\",\n      \"version\": \"<integer,null>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"version\": \"<integer,null>\"\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": \"<integer,null>\",\n    \"prefix_padding_ms\": \"<integer,null>\",\n    \"speech_detection_threshold\": \"<number,null-double>\"\n  },\n  \"version_description\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"<string>\",\n    \"provider\": \"<string>\"\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"url\": \"<string>\"\n    },\n    {\n      \"events\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"url\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aa4fdd94-3baf-4ff1-be37-c7ee9ffba202",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"evi_version\": \"<string>\",\n  \"builtin_tools\": [\n    {\n      \"name\": \"web_search\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"hang_up\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"ellm_model\": {\n    \"allow_short_responses\": false\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    }\n  },\n  \"interruption\": {\n    \"min_interruption_ms\": 3334\n  },\n  \"language_model\": {\n    \"model_provider\": \"GOOGLE\",\n    \"model_resource\": \"gpt-4o\",\n    \"temperature\": 9877.972536102197\n  },\n  \"nudges\": {\n    \"enabled\": true,\n    \"interval_secs\": 4058\n  },\n  \"prompt\": {\n    \"id\": \"string\",\n    \"prompt_expansion\": {\n      \"enabled\": true\n    },\n    \"text\": \"string\",\n    \"version\": 9676\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": true,\n      \"duration_secs\": 1551\n    },\n    \"max_duration\": {\n      \"enabled\": false,\n      \"duration_secs\": 9357\n    }\n  },\n  \"tools\": [\n    {\n      \"id\": \"string\",\n      \"version\": 8157\n    },\n    {\n      \"id\": \"string\",\n      \"version\": 3398\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": 9139,\n    \"prefix_padding_ms\": 6412,\n    \"speech_detection_threshold\": 9956.58875129796\n  },\n  \"version_description\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"string\",\n    \"provider\": \"HUME_AI\"\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"chat_ended\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"events\": [\n        \"tool_call\",\n        \"tool_call\"\n      ],\n      \"url\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"builtin_tools\": [\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"created_on\": 4116,\n  \"ellm_model\": {\n    \"allow_short_responses\": true\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    }\n  },\n  \"evi_version\": \"string\",\n  \"id\": \"string\",\n  \"interruption\": {\n    \"min_interruption_ms\": 4034\n  },\n  \"language_model\": {\n    \"model_provider\": \"CUSTOM_LANGUAGE_MODEL\",\n    \"model_resource\": \"sonar-pro\",\n    \"temperature\": 9849.732771964735\n  },\n  \"modified_on\": 7763,\n  \"name\": \"string\",\n  \"nudges\": {\n    \"enabled\": true,\n    \"interval_secs\": 7734\n  },\n  \"prompt\": {\n    \"created_on\": 8535,\n    \"id\": \"string\",\n    \"modified_on\": 4722,\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"version\": 867,\n    \"version_type\": \"string\",\n    \"prompt_expansion\": {\n      \"enabled\": false\n    },\n    \"version_description\": \"string\"\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": false,\n      \"duration_secs\": 7368\n    },\n    \"max_duration\": {\n      \"enabled\": true,\n      \"duration_secs\": 1973\n    }\n  },\n  \"tools\": [\n    {\n      \"created_on\": 9751,\n      \"id\": \"string\",\n      \"modified_on\": 3760,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"version\": 3853,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 5450,\n      \"id\": \"string\",\n      \"modified_on\": 7903,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"version\": 2561,\n      \"version_type\": \"LATEST\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": 7538,\n    \"prefix_padding_ms\": 1447,\n    \"speech_detection_threshold\": 9542.604990636679\n  },\n  \"version\": 7107,\n  \"version_description\": \"string\",\n  \"voice\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"provider\": \"CUSTOM_VOICE\",\n    \"compatible_octave_models\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"tool_call\",\n        \"chat_started\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"events\": [\n        \"chat_started\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b2c2fe42-0b98-45c4-8c42-6c9b56273c0b",
+          "name": "Update config name",
+          "request": {
+            "name": "Update config name",
+            "description": {
+              "content": "Updates the name of a **Config**.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fe41b3f4-ce2d-48eb-a479-9eb56c40c6ba",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ae8a4d8-4207-4345-9266-86a936182bc9",
+          "name": "Delete config",
+          "request": {
+            "name": "Delete config",
+            "description": {
+              "content": "Deletes a **Config** and its versions.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3126b8b8-66dd-444d-a37e-12d03f4596d6",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f82385b7-b791-49f8-a9a7-e4c1831da3b0",
+          "name": "Get config version",
+          "request": {
+            "name": "Get config version",
+            "description": {
+              "content": "Fetches a specified version of a **Config**.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Config.\n\nConfigs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f0fd822c-943d-4836-a91f-5a9d8fedadfa",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Config.\n\nConfigs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"builtin_tools\": [\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"created_on\": 4116,\n  \"ellm_model\": {\n    \"allow_short_responses\": true\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    }\n  },\n  \"evi_version\": \"string\",\n  \"id\": \"string\",\n  \"interruption\": {\n    \"min_interruption_ms\": 4034\n  },\n  \"language_model\": {\n    \"model_provider\": \"CUSTOM_LANGUAGE_MODEL\",\n    \"model_resource\": \"sonar-pro\",\n    \"temperature\": 9849.732771964735\n  },\n  \"modified_on\": 7763,\n  \"name\": \"string\",\n  \"nudges\": {\n    \"enabled\": true,\n    \"interval_secs\": 7734\n  },\n  \"prompt\": {\n    \"created_on\": 8535,\n    \"id\": \"string\",\n    \"modified_on\": 4722,\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"version\": 867,\n    \"version_type\": \"string\",\n    \"prompt_expansion\": {\n      \"enabled\": false\n    },\n    \"version_description\": \"string\"\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": false,\n      \"duration_secs\": 7368\n    },\n    \"max_duration\": {\n      \"enabled\": true,\n      \"duration_secs\": 1973\n    }\n  },\n  \"tools\": [\n    {\n      \"created_on\": 9751,\n      \"id\": \"string\",\n      \"modified_on\": 3760,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"version\": 3853,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 5450,\n      \"id\": \"string\",\n      \"modified_on\": 7903,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"version\": 2561,\n      \"version_type\": \"LATEST\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": 7538,\n    \"prefix_padding_ms\": 1447,\n    \"speech_detection_threshold\": 9542.604990636679\n  },\n  \"version\": 7107,\n  \"version_description\": \"string\",\n  \"voice\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"provider\": \"CUSTOM_VOICE\",\n    \"compatible_octave_models\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"tool_call\",\n        \"chat_started\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"events\": [\n        \"chat_started\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a6a9ce6-d456-469e-9839-ad9bd010c2b0",
+          "name": "Update config description",
+          "request": {
+            "name": "Update config description",
+            "description": {
+              "content": "Updates the description of a **Config**.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Config.\n\nConfigs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ce46310a-5a8b-41f7-829e-f21f327fc592",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Config.\n\nConfigs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"builtin_tools\": [\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"fallback_content\": \"string\"\n    },\n    {\n      \"name\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"fallback_content\": \"string\"\n    }\n  ],\n  \"created_on\": 4116,\n  \"ellm_model\": {\n    \"allow_short_responses\": true\n  },\n  \"event_messages\": {\n    \"on_inactivity_timeout\": {\n      \"enabled\": false,\n      \"text\": \"string\"\n    },\n    \"on_max_duration_timeout\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    },\n    \"on_new_chat\": {\n      \"enabled\": true,\n      \"text\": \"string\"\n    }\n  },\n  \"evi_version\": \"string\",\n  \"id\": \"string\",\n  \"interruption\": {\n    \"min_interruption_ms\": 4034\n  },\n  \"language_model\": {\n    \"model_provider\": \"CUSTOM_LANGUAGE_MODEL\",\n    \"model_resource\": \"sonar-pro\",\n    \"temperature\": 9849.732771964735\n  },\n  \"modified_on\": 7763,\n  \"name\": \"string\",\n  \"nudges\": {\n    \"enabled\": true,\n    \"interval_secs\": 7734\n  },\n  \"prompt\": {\n    \"created_on\": 8535,\n    \"id\": \"string\",\n    \"modified_on\": 4722,\n    \"name\": \"string\",\n    \"text\": \"string\",\n    \"version\": 867,\n    \"version_type\": \"string\",\n    \"prompt_expansion\": {\n      \"enabled\": false\n    },\n    \"version_description\": \"string\"\n  },\n  \"timeouts\": {\n    \"inactivity\": {\n      \"enabled\": false,\n      \"duration_secs\": 7368\n    },\n    \"max_duration\": {\n      \"enabled\": true,\n      \"duration_secs\": 1973\n    }\n  },\n  \"tools\": [\n    {\n      \"created_on\": 9751,\n      \"id\": \"string\",\n      \"modified_on\": 3760,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"version\": 3853,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 5450,\n      \"id\": \"string\",\n      \"modified_on\": 7903,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"version\": 2561,\n      \"version_type\": \"LATEST\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"turn_detection\": {\n    \"end_of_turn_silence_ms\": 7538,\n    \"prefix_padding_ms\": 1447,\n    \"speech_detection_threshold\": 9542.604990636679\n  },\n  \"version\": 7107,\n  \"version_description\": \"string\",\n  \"voice\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"provider\": \"CUSTOM_VOICE\",\n    \"compatible_octave_models\": [\n      \"string\",\n      \"string\"\n    ]\n  },\n  \"webhooks\": [\n    {\n      \"events\": [\n        \"tool_call\",\n        \"chat_started\"\n      ],\n      \"url\": \"string\"\n    },\n    {\n      \"events\": [\n        \"chat_started\",\n        \"chat_ended\"\n      ],\n      \"url\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "642abf9f-3049-4428-b04a-e2ae9321b064",
+          "name": "Delete config version",
+          "request": {
+            "name": "Delete config version",
+            "description": {
+              "content": "Deletes a specified version of a **Config**.\n\nFor more details on configuration options and how to configure EVI, see our [configuration guide](/docs/speech-to-speech-evi/configuration).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "configs",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Config.\n\nConfigs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c86da271-7909-4a33-95fe-0e506653063d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "configs",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Config. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Config.\n\nConfigs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.hume.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "16e527af-e905-4ad4-bd67-96a2b5baaa20",
+    "name": "Speech-to-speech (EVI) subpackage_configs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

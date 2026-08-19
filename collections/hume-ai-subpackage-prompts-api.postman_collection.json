@@ -1,0 +1,1144 @@
+{
+  "item": [
+    {
+      "id": "c8581587-b5d5-48cf-9fe3-cf0c5fcf7f18",
+      "name": "subpackage_prompts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "cbc82526-fb0b-4629-a209-496ad2fac931",
+          "name": "Create prompt",
+          "request": {
+            "name": "Create prompt",
+            "description": {
+              "content": "Creates a **Prompt** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"text\": \"<string>\",\n  \"prompt_expansion\": {\n    \"enabled\": \"<boolean>\"\n  },\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "29b90819-8e7c-4884-94f1-817a86222230",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"text\": \"<string>\",\n  \"prompt_expansion\": {\n    \"enabled\": true\n  },\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 7458,\n  \"id\": \"string\",\n  \"modified_on\": 4487,\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"version\": 6783,\n  \"version_type\": \"string\",\n  \"prompt_expansion\": {\n    \"enabled\": true\n  },\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "29db0df2-e58a-44f5-9176-6c0d1facfed5",
+          "name": "List prompts",
+          "request": {
+            "name": "List prompts",
+            "description": {
+              "content": "Fetches a paginated list of **Prompts**.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrict_to_most_recent",
+                  "value": "<boolean>",
+                  "description": "By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter to only include prompts with name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a500669d-2b8a-448f-b319-bd7cbf4a1fdf",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "restrict_to_most_recent",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page_number\": 1729,\n  \"page_size\": 1748,\n  \"prompts_page\": [\n    {\n      \"created_on\": 9980,\n      \"id\": \"string\",\n      \"modified_on\": 5055,\n      \"name\": \"string\",\n      \"text\": \"string\",\n      \"version\": 7884,\n      \"version_type\": \"LATEST\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 7285,\n      \"id\": \"string\",\n      \"modified_on\": 8537,\n      \"name\": \"string\",\n      \"text\": \"string\",\n      \"version\": 2860,\n      \"version_type\": \"LATEST\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"total_pages\": 5421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "61cff8b5-3083-4f7e-bdb6-8adf6328b6d9",
+          "name": "List prompt versions",
+          "request": {
+            "name": "List prompt versions",
+            "description": {
+              "content": "Fetches a list of a **Prompt's** versions.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrict_to_most_recent",
+                  "value": "<boolean>",
+                  "description": "By default, `restrict_to_most_recent` is set to true, returning only the latest version of each prompt. To include all versions of each prompt in the list, set `restrict_to_most_recent` to false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2783afa2-f486-417b-9c82-866c020594f7",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "restrict_to_most_recent",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page_number\": 1729,\n  \"page_size\": 1748,\n  \"prompts_page\": [\n    {\n      \"created_on\": 9980,\n      \"id\": \"string\",\n      \"modified_on\": 5055,\n      \"name\": \"string\",\n      \"text\": \"string\",\n      \"version\": 7884,\n      \"version_type\": \"LATEST\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 7285,\n      \"id\": \"string\",\n      \"modified_on\": 8537,\n      \"name\": \"string\",\n      \"text\": \"string\",\n      \"version\": 2860,\n      \"version_type\": \"LATEST\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"total_pages\": 5421\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc360d6d-8843-420e-81b6-92c9b9a2e29f",
+          "name": "Create prompt version",
+          "request": {
+            "name": "Create prompt version",
+            "description": {
+              "content": "Updates a **Prompt** by creating a new version of the **Prompt**.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"prompt_expansion\": {\n    \"enabled\": \"<boolean>\"\n  },\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6968c919-7f33-4d08-87cb-c0cfa012b603",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"prompt_expansion\": {\n    \"enabled\": true\n  },\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 7458,\n  \"id\": \"string\",\n  \"modified_on\": 4487,\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"version\": 6783,\n  \"version_type\": \"string\",\n  \"prompt_expansion\": {\n    \"enabled\": true\n  },\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ba59794-91ea-423a-a19e-7280b6b0344e",
+          "name": "Update prompt name",
+          "request": {
+            "name": "Update prompt name",
+            "description": {
+              "content": "Updates the name of a **Prompt**.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c1840dbd-4a83-4ab4-8159-ca4126e3f8ea",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "10ecb8d4-9a57-4849-8c1a-fc6b8572b2ae",
+          "name": "Delete prompt",
+          "request": {
+            "name": "Delete prompt",
+            "description": {
+              "content": "Deletes a **Prompt** and its versions.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5b5314a9-9999-4f75-b813-5f3c24657e52",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2d09d0a-9d9e-4fc7-9303-5f78256a3c8e",
+          "name": "Get prompt version",
+          "request": {
+            "name": "Get prompt version",
+            "description": {
+              "content": "Fetches a specified version of a **Prompt**.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Prompt.\n\nPrompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ed3fcf49-269c-4340-be03-1fe2f151f7d3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Prompt.\n\nPrompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 7458,\n  \"id\": \"string\",\n  \"modified_on\": 4487,\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"version\": 6783,\n  \"version_type\": \"string\",\n  \"prompt_expansion\": {\n    \"enabled\": true\n  },\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e809eef4-ddc1-450d-adb2-44098a609603",
+          "name": "Update prompt description",
+          "request": {
+            "name": "Update prompt description",
+            "description": {
+              "content": "Updates the description of a **Prompt**.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Prompt.\n\nPrompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fdb6f6ca-1ed5-4221-b0e1-4945e8b55ba3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Prompt.\n\nPrompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 7458,\n  \"id\": \"string\",\n  \"modified_on\": 4487,\n  \"name\": \"string\",\n  \"text\": \"string\",\n  \"version\": 6783,\n  \"version_type\": \"string\",\n  \"prompt_expansion\": {\n    \"enabled\": true\n  },\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fa97c879-5952-4bb5-b257-f126f052deb2",
+          "name": "Delete prompt version",
+          "request": {
+            "name": "Delete prompt version",
+            "description": {
+              "content": "Deletes a specified version of a **Prompt**.\n\nSee our [prompting guide](/docs/speech-to-speech-evi/guides/phone-calling) for tips on crafting your system prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "prompts",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Prompt.\n\nPrompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c21f9e6d-9117-4efa-b32b-38df5aab97f9",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "prompts",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Prompt. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Prompt.\n\nPrompts, Configs, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine prompts and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Prompt. Each update to the Prompt increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.hume.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "25db4a96-d7a1-401f-9212-03520da92259",
+    "name": "Speech-to-speech (EVI) subpackage_prompts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

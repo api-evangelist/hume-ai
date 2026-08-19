@@ -1,0 +1,1144 @@
+{
+  "item": [
+    {
+      "id": "a6c8106a-75c6-4176-9cea-ffcc65224df4",
+      "name": "subpackage_tools",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6ab0c154-4d55-4774-9660-90be1ad51b4e",
+          "name": "Create tool",
+          "request": {
+            "name": "Create tool",
+            "description": {
+              "content": "Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"parameters\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"fallback_content\": \"<string,null>\",\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6781aa2c-02b8-440f-96a6-62df1c2c34e0",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"parameters\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"fallback_content\": \"<string,null>\",\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 9761,\n  \"id\": \"string\",\n  \"modified_on\": 9799,\n  \"name\": \"string\",\n  \"parameters\": \"string\",\n  \"tool_type\": \"BUILTIN\",\n  \"version\": 1593,\n  \"version_type\": \"LATEST\",\n  \"description\": \"string\",\n  \"fallback_content\": \"string\",\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27ee7806-8850-47c8-bfdf-c7314f448c4d",
+          "name": "List tools",
+          "request": {
+            "name": "List tools",
+            "description": {
+              "content": "Fetches a paginated list of **Tools**.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrict_to_most_recent",
+                  "value": "<boolean>",
+                  "description": "By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false."
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter to only include tools with name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "17de8901-db63-4701-bab9-32348581ca99",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "restrict_to_most_recent",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page_number\": 8011,\n  \"page_size\": 943,\n  \"tools_page\": [\n    {\n      \"created_on\": 8027,\n      \"id\": \"string\",\n      \"modified_on\": 9227,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"version\": 8577,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 4024,\n      \"id\": \"string\",\n      \"modified_on\": 1058,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"version\": 6504,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"total_pages\": 5695\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6b46ffc4-15ba-4970-b3ad-adf3d5e4c232",
+          "name": "List tool versions",
+          "request": {
+            "name": "List tool versions",
+            "description": {
+              "content": "Fetches a list of a **Tool's** versions.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "restrict_to_most_recent",
+                  "value": "<boolean>",
+                  "description": "By default, `restrict_to_most_recent` is set to true, returning only the latest version of each tool. To include all versions of each tool in the list, set `restrict_to_most_recent` to false."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1e2742af-b5be-4cc3-a8a9-70ab34a3d618",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "restrict_to_most_recent",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page_number\": 8011,\n  \"page_size\": 943,\n  \"tools_page\": [\n    {\n      \"created_on\": 8027,\n      \"id\": \"string\",\n      \"modified_on\": 9227,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"FUNCTION\",\n      \"version\": 8577,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    },\n    {\n      \"created_on\": 4024,\n      \"id\": \"string\",\n      \"modified_on\": 1058,\n      \"name\": \"string\",\n      \"parameters\": \"string\",\n      \"tool_type\": \"BUILTIN\",\n      \"version\": 6504,\n      \"version_type\": \"FIXED\",\n      \"description\": \"string\",\n      \"fallback_content\": \"string\",\n      \"version_description\": \"string\"\n    }\n  ],\n  \"total_pages\": 5695\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6e6717d8-5bf7-4c75-92c1-5b51c6945186",
+          "name": "Create tool version",
+          "request": {
+            "name": "Create tool version",
+            "description": {
+              "content": "Updates a **Tool** by creating a new version of the **Tool**.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"parameters\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"fallback_content\": \"<string,null>\",\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "25840f34-55c3-4b37-9e92-9f6de4a645e1",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"parameters\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"fallback_content\": \"<string,null>\",\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 9761,\n  \"id\": \"string\",\n  \"modified_on\": 9799,\n  \"name\": \"string\",\n  \"parameters\": \"string\",\n  \"tool_type\": \"BUILTIN\",\n  \"version\": 1593,\n  \"version_type\": \"LATEST\",\n  \"description\": \"string\",\n  \"fallback_content\": \"string\",\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fed3a74c-562c-41cc-bcaf-12be4535f540",
+          "name": "Update tool name",
+          "request": {
+            "name": "Update tool name",
+            "description": {
+              "content": "Updates the name of a **Tool**.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e7101e19-2c02-4feb-af8c-562d4e839edb",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b162e9c0-9f3f-4b18-8397-4593e420749c",
+          "name": "Delete tool",
+          "request": {
+            "name": "Delete tool",
+            "description": {
+              "content": "Deletes a **Tool** and its versions.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f198f498-5150-4e7c-8032-20ab494acd6d",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b841962d-1c5f-4405-a38e-27689414dac2",
+          "name": "Get tool version",
+          "request": {
+            "name": "Get tool version",
+            "description": {
+              "content": "Fetches a specified version of a **Tool**.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Tool.\n\nTools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3d806411-1756-4cab-98d9-29e2105b871b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Tool.\n\nTools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 9761,\n  \"id\": \"string\",\n  \"modified_on\": 9799,\n  \"name\": \"string\",\n  \"parameters\": \"string\",\n  \"tool_type\": \"BUILTIN\",\n  \"version\": 1593,\n  \"version_type\": \"LATEST\",\n  \"description\": \"string\",\n  \"fallback_content\": \"string\",\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1aafd295-dc56-4fbf-b1ce-36b3010abb28",
+          "name": "Update tool description",
+          "request": {
+            "name": "Update tool description",
+            "description": {
+              "content": "Updates the description of a specified **Tool** version.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Tool.\n\nTools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version_description\": \"<string,null>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea4bb9df-6da0-4600-8567-c0d80cddc224",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Tool.\n\nTools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"version_description\": \"<string,null>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_on\": 9761,\n  \"id\": \"string\",\n  \"modified_on\": 9799,\n  \"name\": \"string\",\n  \"parameters\": \"string\",\n  \"tool_type\": \"BUILTIN\",\n  \"version\": 1593,\n  \"version_type\": \"LATEST\",\n  \"description\": \"string\",\n  \"fallback_content\": \"string\",\n  \"version_description\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05d7c572-757c-49e8-ae05-b963dfe147de",
+          "name": "Delete tool version",
+          "request": {
+            "name": "Delete tool version",
+            "description": {
+              "content": "Deletes a specified version of a **Tool**.\n\nRefer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "tools",
+                ":id",
+                "version",
+                ":version"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "version",
+                  "description": "(Required) Version number for a Tool.\n\nTools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c172252f-fc68-47c3-b740-27c5782df960",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "tools",
+                    ":id",
+                    "version",
+                    ":version"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Tool. Formatted as a UUID."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "version",
+                      "description": "(Required) Version number for a Tool.\n\nTools, Configs, Custom Voices, and Prompts are versioned. This versioning system supports iterative development, allowing you to progressively refine tools and revert to previous versions if needed.\n\nVersion numbers are integer values representing different iterations of the Tool. Each update to the Tool increments its version number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.hume.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "af0e0667-9b3b-4635-b768-996fa88b84d3",
+    "name": "Speech-to-speech (EVI) subpackage_tools API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,582 @@
+{
+  "item": [
+    {
+      "id": "0ef63bba-eb50-4bcd-8757-2cbb1b0e8b08",
+      "name": "subpackage_chatGroups",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c721e5dc-c233-4ff7-a0c8-1b86ef3a1028",
+          "name": "List chat_groups",
+          "request": {
+            "name": "List chat_groups",
+            "description": {
+              "content": "Fetches a paginated list of **Chat Groups**.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "chat_groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "ascending_order",
+                  "value": "<boolean>",
+                  "description": "Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true."
+                },
+                {
+                  "disabled": false,
+                  "key": "config_id",
+                  "value": "<uuid>",
+                  "description": "The unique identifier for an EVI configuration.\n\nFilter Chat Groups to only include Chats that used this `config_id` in their most recent Chat."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "23f9a356-7d23-4fda-8c93-3975ba17e7f6",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "chat_groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ascending_order",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "config_id",
+                      "value": "<uuid>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"chat_groups_page\": [\n    {\n      \"first_start_timestamp\": 6136,\n      \"id\": \"string\",\n      \"most_recent_start_timestamp\": 4830,\n      \"num_chats\": 6043,\n      \"active\": true,\n      \"most_recent_chat_id\": \"string\",\n      \"most_recent_config\": {\n        \"id\": \"string\",\n        \"version\": 5260\n      }\n    },\n    {\n      \"first_start_timestamp\": 1889,\n      \"id\": \"string\",\n      \"most_recent_start_timestamp\": 937,\n      \"num_chats\": 8797,\n      \"active\": false,\n      \"most_recent_chat_id\": \"string\",\n      \"most_recent_config\": {\n        \"id\": \"string\",\n        \"version\": 2330\n      }\n    }\n  ],\n  \"page_number\": 7116,\n  \"page_size\": 804,\n  \"pagination_direction\": \"DESC\",\n  \"total_pages\": 6468\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8cd19b92-8149-4b7a-b697-d92f4c1f0a2a",
+          "name": "Get chat_group",
+          "request": {
+            "name": "Get chat_group",
+            "description": {
+              "content": "Fetches a **ChatGroup** by ID, including a paginated list of **Chats** associated with the **ChatGroup**.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "chat_groups",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Chat status to apply to the chat. String from the ChatStatus enum."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "ascending_order",
+                  "value": "<boolean>",
+                  "description": "Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Chat Group. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e3835085-1e16-4114-b31e-097c23c0cc4a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "chat_groups",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "ascending_order",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Chat Group. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"chats_page\": [\n    {\n      \"chat_group_id\": \"string\",\n      \"id\": \"string\",\n      \"start_timestamp\": 4784,\n      \"status\": \"ERROR\",\n      \"config\": {\n        \"id\": \"string\",\n        \"version\": 9961\n      },\n      \"end_timestamp\": 1299,\n      \"event_count\": 7858,\n      \"metadata\": \"string\"\n    },\n    {\n      \"chat_group_id\": \"string\",\n      \"id\": \"string\",\n      \"start_timestamp\": 1372,\n      \"status\": \"USER_ENDED\",\n      \"config\": {\n        \"id\": \"string\",\n        \"version\": 401\n      },\n      \"end_timestamp\": 3783,\n      \"event_count\": 3373,\n      \"metadata\": \"string\"\n    }\n  ],\n  \"first_start_timestamp\": 6641,\n  \"id\": \"string\",\n  \"most_recent_start_timestamp\": 4286,\n  \"num_chats\": 3833,\n  \"page_number\": 9511,\n  \"page_size\": 9392,\n  \"pagination_direction\": \"ASC\",\n  \"total_pages\": 2154,\n  \"active\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "02f89866-5036-4fd3-bc46-8aaa51821d1a",
+          "name": "Get chat group audio",
+          "request": {
+            "name": "Get chat group audio",
+            "description": {
+              "content": "Fetches a paginated list of audio for each **Chat** within the specified **Chat Group**. For more details, see our guide on audio reconstruction [here](/docs/speech-to-speech-evi/faq#can-i-access-the-audio-of-previous-conversations-with-evi).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "chat_groups",
+                ":id",
+                "audio"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "ascending_order",
+                  "value": "<boolean>",
+                  "description": "Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Chat Group. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "08354d3c-63fb-462c-b575-fa15408c2fbe",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "chat_groups",
+                    ":id",
+                    "audio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ascending_order",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Chat Group. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"audio_reconstructions_page\": [\n    {\n      \"id\": \"string\",\n      \"status\": \"IN_PROGRESS\",\n      \"user_id\": \"string\",\n      \"filename\": \"string\",\n      \"modified_at\": 9399,\n      \"signed_audio_url\": \"string\",\n      \"signed_url_expiration_timestamp_millis\": 1966\n    },\n    {\n      \"id\": \"string\",\n      \"status\": \"CANCELLED\",\n      \"user_id\": \"string\",\n      \"filename\": \"string\",\n      \"modified_at\": 1558,\n      \"signed_audio_url\": \"string\",\n      \"signed_url_expiration_timestamp_millis\": 3248\n    }\n  ],\n  \"id\": \"string\",\n  \"num_chats\": 4641,\n  \"page_number\": 1136,\n  \"page_size\": 5407,\n  \"pagination_direction\": \"DESC\",\n  \"total_pages\": 4263,\n  \"user_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8bb8ee18-ccb9-4731-be38-6f7815328858",
+          "name": "List chat events from a specific chat_group",
+          "request": {
+            "name": "List chat events from a specific chat_group",
+            "description": {
+              "content": "Fetches a paginated list of **Chat** events associated with a **Chat Group**.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v0",
+                "evi",
+                "chat_groups",
+                ":id",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<integer>",
+                  "description": "Specifies the maximum number of results to include per page, enabling pagination. The value must be between 1 and 100, inclusive.\n\nFor example, if `page_size` is set to 10, each page will include up to 10 items. Defaults to 10."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_number",
+                  "value": "0",
+                  "description": "Specifies the page number to retrieve, enabling pagination.\n\nThis parameter uses zero-based indexing. For example, setting `page_number` to 0 retrieves the first page of results (items 0-9 if `page_size` is 10), setting `page_number` to 1 retrieves the second page (items 10-19), and so on. Defaults to 0, which retrieves the first page."
+                },
+                {
+                  "disabled": false,
+                  "key": "ascending_order",
+                  "value": "<boolean>",
+                  "description": "Specifies the sorting order of the results based on their creation date. Set to true for ascending order (chronological, with the oldest records first) and false for descending order (reverse-chronological, with the newest records first). Defaults to true."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) Identifier for a Chat Group. Formatted as a UUID."
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) ",
+                "key": "X-Hume-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5d89d68d-db14-43ba-813f-e018d8478474",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v0",
+                    "evi",
+                    "chat_groups",
+                    ":id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page_size",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page_number",
+                      "value": "0"
+                    },
+                    {
+                      "key": "ascending_order",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) Identifier for a Chat Group. Formatted as a UUID."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) ",
+                    "key": "X-Hume-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"events_page\": [\n    {\n      \"chat_id\": \"string\",\n      \"id\": \"string\",\n      \"role\": \"SYSTEM\",\n      \"timestamp\": 8860,\n      \"type\": \"ASSISTANT_PROSODY\",\n      \"emotion_features\": \"string\",\n      \"message_text\": \"string\",\n      \"metadata\": \"string\",\n      \"related_event_id\": \"string\"\n    },\n    {\n      \"chat_id\": \"string\",\n      \"id\": \"string\",\n      \"role\": \"TOOL\",\n      \"timestamp\": 5651,\n      \"type\": \"CHAT_START_MESSAGE\",\n      \"emotion_features\": \"string\",\n      \"message_text\": \"string\",\n      \"metadata\": \"string\",\n      \"related_event_id\": \"string\"\n    }\n  ],\n  \"id\": \"string\",\n  \"page_number\": 7680,\n  \"page_size\": 1663,\n  \"pagination_direction\": \"ASC\",\n  \"total_pages\": 5624\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.hume.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "bb27b261-b789-4f02-bea5-950ec4be42e2",
+    "name": "Speech-to-speech (EVI) subpackage_chatGroups API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

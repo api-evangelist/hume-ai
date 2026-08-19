@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Speech-to-speech (EVI) subpackage_controlPlane API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "subpackage_controlPlane",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.hume.ai/v0/evi/chat/:chat_id/send",
+            "headers": [
+              {
+                "name": "X-Hume-Api-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "chat_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a message to a specific chat."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
