@@ -22,6 +22,12 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/hume-ai.png
 tags:
+  - Artificial Intelligence
+  - Voice
+  - Empathic
+  - Emotion
+  - Multi-Modal
+tags_raw:
   - AI
   - Voice
   - Empathic
@@ -60,7 +66,8 @@ apis:
   description: The subpackage_batch API from Hume AI — 4 operation(s) for subpackage_batch.
   humanURL: https://dev.hume.ai/reference
   baseURL: https://api.hume.ai
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_batch
   properties:
   - type: OpenAPI
@@ -108,7 +115,8 @@ apis:
   description: The subpackage_chats API from Hume AI — 3 operation(s) for subpackage_chats.
   humanURL: https://dev.hume.ai/reference
   baseURL: https://api.hume.ai
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_chats
   properties:
   - type: OpenAPI
@@ -132,7 +140,8 @@ apis:
   description: The subpackage_configs API from Hume AI — 3 operation(s) for subpackage_configs.
   humanURL: https://dev.hume.ai/reference
   baseURL: https://api.hume.ai
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_configs
   properties:
   - type: OpenAPI
@@ -181,7 +190,8 @@ apis:
   description: The subpackage_prompts API from Hume AI — 3 operation(s) for subpackage_prompts.
   humanURL: https://dev.hume.ai/reference
   baseURL: https://api.hume.ai
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_prompts
   properties:
   - type: OpenAPI
@@ -205,7 +215,8 @@ apis:
   description: The subpackage_tools API from Hume AI — 3 operation(s) for subpackage_tools.
   humanURL: https://dev.hume.ai/reference
   baseURL: https://api.hume.ai
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_tools
   properties:
   - type: OpenAPI
@@ -229,7 +240,8 @@ apis:
   description: The subpackage_voices API from Hume AI — 1 operation(s) for subpackage_voices.
   humanURL: https://dev.hume.ai/reference
   baseURL: https://api.hume.ai
-  tags:
+  tags: []
+  tags_raw:
   - subpackage_voices
   properties:
   - type: OpenAPI
