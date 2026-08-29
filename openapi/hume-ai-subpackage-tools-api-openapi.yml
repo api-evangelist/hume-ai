@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Speech-to-speech (EVI) subpackage_tools API
+  title: Speech-to-speech (EVI) Subpackage Tools API
   version: 1.0.0
 servers:
 - url: https://api.hume.ai
@@ -370,6 +370,17 @@ paths:
                 $ref: '#/components/schemas/tools_delete-tool-version_Response_200'
 components:
   schemas:
+    ReturnUserDefinedToolToolType:
+      type: string
+      enum:
+      - BUILTIN
+      - FUNCTION
+      title: ReturnUserDefinedToolToolType
+    tools_delete-tool-version_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_delete-tool-version_Response_200
     posted_user_defined_tool:
       type: object
       properties:
@@ -440,17 +451,6 @@ components:
       - total_pages
       description: A paginated list of user defined tool versions returned from the server
       title: return_paged_user_defined_tools
-    ReturnUserDefinedToolToolType:
-      type: string
-      enum:
-      - BUILTIN
-      - FUNCTION
-      title: ReturnUserDefinedToolToolType
-    tools_update-tool-name_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: tools_update-tool-name_Response_200
     posted_user_defined_tool_name:
       type: object
       properties:
@@ -469,16 +469,11 @@ components:
       - name
       description: A tool name change to be posted to the server
       title: posted_user_defined_tool_name
-    tools_delete-tool_Response_200:
+    tools_update-tool-name_Response_200:
       type: object
       properties: {}
       description: Empty response body
-      title: tools_delete-tool_Response_200
-    tools_delete-tool-version_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: tools_delete-tool-version_Response_200
+      title: tools_update-tool-name_Response_200
     posted_user_defined_tool_version_description:
       type: object
       properties:
@@ -489,34 +484,12 @@ components:
           description: An optional description of the Tool version.
       description: A tool version description to be posted to the server
       title: posted_user_defined_tool_version_description
-    posted_user_defined_tool_version:
-      type: object
-      properties:
-        description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
-        fallback_content:
-          type:
-          - string
-          - 'null'
-          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
-        parameters:
-          type: string
-          description: 'Stringified JSON defining the parameters used by this version of the Tool.
-
-
-            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Tool version.
-      required:
-      - parameters
-      description: A new version of an existing tool to be posted to the server
-      title: posted_user_defined_tool_version
+    ReturnUserDefinedToolVersionType:
+      type: string
+      enum:
+      - FIXED
+      - LATEST
+      title: ReturnUserDefinedToolVersionType
     return_user_defined_tool:
       type: object
       properties:
@@ -581,12 +554,39 @@ components:
       - version_type
       description: A specific tool version returned from the server
       title: return_user_defined_tool
-    ReturnUserDefinedToolVersionType:
-      type: string
-      enum:
-      - FIXED
-      - LATEST
-      title: ReturnUserDefinedToolVersionType
+    posted_user_defined_tool_version:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        parameters:
+          type: string
+          description: 'Stringified JSON defining the parameters used by this version of the Tool.
+
+
+            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+      required:
+      - parameters
+      description: A new version of an existing tool to be posted to the server
+      title: posted_user_defined_tool_version
+    tools_delete-tool_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_delete-tool_Response_200
   securitySchemes:
     bearerAuth:
       type: apiKey

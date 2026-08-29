@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Speech-to-speech (EVI) subpackage_configs API
+  title: Speech-to-speech (EVI) Subpackage Configs API
   version: 1.0.0
 servers:
 - url: https://api.hume.ai
@@ -371,129 +371,139 @@ paths:
                 $ref: '#/components/schemas/configs_delete-config-version_Response_200'
 components:
   schemas:
-    ReturnedWebhookSpecEventsItems:
-      type: string
-      enum:
-      - chat_started
-      - chat_ended
-      - tool_call
-      description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
-      title: ReturnedWebhookSpecEventsItems
-    posted_ellm_model:
+    posted_turn_detection_spec:
       type: object
       properties:
-        allow_short_responses:
+        end_of_turn_silence_ms:
+          type:
+          - integer
+          - 'null'
+          description: How long the user must be silent before EVI considers their turn complete and begins generating a response. Lower values make conversations feel snappier but increase the chance of the agent responding during a mid-thought pause. Higher values give users more room to pause and collect their thoughts before the agent responds. Accepts values between 500 and 3000 milliseconds.
+        prefix_padding_ms:
+          type:
+          - integer
+          - 'null'
+          description: The duration of audio captured before the detected start of speech. This ensures the beginning of an utterance is not clipped. Accepts values between 0 and 1000 milliseconds.
+        speech_detection_threshold:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: How confident the system must be that audio contains speech before it begins processing. Lower values increase sensitivity, capturing softer speech at the cost of more noise-triggered processing. Higher values require clearer, louder audio to register as speech. Accepts values between 0.0 and 1.0.
+      description: A turn detection specification posted to the server
+      title: posted_turn_detection_spec
+    posted_nudge_spec:
+      type: object
+      properties:
+        enabled:
           type:
           - boolean
           - 'null'
-          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
-      description: A eLLM model configuration to be posted to the server
-      title: posted_ellm_model
-    posted_config:
+          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
+        interval_secs:
+          type:
+          - integer
+          - 'null'
+          description: The interval of inactivity (in seconds) before a nudge is triggered.
+      description: A nudge specification posted to the server
+      title: posted_nudge_spec
+    return_nudge_spec:
       type: object
       properties:
-        builtin_tools:
+        enabled:
+          type: boolean
+          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
+        interval_secs:
           type:
-          - array
+          - integer
           - 'null'
-          items:
-            $ref: '#/components/schemas/posted_builtin_tool'
-          description: Built-in tool specification for a Config.
-        ellm_model:
-          $ref: '#/components/schemas/PostedConfigEllmModel'
-        event_messages:
-          $ref: '#/components/schemas/PostedConfigEventMessages'
-        evi_version:
+          description: The interval of inactivity (in seconds) before a nudge is triggered.
+      required:
+      - enabled
+      description: A specific nudge configuration returned from the server
+      title: return_nudge_spec
+    ReturnConfigLanguageModel:
+      type: object
+      properties:
+        model_provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_resource:
+          $ref: '#/components/schemas/LanguageModelType'
+        temperature:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'The model temperature, with values between 0 to 1 (inclusive).
+
+
+            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
+      title: ReturnConfigLanguageModel
+    ReturnConfigPrompt:
+      type: object
+      properties:
+        created_on:
+          type: integer
+          format: int64
+          description: Time at which the Prompt was created. Measured in seconds since the Unix epoch.
+        id:
           type: string
-          description: EVI version to use. Only versions `3` and `4-mini` are supported.
-        interruption:
-          $ref: '#/components/schemas/posted_interruption_spec'
-        language_model:
-          $ref: '#/components/schemas/PostedConfigLanguageModel'
+          description: Identifier for a Prompt. Formatted as a UUID.
+        modified_on:
+          type: integer
+          format: int64
+          description: Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
         name:
           type: string
-          description: Name applied to all versions of a particular Config.
-        nudges:
-          $ref: '#/components/schemas/PostedConfigNudges'
-        prompt:
-          $ref: '#/components/schemas/PostedConfigPrompt'
-        timeouts:
-          $ref: '#/components/schemas/PostedConfigTimeouts'
-        tools:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/posted_user_defined_tool_spec'
-          description: Tool specification for a Config.
-        turn_detection:
-          $ref: '#/components/schemas/posted_turn_detection_spec'
+          description: Name applied to all versions of a particular Prompt.
+        text:
+          type: string
+          description: 'Instructions used to shape EVI''s behavior, responses, and style.
+
+
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
+        version:
+          type: integer
+          description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
         version_description:
           type:
           - string
           - 'null'
-          description: An optional description of the Config version.
-        voice:
-          $ref: '#/components/schemas/VoiceRef'
-          description: A voice specification associated with this Config.
-        webhooks:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/posted_webhook_spec'
-          description: Webhook config specifications for each subscriber.
+          description: An optional description of the Prompt version.
+        version_type:
+          $ref: '#/components/schemas/ReturnPromptVersionType'
       required:
-      - evi_version
+      - created_on
+      - id
+      - modified_on
       - name
-      description: A configuration to be posted to the server
-      title: posted_config
-    VoiceProvider:
-      type: string
-      enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-      title: VoiceProvider
-    posted_event_message_specs:
+      - text
+      - version
+      - version_type
+      title: ReturnConfigPrompt
+    return_event_message_spec:
       type: object
       properties:
-        on_inactivity_timeout:
-          $ref: '#/components/schemas/PostedEventMessageSpecsOnInactivityTimeout'
-        on_max_duration_timeout:
-          $ref: '#/components/schemas/PostedEventMessageSpecsOnMaxDurationTimeout'
-        on_new_chat:
-          $ref: '#/components/schemas/PostedEventMessageSpecsOnNewChat'
-      description: 'Collection of event messages returned by the server.
+        enabled:
+          type: boolean
+          description: 'Boolean indicating if this event message is enabled.
 
 
-        Event messages are sent by the server when specific events occur during a chat session. These messages are used to configure behaviors for EVI, such as controlling how EVI starts a new conversation.'
-      title: posted_event_message_specs
-    posted_config_version_description:
-      type: object
-      properties:
-        version_description:
+            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
+        text:
           type:
           - string
           - 'null'
-          description: An optional description of the Config version.
-      description: A config version description to be posted to the server
-      title: posted_config_version_description
-    ReturnPromptVersionType:
-      type: string
-      enum:
-      - FIXED
-      - LATEST
-      title: ReturnPromptVersionType
-    ReturnConfigEventMessages:
+          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
+      required:
+      - enabled
+      description: A specific event message configuration to be returned from the server
+      title: return_event_message_spec
+    configs_update-config-name_Response_200:
       type: object
-      properties:
-        on_inactivity_timeout:
-          $ref: '#/components/schemas/return_event_message_spec'
-        on_max_duration_timeout:
-          $ref: '#/components/schemas/return_event_message_spec'
-        on_new_chat:
-          $ref: '#/components/schemas/return_event_message_spec'
-      title: ReturnConfigEventMessages
+      properties: {}
+      description: Empty response body
+      title: configs_update-config-name_Response_200
     LanguageModelType:
       type: string
       enum:
@@ -564,581 +574,6 @@ components:
       - custom-language-model
       - hume-evi-3-web-search
       title: LanguageModelType
-    PostedBuiltinToolName:
-      type: string
-      enum:
-      - web_search
-      - hang_up
-      title: PostedBuiltinToolName
-    prompt_expansion_spec:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: 'Boolean indicating whether prompt expansion is enabled.
-
-
-            Defaults to `true`. When set to `false`, no additional instructions are appended to the system prompt, giving full control over the prompt content. Only applicable when using an external supplemental language model.'
-      description: Configuration for prompt expansion behavior.
-      title: prompt_expansion_spec
-    posted_config_prompt_spec:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          description: Identifier for a Prompt. Formatted as a UUID.
-        prompt_expansion:
-          $ref: '#/components/schemas/prompt_expansion_spec'
-        text:
-          type:
-          - string
-          - 'null'
-          description: Text used to create a new prompt for a particular config.
-        version:
-          type:
-          - integer
-          - 'null'
-          description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
-      description: Identifies which prompt to use in a a config OR how to create a new prompt to use in the config
-      title: posted_config_prompt_spec
-    return_ellm_model:
-      type: object
-      properties:
-        allow_short_responses:
-          type: boolean
-          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
-      required:
-      - allow_short_responses
-      description: A specific eLLM Model configuration
-      title: return_ellm_model
-    posted_config_version:
-      type: object
-      properties:
-        builtin_tools:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/posted_builtin_tool'
-          description: Built-in tool specification for a Config.
-        ellm_model:
-          $ref: '#/components/schemas/posted_ellm_model'
-        event_messages:
-          $ref: '#/components/schemas/posted_event_message_specs'
-        evi_version:
-          type: string
-          description: EVI version to use. Only versions `3` and `4-mini` are supported.
-        interruption:
-          $ref: '#/components/schemas/posted_interruption_spec'
-        language_model:
-          $ref: '#/components/schemas/posted_language_model'
-        nudges:
-          $ref: '#/components/schemas/posted_nudge_spec'
-        prompt:
-          $ref: '#/components/schemas/posted_config_prompt_spec'
-        timeouts:
-          $ref: '#/components/schemas/posted_timeout_specs'
-        tools:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/posted_user_defined_tool_spec'
-          description: Tool specification for a Config.
-        turn_detection:
-          $ref: '#/components/schemas/posted_turn_detection_spec'
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Config version.
-        voice:
-          $ref: '#/components/schemas/VoiceRef'
-        webhooks:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/posted_webhook_spec'
-          description: Webhook config specifications for each subscriber.
-      required:
-      - evi_version
-      description: A new version of an existing configuration to be posted to the server
-      title: posted_config_version
-    return_timeout_specs:
-      type: object
-      properties:
-        inactivity:
-          $ref: '#/components/schemas/return_timeout_spec'
-        max_duration:
-          $ref: '#/components/schemas/return_timeout_spec'
-      required:
-      - inactivity
-      - max_duration
-      description: 'Collection of timeout specifications returned by the server.
-
-
-        Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.'
-      title: return_timeout_specs
-    ReturnUserDefinedToolVersionType:
-      type: string
-      enum:
-      - FIXED
-      - LATEST
-      title: ReturnUserDefinedToolVersionType
-    PostedTimeoutSpecsMaxDuration:
-      type: object
-      properties:
-        duration_secs:
-          type:
-          - integer
-          - 'null'
-        enabled:
-          type: boolean
-      required:
-      - enabled
-      title: PostedTimeoutSpecsMaxDuration
-    PostedTimeoutSpecsInactivity:
-      type: object
-      properties:
-        duration_secs:
-          type:
-          - integer
-          - 'null'
-        enabled:
-          type: boolean
-      required:
-      - enabled
-      title: PostedTimeoutSpecsInactivity
-    ReturnVoice:
-      type: object
-      properties:
-        compatible_octave_models:
-          type: array
-          items:
-            type: string
-        id:
-          type: string
-          description: ID of the voice in the `Voice Library`.
-        name:
-          type: string
-          description: Name of the voice in the `Voice Library`.
-        provider:
-          $ref: '#/components/schemas/VoiceProvider'
-      required:
-      - id
-      - name
-      - provider
-      description: An Octave voice available for text-to-speech
-      title: ReturnVoice
-    return_event_message_specs:
-      type: object
-      properties:
-        on_inactivity_timeout:
-          $ref: '#/components/schemas/return_event_message_spec'
-        on_max_duration_timeout:
-          $ref: '#/components/schemas/return_event_message_spec'
-        on_new_chat:
-          $ref: '#/components/schemas/return_event_message_spec'
-      description: 'Collection of event messages returned by the server.
-
-
-        Event messages are sent by the server when specific events occur during a chat session. These messages are used to configure behaviors for EVI, such as controlling how EVI starts a new conversation.'
-      title: return_event_message_specs
-    ReturnConfigLanguageModel:
-      type: object
-      properties:
-        model_provider:
-          $ref: '#/components/schemas/ModelProviderEnum'
-        model_resource:
-          $ref: '#/components/schemas/LanguageModelType'
-        temperature:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'The model temperature, with values between 0 to 1 (inclusive).
-
-
-            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
-      title: ReturnConfigLanguageModel
-    ReturnBuiltinToolToolType:
-      type: string
-      enum:
-      - BUILTIN
-      - FUNCTION
-      title: ReturnBuiltinToolToolType
-    return_event_message_spec:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: 'Boolean indicating if this event message is enabled.
-
-
-            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
-        text:
-          type:
-          - string
-          - 'null'
-          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
-      required:
-      - enabled
-      description: A specific event message configuration to be returned from the server
-      title: return_event_message_spec
-    ReturnConfigEllmModel:
-      type: object
-      properties:
-        allow_short_responses:
-          type: boolean
-          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
-      required:
-      - allow_short_responses
-      title: ReturnConfigEllmModel
-    ReturnConfigNudges:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
-        interval_secs:
-          type:
-          - integer
-          - 'null'
-          description: The interval of inactivity (in seconds) before a nudge is triggered.
-      required:
-      - enabled
-      title: ReturnConfigNudges
-    PostedConfigTimeouts:
-      type: object
-      properties:
-        inactivity:
-          $ref: '#/components/schemas/PostedTimeoutSpecsInactivity'
-        max_duration:
-          $ref: '#/components/schemas/PostedTimeoutSpecsMaxDuration'
-      title: PostedConfigTimeouts
-    VoiceId:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID associated with the **Voice**.
-        provider:
-          $ref: '#/components/schemas/VoiceProvider'
-          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
-      required:
-      - id
-      title: VoiceId
-    configs_update-config-name_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: configs_update-config-name_Response_200
-    return_prompt_public:
-      type: object
-      properties:
-        created_on:
-          type: integer
-          format: int64
-          description: Time at which the Prompt was created. Measured in seconds since the Unix epoch.
-        id:
-          type: string
-          description: Identifier for a Prompt. Formatted as a UUID.
-        modified_on:
-          type: integer
-          format: int64
-          description: Time at which the Prompt was last modified. Measured in seconds since the Unix epoch.
-        name:
-          type: string
-          description: Name applied to all versions of a particular Prompt.
-        prompt_expansion:
-          $ref: '#/components/schemas/prompt_expansion_spec'
-        text:
-          type: string
-          description: 'Instructions used to shape EVI''s behavior, responses, and style.
-
-
-            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
-        version:
-          type: integer
-          description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Prompt version.
-        version_type:
-          type: string
-          description: Indicates whether this prompt is using a fixed version number or auto-updating to the latest version. Values from the VersionType enum.
-      required:
-      - created_on
-      - id
-      - modified_on
-      - name
-      - text
-      - version
-      - version_type
-      description: A specific prompt version returned from the server
-      title: return_prompt_public
-    PostedEventMessageSpecsOnNewChat:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: 'Boolean indicating if this event message is enabled.
-
-
-            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
-        text:
-          type:
-          - string
-          - 'null'
-          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
-      required:
-      - enabled
-      title: PostedEventMessageSpecsOnNewChat
-    posted_builtin_tool:
-      type: object
-      properties:
-        fallback_content:
-          type:
-          - string
-          - 'null'
-          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
-        name:
-          $ref: '#/components/schemas/PostedBuiltinToolName'
-      required:
-      - name
-      description: A configuration of a built-in tool to be posted to the server
-      title: posted_builtin_tool
-    PostedWebhookSpecEventsItems:
-      type: string
-      enum:
-      - chat_started
-      - chat_ended
-      - tool_call
-      description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
-      title: PostedWebhookSpecEventsItems
-    PostedEventMessageSpecsOnMaxDurationTimeout:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: 'Boolean indicating if this event message is enabled.
-
-
-            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
-        text:
-          type:
-          - string
-          - 'null'
-          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
-      required:
-      - enabled
-      title: PostedEventMessageSpecsOnMaxDurationTimeout
-    PostedEventMessageSpecsOnInactivityTimeout:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: 'Boolean indicating if this event message is enabled.
-
-
-            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
-        text:
-          type:
-          - string
-          - 'null'
-          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
-      required:
-      - enabled
-      title: PostedEventMessageSpecsOnInactivityTimeout
-    returned_webhook_spec:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReturnedWebhookSpecEventsItems'
-          description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
-        url:
-          type: string
-          description: The URL where event payloads will be sent. This must be a valid https URL to ensure secure communication. The server at this URL must accept POST requests with a JSON payload.
-      required:
-      - events
-      - url
-      description: Collection of webhook URL endpoints to be returned from the server
-      title: returned_webhook_spec
-    posted_config_name:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name applied to all versions of a particular Config.
-      required:
-      - name
-      description: A configuration name change to be posted to the server
-      title: posted_config_name
-    return_config_public:
-      type: object
-      properties:
-        builtin_tools:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/return_builtin_tool'
-          description: List of built-in tools associated with this Config.
-        created_on:
-          type: integer
-          format: int64
-          description: Time at which the Config was created. Measured in seconds since the Unix epoch.
-        ellm_model:
-          $ref: '#/components/schemas/return_ellm_model'
-        event_messages:
-          $ref: '#/components/schemas/return_event_message_specs'
-        evi_version:
-          type: string
-          description: 'Specifies the EVI version to use. See our [EVI Version  Guide](/docs/speech-to-speech-evi/configuration/evi-version) for differences between versions.
-
-
-            **We''re officially sunsetting EVI versions 1 and 2 on August 30, 2025**. To keep things running smoothly, be sure to [migrate to EVI 3](/docs/speech-to-speech-evi/configuration/evi-version#migrating-to-evi-3) before then.'
-        id:
-          type: string
-          description: Identifier for a Config. Formatted as a UUID.
-        interruption:
-          $ref: '#/components/schemas/return_interruption_spec'
-        language_model:
-          $ref: '#/components/schemas/return_language_model'
-        modified_on:
-          type: integer
-          format: int64
-          description: Time at which the Config was last modified. Measured in seconds since the Unix epoch.
-        name:
-          type: string
-          description: Name applied to all versions of a particular Config.
-        nudges:
-          $ref: '#/components/schemas/return_nudge_spec'
-        prompt:
-          $ref: '#/components/schemas/return_prompt_public'
-        timeouts:
-          $ref: '#/components/schemas/return_timeout_specs'
-        tools:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/return_user_defined_tool'
-          description: List of user-defined tools associated with this Config.
-        turn_detection:
-          $ref: '#/components/schemas/return_turn_detection_spec'
-        version:
-          type: integer
-          description: 'Version number for a Config.
-
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.'
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Config version.
-        voice:
-          $ref: '#/components/schemas/ReturnVoice'
-        webhooks:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/returned_webhook_spec'
-          description: Map of webhooks associated with this config.
-      description: A specific config version returned from the server
-      title: return_config_public
-    posted_webhook_spec:
-      type: object
-      properties:
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/PostedWebhookSpecEventsItems'
-          description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
-        url:
-          type: string
-          description: The URL where event payloads will be sent. This must be a valid https URL to ensure secure communication. The server at this URL must accept POST requests with a JSON payload.
-      required:
-      - events
-      - url
-      description: URL and settings for a specific webhook to be posted to the server
-      title: posted_webhook_spec
-    posted_interruption_spec:
-      type: object
-      properties:
-        min_interruption_ms:
-          type:
-          - integer
-          - 'null'
-          description: How long the user must speak while the agent is outputting audio before the agent stops and yields the floor. Lower values make the agent more responsive to the user speaking up, but increase the chance of noise or backchannels stopping the agent unnecessarily. Higher values make the agent harder to interrupt, allowing it to finish more of its response before yielding. Accepts values between 50 and 2000 milliseconds.
-      description: An interruption specification posted to the server
-      title: posted_interruption_spec
-    return_language_model:
-      type: object
-      properties:
-        model_provider:
-          $ref: '#/components/schemas/ModelProviderEnum'
-        model_resource:
-          $ref: '#/components/schemas/LanguageModelType'
-        temperature:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'The model temperature, with values between 0 to 1 (inclusive).
-
-
-            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
-      description: A specific LanguageModel
-      title: return_language_model
-    PostedConfigEllmModel:
-      type: object
-      properties:
-        allow_short_responses:
-          type:
-          - boolean
-          - 'null'
-          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
-      title: PostedConfigEllmModel
-    posted_timeout_specs:
-      type: object
-      properties:
-        inactivity:
-          $ref: '#/components/schemas/PostedTimeoutSpecsInactivity'
-        max_duration:
-          $ref: '#/components/schemas/PostedTimeoutSpecsMaxDuration'
-      description: 'Collection of timeout specifications returned by the server.
-
-
-        Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.'
-      title: posted_timeout_specs
-    posted_nudge_spec:
-      type: object
-      properties:
-        enabled:
-          type:
-          - boolean
-          - 'null'
-          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
-        interval_secs:
-          type:
-          - integer
-          - 'null'
-          description: The interval of inactivity (in seconds) before a nudge is triggered.
-      description: A nudge specification posted to the server
-      title: posted_nudge_spec
     PostedConfigPrompt:
       type: object
       properties:
@@ -1160,50 +595,6 @@ components:
           - 'null'
           description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
       title: PostedConfigPrompt
-    return_nudge_spec:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
-        interval_secs:
-          type:
-          - integer
-          - 'null'
-          description: The interval of inactivity (in seconds) before a nudge is triggered.
-      required:
-      - enabled
-      description: A specific nudge configuration returned from the server
-      title: return_nudge_spec
-    PostedConfigLanguageModel:
-      type: object
-      properties:
-        model_provider:
-          $ref: '#/components/schemas/ModelProviderEnum'
-        model_resource:
-          $ref: '#/components/schemas/LanguageModelType'
-        temperature:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'The model temperature, with values between 0 to 1 (inclusive).
-
-
-            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
-      title: PostedConfigLanguageModel
-    VoiceName:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of a **Voice**.
-        provider:
-          $ref: '#/components/schemas/VoiceProvider'
-          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
-      required:
-      - name
-      title: VoiceName
     ModelProviderEnum:
       type: string
       enum:
@@ -1220,95 +611,14 @@ components:
       - CEREBRAS
       - X_AI
       title: ModelProviderEnum
-    return_user_defined_tool:
-      type: object
-      properties:
-        created_on:
-          type: integer
-          format: int64
-          description: The timestamp when the first version of this tool was created.
-        description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
-        fallback_content:
-          type:
-          - string
-          - 'null'
-          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
-        id:
-          type: string
-          description: Identifier for a Tool. Formatted as a UUID.
-        modified_on:
-          type: integer
-          format: int64
-          description: The timestamp when this version of the tool was created.
-        name:
-          type: string
-          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
-
-
-            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
-
-            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
-
-
-            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
-        parameters:
-          type: string
-          description: 'Stringified JSON defining the parameters used by this version of the Tool.
-
-
-            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
-        tool_type:
-          $ref: '#/components/schemas/ReturnUserDefinedToolToolType'
-        version:
-          type: integer
-          description: Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Tool version.
-        version_type:
-          $ref: '#/components/schemas/ReturnUserDefinedToolVersionType'
-      required:
-      - created_on
-      - id
-      - modified_on
-      - name
-      - parameters
-      - tool_type
-      - version
-      - version_type
-      description: A specific tool version returned from the server
-      title: return_user_defined_tool
-    PostedConfigNudges:
-      type: object
-      properties:
-        enabled:
-          type:
-          - boolean
-          - 'null'
-          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
-        interval_secs:
-          type:
-          - integer
-          - 'null'
-          description: The interval of inactivity (in seconds) before a nudge is triggered.
-      title: PostedConfigNudges
-    ReturnConfigTimeouts:
+    PostedConfigTimeouts:
       type: object
       properties:
         inactivity:
-          $ref: '#/components/schemas/return_timeout_spec'
+          $ref: '#/components/schemas/PostedTimeoutSpecsInactivity'
         max_duration:
-          $ref: '#/components/schemas/return_timeout_spec'
-      required:
-      - inactivity
-      - max_duration
-      title: ReturnConfigTimeouts
+          $ref: '#/components/schemas/PostedTimeoutSpecsMaxDuration'
+      title: PostedConfigTimeouts
     return_interruption_spec:
       type: object
       properties:
@@ -1319,71 +629,82 @@ components:
           description: How long the user must speak while the agent is outputting audio before the agent stops and yields the floor. Lower values make the agent more responsive to the user speaking up, but increase the chance of noise or backchannels stopping the agent unnecessarily. Higher values make the agent harder to interrupt, allowing it to finish more of its response before yielding. Accepts values between 50 and 2000 milliseconds.
       description: An interruption configuration returned from the server
       title: return_interruption_spec
-    return_builtin_tool:
+    PostedEventMessageSpecsOnInactivityTimeout:
       type: object
       properties:
-        fallback_content:
+        enabled:
+          type: boolean
+          description: 'Boolean indicating if this event message is enabled.
+
+
+            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
+        text:
           type:
           - string
           - 'null'
-          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
+      required:
+      - enabled
+      title: PostedEventMessageSpecsOnInactivityTimeout
+    posted_config:
+      type: object
+      properties:
+        builtin_tools:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/posted_builtin_tool'
+          description: Built-in tool specification for a Config.
+        ellm_model:
+          $ref: '#/components/schemas/PostedConfigEllmModel'
+        event_messages:
+          $ref: '#/components/schemas/PostedConfigEventMessages'
+        evi_version:
+          type: string
+          description: EVI version to use. Only versions `3` and `4-mini` are supported.
+        interruption:
+          $ref: '#/components/schemas/posted_interruption_spec'
+        language_model:
+          $ref: '#/components/schemas/PostedConfigLanguageModel'
         name:
           type: string
-          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
-
-
-            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
-
-            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
-
-
-            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
-        tool_type:
-          $ref: '#/components/schemas/ReturnBuiltinToolToolType'
+          description: Name applied to all versions of a particular Config.
+        nudges:
+          $ref: '#/components/schemas/PostedConfigNudges'
+        prompt:
+          $ref: '#/components/schemas/PostedConfigPrompt'
+        timeouts:
+          $ref: '#/components/schemas/PostedConfigTimeouts'
+        tools:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/posted_user_defined_tool_spec'
+          description: Tool specification for a Config.
+        turn_detection:
+          $ref: '#/components/schemas/posted_turn_detection_spec'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Config version.
+        voice:
+          $ref: '#/components/schemas/VoiceRef'
+          description: A voice specification associated with this Config.
+        webhooks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/posted_webhook_spec'
+          description: Webhook config specifications for each subscriber.
       required:
+      - evi_version
       - name
-      - tool_type
-      description: A specific builtin tool version returned from the server
-      title: return_builtin_tool
-    ReturnUserDefinedToolToolType:
-      type: string
-      enum:
-      - BUILTIN
-      - FUNCTION
-      title: ReturnUserDefinedToolToolType
-    posted_user_defined_tool_spec:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Identifier for a Tool. Formatted as a UUID.
-        version:
-          type:
-          - integer
-          - 'null'
-          description: Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
-      required:
-      - id
-      description: A specific tool identifier to be posted to the server
-      title: posted_user_defined_tool_spec
-    posted_language_model:
-      type: object
-      properties:
-        model_provider:
-          $ref: '#/components/schemas/ModelProviderEnum'
-        model_resource:
-          $ref: '#/components/schemas/LanguageModelType'
-        temperature:
-          type:
-          - number
-          - 'null'
-          format: double
-          description: 'The model temperature, with values between 0 to 1 (inclusive).
-
-
-            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
-      description: A LanguageModel to be posted to the server
-      title: posted_language_model
+      description: A configuration to be posted to the server
+      title: posted_config
     return_config:
       type: object
       properties:
@@ -1463,28 +784,178 @@ components:
           description: Map of webhooks associated with this config.
       description: A specific config version returned from the server
       title: return_config
-    return_turn_detection_spec:
+    PostedBuiltinToolName:
+      type: string
+      enum:
+      - web_search
+      - hang_up
+      title: PostedBuiltinToolName
+    posted_config_version:
       type: object
       properties:
-        end_of_turn_silence_ms:
+        builtin_tools:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/posted_builtin_tool'
+          description: Built-in tool specification for a Config.
+        ellm_model:
+          $ref: '#/components/schemas/posted_ellm_model'
+        event_messages:
+          $ref: '#/components/schemas/posted_event_message_specs'
+        evi_version:
+          type: string
+          description: EVI version to use. Only versions `3` and `4-mini` are supported.
+        interruption:
+          $ref: '#/components/schemas/posted_interruption_spec'
+        language_model:
+          $ref: '#/components/schemas/posted_language_model'
+        nudges:
+          $ref: '#/components/schemas/posted_nudge_spec'
+        prompt:
+          $ref: '#/components/schemas/posted_config_prompt_spec'
+        timeouts:
+          $ref: '#/components/schemas/posted_timeout_specs'
+        tools:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/posted_user_defined_tool_spec'
+          description: Tool specification for a Config.
+        turn_detection:
+          $ref: '#/components/schemas/posted_turn_detection_spec'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Config version.
+        voice:
+          $ref: '#/components/schemas/VoiceRef'
+        webhooks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/posted_webhook_spec'
+          description: Webhook config specifications for each subscriber.
+      required:
+      - evi_version
+      description: A new version of an existing configuration to be posted to the server
+      title: posted_config_version
+    PostedTimeoutSpecsInactivity:
+      type: object
+      properties:
+        duration_secs:
           type:
           - integer
           - 'null'
-          description: How long the user must be silent before EVI considers their turn complete and begins generating a response. Lower values make conversations feel snappier but increase the chance of the agent responding during a mid-thought pause. Higher values give users more room to pause and collect their thoughts before the agent responds. Accepts values between 500 and 3000 milliseconds.
-        prefix_padding_ms:
+        enabled:
+          type: boolean
+      required:
+      - enabled
+      title: PostedTimeoutSpecsInactivity
+    return_event_message_specs:
+      type: object
+      properties:
+        on_inactivity_timeout:
+          $ref: '#/components/schemas/return_event_message_spec'
+        on_max_duration_timeout:
+          $ref: '#/components/schemas/return_event_message_spec'
+        on_new_chat:
+          $ref: '#/components/schemas/return_event_message_spec'
+      description: 'Collection of event messages returned by the server.
+
+
+        Event messages are sent by the server when specific events occur during a chat session. These messages are used to configure behaviors for EVI, such as controlling how EVI starts a new conversation.'
+      title: return_event_message_specs
+    VoiceName:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of a **Voice**.
+        provider:
+          $ref: '#/components/schemas/VoiceProvider'
+          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
+      required:
+      - name
+      title: VoiceName
+    VoiceId:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID associated with the **Voice**.
+        provider:
+          $ref: '#/components/schemas/VoiceProvider'
+          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
+      required:
+      - id
+      title: VoiceId
+    posted_config_prompt_spec:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          description: Identifier for a Prompt. Formatted as a UUID.
+        prompt_expansion:
+          $ref: '#/components/schemas/prompt_expansion_spec'
+        text:
+          type:
+          - string
+          - 'null'
+          description: Text used to create a new prompt for a particular config.
+        version:
           type:
           - integer
           - 'null'
-          description: The duration of audio captured before the detected start of speech. This ensures the beginning of an utterance is not clipped. Accepts values between 0 and 1000 milliseconds.
-        speech_detection_threshold:
+          description: Version number for a Prompt. Version numbers should be integers. The combination of configId and version number is unique.
+      description: Identifies which prompt to use in a a config OR how to create a new prompt to use in the config
+      title: posted_config_prompt_spec
+    posted_config_version_description:
+      type: object
+      properties:
+        version_description:
           type:
-          - number
+          - string
           - 'null'
-          format: double
-          description: How confident the system must be that audio contains speech before it begins processing. Lower values increase sensitivity, capturing softer speech at the cost of more noise-triggered processing. Higher values require clearer, louder audio to register as speech. Accepts values between 0.0 and 1.0.
-      description: A turn detection configuration returned from the server
-      title: return_turn_detection_spec
-    ReturnConfigPrompt:
+          description: An optional description of the Config version.
+      description: A config version description to be posted to the server
+      title: posted_config_version_description
+    ReturnConfigNudges:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
+        interval_secs:
+          type:
+          - integer
+          - 'null'
+          description: The interval of inactivity (in seconds) before a nudge is triggered.
+      required:
+      - enabled
+      title: ReturnConfigNudges
+    return_timeout_specs:
+      type: object
+      properties:
+        inactivity:
+          $ref: '#/components/schemas/return_timeout_spec'
+        max_duration:
+          $ref: '#/components/schemas/return_timeout_spec'
+      required:
+      - inactivity
+      - max_duration
+      description: 'Collection of timeout specifications returned by the server.
+
+
+        Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.'
+      title: return_timeout_specs
+    return_prompt_public:
       type: object
       properties:
         created_on:
@@ -1501,6 +972,8 @@ components:
         name:
           type: string
           description: Name applied to all versions of a particular Prompt.
+        prompt_expansion:
+          $ref: '#/components/schemas/prompt_expansion_spec'
         text:
           type: string
           description: 'Instructions used to shape EVI''s behavior, responses, and style.
@@ -1516,7 +989,8 @@ components:
           - 'null'
           description: An optional description of the Prompt version.
         version_type:
-          $ref: '#/components/schemas/ReturnPromptVersionType'
+          type: string
+          description: Indicates whether this prompt is using a fixed version number or auto-updating to the latest version. Values from the VersionType enum.
       required:
       - created_on
       - id
@@ -1525,12 +999,227 @@ components:
       - text
       - version
       - version_type
-      title: ReturnConfigPrompt
-    configs_delete-config-version_Response_200:
+      description: A specific prompt version returned from the server
+      title: return_prompt_public
+    prompt_expansion_spec:
       type: object
-      properties: {}
-      description: Empty response body
-      title: configs_delete-config-version_Response_200
+      properties:
+        enabled:
+          type: boolean
+          description: 'Boolean indicating whether prompt expansion is enabled.
+
+
+            Defaults to `true`. When set to `false`, no additional instructions are appended to the system prompt, giving full control over the prompt content. Only applicable when using an external supplemental language model.'
+      description: Configuration for prompt expansion behavior.
+      title: prompt_expansion_spec
+    VoiceRef:
+      oneOf:
+      - $ref: '#/components/schemas/VoiceId'
+      - $ref: '#/components/schemas/VoiceName'
+      title: VoiceRef
+    return_user_defined_tool:
+      type: object
+      properties:
+        created_on:
+          type: integer
+          format: int64
+          description: The timestamp when the first version of this tool was created.
+        description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        id:
+          type: string
+          description: Identifier for a Tool. Formatted as a UUID.
+        modified_on:
+          type: integer
+          format: int64
+          description: The timestamp when this version of the tool was created.
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+        parameters:
+          type: string
+          description: 'Stringified JSON defining the parameters used by this version of the Tool.
+
+
+            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
+        tool_type:
+          $ref: '#/components/schemas/ReturnUserDefinedToolToolType'
+        version:
+          type: integer
+          description: Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+        version_type:
+          $ref: '#/components/schemas/ReturnUserDefinedToolVersionType'
+      required:
+      - created_on
+      - id
+      - modified_on
+      - name
+      - parameters
+      - tool_type
+      - version
+      - version_type
+      description: A specific tool version returned from the server
+      title: return_user_defined_tool
+    PostedConfigEventMessages:
+      type: object
+      properties:
+        on_inactivity_timeout:
+          $ref: '#/components/schemas/PostedEventMessageSpecsOnInactivityTimeout'
+        on_max_duration_timeout:
+          $ref: '#/components/schemas/PostedEventMessageSpecsOnMaxDurationTimeout'
+        on_new_chat:
+          $ref: '#/components/schemas/PostedEventMessageSpecsOnNewChat'
+      title: PostedConfigEventMessages
+    posted_user_defined_tool_spec:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier for a Tool. Formatted as a UUID.
+        version:
+          type:
+          - integer
+          - 'null'
+          description: Version number for a Tool. Version numbers should be integers. The combination of configId and version number is unique.
+      required:
+      - id
+      description: A specific tool identifier to be posted to the server
+      title: posted_user_defined_tool_spec
+    posted_builtin_tool:
+      type: object
+      properties:
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        name:
+          $ref: '#/components/schemas/PostedBuiltinToolName'
+      required:
+      - name
+      description: A configuration of a built-in tool to be posted to the server
+      title: posted_builtin_tool
+    return_builtin_tool:
+      type: object
+      properties:
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+        tool_type:
+          $ref: '#/components/schemas/ReturnBuiltinToolToolType'
+      required:
+      - name
+      - tool_type
+      description: A specific builtin tool version returned from the server
+      title: return_builtin_tool
+    PostedEventMessageSpecsOnMaxDurationTimeout:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: 'Boolean indicating if this event message is enabled.
+
+
+            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
+        text:
+          type:
+          - string
+          - 'null'
+          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
+      required:
+      - enabled
+      title: PostedEventMessageSpecsOnMaxDurationTimeout
+    PostedEventMessageSpecsOnNewChat:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: 'Boolean indicating if this event message is enabled.
+
+
+            If set to `true`, a message will be sent when the circumstances for the specific event are met.'
+        text:
+          type:
+          - string
+          - 'null'
+          description: Text to use as the event message when the corresponding event occurs. If no text is specified, EVI will generate an appropriate message based on its current context and the system prompt.
+      required:
+      - enabled
+      title: PostedEventMessageSpecsOnNewChat
+    returned_webhook_spec:
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReturnedWebhookSpecEventsItems'
+          description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
+        url:
+          type: string
+          description: The URL where event payloads will be sent. This must be a valid https URL to ensure secure communication. The server at this URL must accept POST requests with a JSON payload.
+      required:
+      - events
+      - url
+      description: Collection of webhook URL endpoints to be returned from the server
+      title: returned_webhook_spec
+    ReturnConfigEventMessages:
+      type: object
+      properties:
+        on_inactivity_timeout:
+          $ref: '#/components/schemas/return_event_message_spec'
+        on_max_duration_timeout:
+          $ref: '#/components/schemas/return_event_message_spec'
+        on_new_chat:
+          $ref: '#/components/schemas/return_event_message_spec'
+      title: ReturnConfigEventMessages
+    ReturnBuiltinToolToolType:
+      type: string
+      enum:
+      - BUILTIN
+      - FUNCTION
+      title: ReturnBuiltinToolToolType
+    ReturnedWebhookSpecEventsItems:
+      type: string
+      enum:
+      - chat_started
+      - chat_ended
+      - tool_call
+      description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
+      title: ReturnedWebhookSpecEventsItems
     return_timeout_spec:
       type: object
       properties:
@@ -1549,11 +1238,84 @@ components:
       - enabled
       description: A specific timeout configuration to be returned from the server
       title: return_timeout_spec
-    configs_delete-config_Response_200:
+    posted_webhook_spec:
       type: object
-      properties: {}
-      description: Empty response body
-      title: configs_delete-config_Response_200
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostedWebhookSpecEventsItems'
+          description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
+        url:
+          type: string
+          description: The URL where event payloads will be sent. This must be a valid https URL to ensure secure communication. The server at this URL must accept POST requests with a JSON payload.
+      required:
+      - events
+      - url
+      description: URL and settings for a specific webhook to be posted to the server
+      title: posted_webhook_spec
+    ReturnConfigTimeouts:
+      type: object
+      properties:
+        inactivity:
+          $ref: '#/components/schemas/return_timeout_spec'
+        max_duration:
+          $ref: '#/components/schemas/return_timeout_spec'
+      required:
+      - inactivity
+      - max_duration
+      title: ReturnConfigTimeouts
+    posted_interruption_spec:
+      type: object
+      properties:
+        min_interruption_ms:
+          type:
+          - integer
+          - 'null'
+          description: How long the user must speak while the agent is outputting audio before the agent stops and yields the floor. Lower values make the agent more responsive to the user speaking up, but increase the chance of noise or backchannels stopping the agent unnecessarily. Higher values make the agent harder to interrupt, allowing it to finish more of its response before yielding. Accepts values between 50 and 2000 milliseconds.
+      description: An interruption specification posted to the server
+      title: posted_interruption_spec
+    posted_ellm_model:
+      type: object
+      properties:
+        allow_short_responses:
+          type:
+          - boolean
+          - 'null'
+          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
+      description: A eLLM model configuration to be posted to the server
+      title: posted_ellm_model
+    PostedWebhookSpecEventsItems:
+      type: string
+      enum:
+      - chat_started
+      - chat_ended
+      - tool_call
+      description: "The list of events the specified URL is subscribed to. \n\nSee our [webhooks guide](/docs/speech-to-speech-evi/configuration/build-a-configuration#supported-events) for more information on supported events."
+      title: PostedWebhookSpecEventsItems
+    ReturnUserDefinedToolVersionType:
+      type: string
+      enum:
+      - FIXED
+      - LATEST
+      title: ReturnUserDefinedToolVersionType
+    PostedConfigLanguageModel:
+      type: object
+      properties:
+        model_provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_resource:
+          $ref: '#/components/schemas/LanguageModelType'
+        temperature:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'The model temperature, with values between 0 to 1 (inclusive).
+
+
+            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
+      title: PostedConfigLanguageModel
     return_paged_configs:
       type: object
       properties:
@@ -1581,7 +1343,125 @@ components:
       - total_pages
       description: A paginated list of config versions returned from the server
       title: return_paged_configs
-    PostedConfigEventMessages:
+    return_config_public:
+      type: object
+      properties:
+        builtin_tools:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/return_builtin_tool'
+          description: List of built-in tools associated with this Config.
+        created_on:
+          type: integer
+          format: int64
+          description: Time at which the Config was created. Measured in seconds since the Unix epoch.
+        ellm_model:
+          $ref: '#/components/schemas/return_ellm_model'
+        event_messages:
+          $ref: '#/components/schemas/return_event_message_specs'
+        evi_version:
+          type: string
+          description: 'Specifies the EVI version to use. See our [EVI Version  Guide](/docs/speech-to-speech-evi/configuration/evi-version) for differences between versions.
+
+
+            **We''re officially sunsetting EVI versions 1 and 2 on August 30, 2025**. To keep things running smoothly, be sure to [migrate to EVI 3](/docs/speech-to-speech-evi/configuration/evi-version#migrating-to-evi-3) before then.'
+        id:
+          type: string
+          description: Identifier for a Config. Formatted as a UUID.
+        interruption:
+          $ref: '#/components/schemas/return_interruption_spec'
+        language_model:
+          $ref: '#/components/schemas/return_language_model'
+        modified_on:
+          type: integer
+          format: int64
+          description: Time at which the Config was last modified. Measured in seconds since the Unix epoch.
+        name:
+          type: string
+          description: Name applied to all versions of a particular Config.
+        nudges:
+          $ref: '#/components/schemas/return_nudge_spec'
+        prompt:
+          $ref: '#/components/schemas/return_prompt_public'
+        timeouts:
+          $ref: '#/components/schemas/return_timeout_specs'
+        tools:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/return_user_defined_tool'
+          description: List of user-defined tools associated with this Config.
+        turn_detection:
+          $ref: '#/components/schemas/return_turn_detection_spec'
+        version:
+          type: integer
+          description: 'Version number for a Config.
+
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Config version.
+        voice:
+          $ref: '#/components/schemas/ReturnVoice'
+        webhooks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/returned_webhook_spec'
+          description: Map of webhooks associated with this config.
+      description: A specific config version returned from the server
+      title: return_config_public
+    PostedConfigEllmModel:
+      type: object
+      properties:
+        allow_short_responses:
+          type:
+          - boolean
+          - 'null'
+          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
+      title: PostedConfigEllmModel
+    return_ellm_model:
+      type: object
+      properties:
+        allow_short_responses:
+          type: boolean
+          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
+      required:
+      - allow_short_responses
+      description: A specific eLLM Model configuration
+      title: return_ellm_model
+    PostedTimeoutSpecsMaxDuration:
+      type: object
+      properties:
+        duration_secs:
+          type:
+          - integer
+          - 'null'
+        enabled:
+          type: boolean
+      required:
+      - enabled
+      title: PostedTimeoutSpecsMaxDuration
+    ReturnConfigEllmModel:
+      type: object
+      properties:
+        allow_short_responses:
+          type: boolean
+          description: Boolean indicating if the eLLM is allowed to generate short responses (new EVI 3 configs default to disabled; new versions inherit prior value when omitted).
+      required:
+      - allow_short_responses
+      title: ReturnConfigEllmModel
+    posted_event_message_specs:
       type: object
       properties:
         on_inactivity_timeout:
@@ -1590,8 +1470,30 @@ components:
           $ref: '#/components/schemas/PostedEventMessageSpecsOnMaxDurationTimeout'
         on_new_chat:
           $ref: '#/components/schemas/PostedEventMessageSpecsOnNewChat'
-      title: PostedConfigEventMessages
-    posted_turn_detection_spec:
+      description: 'Collection of event messages returned by the server.
+
+
+        Event messages are sent by the server when specific events occur during a chat session. These messages are used to configure behaviors for EVI, such as controlling how EVI starts a new conversation.'
+      title: posted_event_message_specs
+    ReturnPromptVersionType:
+      type: string
+      enum:
+      - FIXED
+      - LATEST
+      title: ReturnPromptVersionType
+    ReturnUserDefinedToolToolType:
+      type: string
+      enum:
+      - BUILTIN
+      - FUNCTION
+      title: ReturnUserDefinedToolToolType
+    VoiceProvider:
+      type: string
+      enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+      title: VoiceProvider
+    return_turn_detection_spec:
       type: object
       properties:
         end_of_turn_silence_ms:
@@ -1610,13 +1512,111 @@ components:
           - 'null'
           format: double
           description: How confident the system must be that audio contains speech before it begins processing. Lower values increase sensitivity, capturing softer speech at the cost of more noise-triggered processing. Higher values require clearer, louder audio to register as speech. Accepts values between 0.0 and 1.0.
-      description: A turn detection specification posted to the server
-      title: posted_turn_detection_spec
-    VoiceRef:
-      oneOf:
-      - $ref: '#/components/schemas/VoiceId'
-      - $ref: '#/components/schemas/VoiceName'
-      title: VoiceRef
+      description: A turn detection configuration returned from the server
+      title: return_turn_detection_spec
+    posted_config_name:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name applied to all versions of a particular Config.
+      required:
+      - name
+      description: A configuration name change to be posted to the server
+      title: posted_config_name
+    configs_delete-config-version_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: configs_delete-config-version_Response_200
+    posted_timeout_specs:
+      type: object
+      properties:
+        inactivity:
+          $ref: '#/components/schemas/PostedTimeoutSpecsInactivity'
+        max_duration:
+          $ref: '#/components/schemas/PostedTimeoutSpecsMaxDuration'
+      description: 'Collection of timeout specifications returned by the server.
+
+
+        Timeouts are sent by the server when specific time-based events occur during a chat session. These specifications set the inactivity timeout and the maximum duration an EVI WebSocket connection can stay open before it is automatically disconnected.'
+      title: posted_timeout_specs
+    return_language_model:
+      type: object
+      properties:
+        model_provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_resource:
+          $ref: '#/components/schemas/LanguageModelType'
+        temperature:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'The model temperature, with values between 0 to 1 (inclusive).
+
+
+            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
+      description: A specific LanguageModel
+      title: return_language_model
+    PostedConfigNudges:
+      type: object
+      properties:
+        enabled:
+          type:
+          - boolean
+          - 'null'
+          description: If true, EVI will 'nudge' the user to speak after a determined interval of silence.
+        interval_secs:
+          type:
+          - integer
+          - 'null'
+          description: The interval of inactivity (in seconds) before a nudge is triggered.
+      title: PostedConfigNudges
+    ReturnVoice:
+      type: object
+      properties:
+        compatible_octave_models:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+          description: ID of the voice in the `Voice Library`.
+        name:
+          type: string
+          description: Name of the voice in the `Voice Library`.
+        provider:
+          $ref: '#/components/schemas/VoiceProvider'
+      required:
+      - id
+      - name
+      - provider
+      description: An Octave voice available for text-to-speech
+      title: ReturnVoice
+    configs_delete-config_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: configs_delete-config_Response_200
+    posted_language_model:
+      type: object
+      properties:
+        model_provider:
+          $ref: '#/components/schemas/ModelProviderEnum'
+        model_resource:
+          $ref: '#/components/schemas/LanguageModelType'
+        temperature:
+          type:
+          - number
+          - 'null'
+          format: double
+          description: 'The model temperature, with values between 0 to 1 (inclusive).
+
+
+            Controls the randomness of the LLM''s output, with values closer to 0 yielding focused, deterministic responses and values closer to 1 producing more creative, diverse responses.'
+      description: A LanguageModel to be posted to the server
+      title: posted_language_model
   securitySchemes:
     bearerAuth:
       type: apiKey

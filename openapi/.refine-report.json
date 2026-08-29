@@ -1,30 +1,55 @@
 {
   "provider": "hume-ai",
   "sources": [
-    "hume-ai-default-api-openapi.yml",
-    "hume-ai-subpackage-batch-api-openapi.yml",
-    "hume-ai-subpackage-chatgroups-api-openapi.yml",
-    "hume-ai-subpackage-chats-api-openapi.yml",
-    "hume-ai-subpackage-configs-api-openapi.yml",
-    "hume-ai-subpackage-controlplane-api-openapi.yml",
-    "hume-ai-subpackage-prompts-api-openapi.yml",
-    "hume-ai-subpackage-tools-api-openapi.yml",
-    "hume-ai-subpackage-voices-api-openapi.yml"
+    "_original/hume-ai-evi-openapi.yml",
+    "_original/hume-ai-expression-openapi.yml",
+    "_original/hume-ai-tts-openapi.yml",
+    "_original/hume-ai-voices-openapi.yml"
   ],
   "outputs": [
-    "hume-ai-default-api-openapi.yml",
-    "hume-ai-subpackage-batch-api-openapi.yml",
+    "hume-ai-speech-to-speech-evi-api-openapi.yml",
     "hume-ai-subpackage-chatgroups-api-openapi.yml",
     "hume-ai-subpackage-chats-api-openapi.yml",
     "hume-ai-subpackage-configs-api-openapi.yml",
     "hume-ai-subpackage-controlplane-api-openapi.yml",
     "hume-ai-subpackage-prompts-api-openapi.yml",
     "hume-ai-subpackage-tools-api-openapi.yml",
+    "hume-ai-subpackage-batch-api-openapi.yml",
+    "hume-ai-default-api-openapi.yml",
     "hume-ai-subpackage-voices-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "hume-ai-evi-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "hume-ai-evi-openapi.yml: tagged webhooks POST chat-ended -> Speech To Speech (EVI)",
+    "hume-ai-evi-openapi.yml: tagged webhooks POST chat-started -> Speech To Speech (EVI)",
+    "hume-ai-evi-openapi.yml: tagged webhooks POST tool-call -> Speech To Speech (EVI)",
+    "hume-ai-evi-openapi.yml: declared missing tag: Speech To Speech (EVI)",
+    "hume-ai-evi-openapi.yml: declared missing tag: subpackage_chatGroups",
+    "hume-ai-evi-openapi.yml: declared missing tag: subpackage_chats",
+    "hume-ai-evi-openapi.yml: declared missing tag: subpackage_configs",
+    "hume-ai-evi-openapi.yml: declared missing tag: subpackage_controlPlane",
+    "hume-ai-evi-openapi.yml: declared missing tag: subpackage_prompts",
+    "hume-ai-evi-openapi.yml: declared missing tag: subpackage_tools",
+    "hume-ai-expression-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0; renamed 66 component key(s) illegal in 3.x (e.g. batch:BoundingBox)",
+    "hume-ai-expression-openapi.yml: declared missing tag: subpackage_batch",
+    "hume-ai-tts-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "hume-ai-tts-openapi.yml: declared missing tag: ",
+    "hume-ai-voices-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "hume-ai-voices-openapi.yml: declared missing tag: subpackage_voices"
+  ],
+  "skipped": [
+    "hume-ai-default-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-batch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-chatgroups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-chats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-configs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-controlplane-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-prompts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-subpackage-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

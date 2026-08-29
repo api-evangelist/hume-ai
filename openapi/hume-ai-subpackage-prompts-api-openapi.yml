@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Speech-to-speech (EVI) subpackage_prompts API
+  title: Speech-to-speech (EVI) Subpackage Prompts API
   version: 1.0.0
 servers:
 - url: https://api.hume.ai
@@ -370,66 +370,6 @@ paths:
                 $ref: '#/components/schemas/prompts_delete-prompt-version_Response_200'
 components:
   schemas:
-    posted_prompt_name:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name applied to all versions of a particular Prompt.
-      required:
-      - name
-      description: A prompt name change to be posted to the server
-      title: posted_prompt_name
-    posted_prompt:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name applied to all versions of a particular Prompt.
-        prompt_expansion:
-          $ref: '#/components/schemas/prompt_expansion_spec'
-        text:
-          type: string
-          description: 'Instructions used to shape EVI''s behavior, responses, and style.
-
-
-            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Prompt version.
-      required:
-      - name
-      - text
-      description: A prompt to be posted to the server
-      title: posted_prompt
-    prompts_delete-prompt-version_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: prompts_delete-prompt-version_Response_200
-    prompts_update-prompt-name_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: prompts_update-prompt-name_Response_200
-    patched_prompt_version_description:
-      type: object
-      properties:
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Prompt version.
-      description: A prompt version description to be patched to the server
-      title: patched_prompt_version_description
-    ReturnPromptVersionType:
-      type: string
-      enum:
-      - FIXED
-      - LATEST
-      title: ReturnPromptVersionType
     posted_prompt_version:
       type: object
       properties:
@@ -450,6 +390,11 @@ components:
       - text
       description: A new version of an existing prompt to be posted to the server
       title: posted_prompt_version
+    prompts_delete-prompt_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: prompts_delete-prompt_Response_200
     return_prompt:
       type: object
       properties:
@@ -493,22 +438,57 @@ components:
       - version_type
       description: A Prompt associated with this Config.
       title: return_prompt
-    prompts_delete-prompt_Response_200:
+    prompts_delete-prompt-version_Response_200:
       type: object
       properties: {}
       description: Empty response body
-      title: prompts_delete-prompt_Response_200
-    prompt_expansion_spec:
+      title: prompts_delete-prompt-version_Response_200
+    posted_prompt_name:
       type: object
       properties:
-        enabled:
-          type: boolean
-          description: 'Boolean indicating whether prompt expansion is enabled.
+        name:
+          type: string
+          description: Name applied to all versions of a particular Prompt.
+      required:
+      - name
+      description: A prompt name change to be posted to the server
+      title: posted_prompt_name
+    return_paged_prompts:
+      type: object
+      properties:
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
 
 
-            Defaults to `true`. When set to `false`, no additional instructions are appended to the system prompt, giving full control over the prompt content. Only applicable when using an external supplemental language model.'
-      description: Configuration for prompt expansion behavior.
-      title: prompt_expansion_spec
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        prompts_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_prompt'
+          description: List of prompts returned for the specified `page_number` and `page_size`.
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - page_number
+      - page_size
+      - prompts_page
+      - total_pages
+      description: A paginated list of prompt versions returned from the server
+      title: return_paged_prompts
+    ReturnPromptVersionType:
+      type: string
+      enum:
+      - FIXED
+      - LATEST
+      title: ReturnPromptVersionType
     return_prompt_public:
       type: object
       properties:
@@ -555,36 +535,56 @@ components:
       - version_type
       description: A specific prompt version returned from the server
       title: return_prompt_public
-    return_paged_prompts:
+    posted_prompt:
       type: object
       properties:
-        page_number:
-          type: integer
-          description: 'The page number of the returned list.
+        name:
+          type: string
+          description: Name applied to all versions of a particular Prompt.
+        prompt_expansion:
+          $ref: '#/components/schemas/prompt_expansion_spec'
+        text:
+          type: string
+          description: 'Instructions used to shape EVI''s behavior, responses, and style.
 
 
-            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
-        page_size:
-          type: integer
-          description: 'The maximum number of items returned per page.
-
-
-            This value corresponds to the `page_size` parameter specified in the request.'
-        prompts_page:
-          type: array
-          items:
-            $ref: '#/components/schemas/return_prompt'
-          description: List of prompts returned for the specified `page_number` and `page_size`.
-        total_pages:
-          type: integer
-          description: The total number of pages in the collection.
+            You can use the Prompt to define a specific goal or role for EVI, specifying how it should act or what it should focus on during the conversation. For example, EVI can be instructed to act as a customer support representative, a fitness coach, or a travel advisor, each with its own set of behaviors and response styles. For help writing a system prompt, see our [Prompting Guide](/docs/speech-to-speech-evi/guides/prompting).'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
       required:
-      - page_number
-      - page_size
-      - prompts_page
-      - total_pages
-      description: A paginated list of prompt versions returned from the server
-      title: return_paged_prompts
+      - name
+      - text
+      description: A prompt to be posted to the server
+      title: posted_prompt
+    patched_prompt_version_description:
+      type: object
+      properties:
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Prompt version.
+      description: A prompt version description to be patched to the server
+      title: patched_prompt_version_description
+    prompt_expansion_spec:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: 'Boolean indicating whether prompt expansion is enabled.
+
+
+            Defaults to `true`. When set to `false`, no additional instructions are appended to the system prompt, giving full control over the prompt content. Only applicable when using an external supplemental language model.'
+      description: Configuration for prompt expansion behavior.
+      title: prompt_expansion_spec
+    prompts_update-prompt-name_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: prompts_update-prompt-name_Response_200
   securitySchemes:
     bearerAuth:
       type: apiKey

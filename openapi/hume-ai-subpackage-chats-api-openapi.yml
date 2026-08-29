@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Speech-to-speech (EVI) subpackage_chats API
+  title: Speech-to-speech (EVI) Subpackage Chats API
   version: 1.0.0
 servers:
 - url: https://api.hume.ai
@@ -146,107 +146,6 @@ paths:
                 $ref: '#/components/schemas/ReturnChatAudioReconstruction'
 components:
   schemas:
-    ReturnChatStatus:
-      type: string
-      enum:
-      - ACTIVE
-      - USER_ENDED
-      - USER_TIMEOUT
-      - MAX_DURATION_TIMEOUT
-      - INACTIVITY_TIMEOUT
-      - ERROR
-      title: ReturnChatStatus
-    ReturnChatAudioReconstruction:
-      type: object
-      properties:
-        filename:
-          type:
-          - string
-          - 'null'
-          description: Name of the chat audio reconstruction file.
-        id:
-          type: string
-          description: Identifier for the chat. Formatted as a UUID.
-        modified_at:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          description: The timestamp of the most recent status change for this audio reconstruction, formatted milliseconds since the Unix epoch.
-        signed_audio_url:
-          type:
-          - string
-          - 'null'
-          description: Signed URL used to download the chat audio reconstruction file.
-        signed_url_expiration_timestamp_millis:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          description: The timestamp when the signed URL will expire, formatted as a Unix epoch milliseconds.
-        status:
-          $ref: '#/components/schemas/ReturnChatAudioReconstructionStatus'
-        user_id:
-          type: string
-          description: Identifier for the user that owns this chat. Formatted as a UUID.
-      required:
-      - id
-      - status
-      - user_id
-      description: List of chat audio reconstructions returned for the specified page number and page size.
-      title: ReturnChatAudioReconstruction
-    return_config_spec:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Identifier for a Config. Formatted as a UUID.
-        version:
-          type:
-          - integer
-          - 'null'
-          description: 'Version number for a Config.
-
-
-            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
-
-
-            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.'
-      required:
-      - id
-      description: The Config associated with this Chat.
-      title: return_config_spec
-    ReturnChatEventRole:
-      type: string
-      enum:
-      - USER
-      - AGENT
-      - SYSTEM
-      - TOOL
-      title: ReturnChatEventRole
-    ReturnChatEventType:
-      type: string
-      enum:
-      - AGENT_MESSAGE
-      - ASSISTANT_PROSODY
-      - CHAT_START_MESSAGE
-      - CHAT_END_MESSAGE
-      - FUNCTION_CALL
-      - FUNCTION_CALL_RESPONSE
-      - PAUSE_ONSET
-      - RESUME_ONSET
-      - SESSION_SETTINGS
-      - SYSTEM_PROMPT
-      - USER_INTERRUPTION
-      - USER_MESSAGE
-      - USER_RECORDING_START_MESSAGE
-      title: ReturnChatEventType
-    ReturnChatPagedEventsPaginationDirection:
-      type: string
-      enum:
-      - ASC
-      - DESC
-      title: ReturnChatPagedEventsPaginationDirection
     ReturnChatPagedEventsStatus:
       type: string
       enum:
@@ -257,54 +156,12 @@ components:
       - INACTIVITY_TIMEOUT
       - ERROR
       title: ReturnChatPagedEventsStatus
-    ReturnChatAudioReconstructionStatus:
-      type: string
-      enum:
-      - QUEUED
-      - IN_PROGRESS
-      - COMPLETE
-      - ERROR
-      - CANCELLED
-      title: ReturnChatAudioReconstructionStatus
-    return_paged_chats:
-      type: object
-      properties:
-        chats_page:
-          type: array
-          items:
-            $ref: '#/components/schemas/return_chat'
-          description: List of Chats and their metadata returned for the specified `page_number` and `page_size`.
-        page_number:
-          type: integer
-          description: 'The page number of the returned list.
-
-
-            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
-        page_size:
-          type: integer
-          description: 'The maximum number of items returned per page.
-
-
-            This value corresponds to the `page_size` parameter specified in the request.'
-        pagination_direction:
-          $ref: '#/components/schemas/ReturnPagedChatsPaginationDirection'
-        total_pages:
-          type: integer
-          description: The total number of pages in the collection.
-      required:
-      - chats_page
-      - page_number
-      - page_size
-      - pagination_direction
-      - total_pages
-      description: A paginated list of chats returned from the server
-      title: return_paged_chats
-    ReturnPagedChatsPaginationDirection:
+    ReturnChatPagedEventsPaginationDirection:
       type: string
       enum:
       - ASC
       - DESC
-      title: ReturnPagedChatsPaginationDirection
+      title: ReturnChatPagedEventsPaginationDirection
     return_chat:
       type: object
       properties:
@@ -346,6 +203,149 @@ components:
       - status
       description: A description of chat and its status
       title: return_chat
+    ReturnChatAudioReconstruction:
+      type: object
+      properties:
+        filename:
+          type:
+          - string
+          - 'null'
+          description: Name of the chat audio reconstruction file.
+        id:
+          type: string
+          description: Identifier for the chat. Formatted as a UUID.
+        modified_at:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The timestamp of the most recent status change for this audio reconstruction, formatted milliseconds since the Unix epoch.
+        signed_audio_url:
+          type:
+          - string
+          - 'null'
+          description: Signed URL used to download the chat audio reconstruction file.
+        signed_url_expiration_timestamp_millis:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The timestamp when the signed URL will expire, formatted as a Unix epoch milliseconds.
+        status:
+          $ref: '#/components/schemas/ReturnChatAudioReconstructionStatus'
+        user_id:
+          type: string
+          description: Identifier for the user that owns this chat. Formatted as a UUID.
+      required:
+      - id
+      - status
+      - user_id
+      description: List of chat audio reconstructions returned for the specified page number and page size.
+      title: ReturnChatAudioReconstruction
+    ReturnChatEventType:
+      type: string
+      enum:
+      - AGENT_MESSAGE
+      - ASSISTANT_PROSODY
+      - CHAT_START_MESSAGE
+      - CHAT_END_MESSAGE
+      - FUNCTION_CALL
+      - FUNCTION_CALL_RESPONSE
+      - PAUSE_ONSET
+      - RESUME_ONSET
+      - SESSION_SETTINGS
+      - SYSTEM_PROMPT
+      - USER_INTERRUPTION
+      - USER_MESSAGE
+      - USER_RECORDING_START_MESSAGE
+      title: ReturnChatEventType
+    ReturnPagedChatsPaginationDirection:
+      type: string
+      enum:
+      - ASC
+      - DESC
+      title: ReturnPagedChatsPaginationDirection
+    return_paged_chats:
+      type: object
+      properties:
+        chats_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_chat'
+          description: List of Chats and their metadata returned for the specified `page_number` and `page_size`.
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        pagination_direction:
+          $ref: '#/components/schemas/ReturnPagedChatsPaginationDirection'
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - chats_page
+      - page_number
+      - page_size
+      - pagination_direction
+      - total_pages
+      description: A paginated list of chats returned from the server
+      title: return_paged_chats
+    return_chat_event:
+      type: object
+      properties:
+        chat_id:
+          type: string
+          description: Identifier for the Chat this event occurred in. Formatted as a UUID.
+        emotion_features:
+          type:
+          - string
+          - 'null'
+          description: 'Stringified JSON containing the prosody model inference results.
+
+
+            EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio. Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.'
+        id:
+          type: string
+          description: Identifier for a Chat Event. Formatted as a UUID.
+        message_text:
+          type:
+          - string
+          - 'null'
+          description: The text of the Chat Event. This field contains the message content for each event type listed in the `type` field.
+        metadata:
+          type:
+          - string
+          - 'null'
+          description: Stringified JSON with additional metadata about the chat event.
+        related_event_id:
+          type:
+          - string
+          - 'null'
+          description: Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
+        role:
+          $ref: '#/components/schemas/ReturnChatEventRole'
+        timestamp:
+          type: integer
+          format: int64
+          description: Time at which the Chat Event occurred. Measured in seconds since the Unix epoch.
+        type:
+          $ref: '#/components/schemas/ReturnChatEventType'
+      required:
+      - chat_id
+      - id
+      - role
+      - timestamp
+      - type
+      description: A description of a single event in a chat returned from the server
+      title: return_chat_event
     return_chat_paged_events:
       type: object
       properties:
@@ -408,54 +408,54 @@ components:
       - total_pages
       description: A description of chat status with a paginated list of chat events returned from the server
       title: return_chat_paged_events
-    return_chat_event:
+    ReturnChatAudioReconstructionStatus:
+      type: string
+      enum:
+      - QUEUED
+      - IN_PROGRESS
+      - COMPLETE
+      - ERROR
+      - CANCELLED
+      title: ReturnChatAudioReconstructionStatus
+    ReturnChatStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - USER_ENDED
+      - USER_TIMEOUT
+      - MAX_DURATION_TIMEOUT
+      - INACTIVITY_TIMEOUT
+      - ERROR
+      title: ReturnChatStatus
+    ReturnChatEventRole:
+      type: string
+      enum:
+      - USER
+      - AGENT
+      - SYSTEM
+      - TOOL
+      title: ReturnChatEventRole
+    return_config_spec:
       type: object
       properties:
-        chat_id:
-          type: string
-          description: Identifier for the Chat this event occurred in. Formatted as a UUID.
-        emotion_features:
-          type:
-          - string
-          - 'null'
-          description: 'Stringified JSON containing the prosody model inference results.
-
-
-            EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio. Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.'
         id:
           type: string
-          description: Identifier for a Chat Event. Formatted as a UUID.
-        message_text:
+          description: Identifier for a Config. Formatted as a UUID.
+        version:
           type:
-          - string
+          - integer
           - 'null'
-          description: The text of the Chat Event. This field contains the message content for each event type listed in the `type` field.
-        metadata:
-          type:
-          - string
-          - 'null'
-          description: Stringified JSON with additional metadata about the chat event.
-        related_event_id:
-          type:
-          - string
-          - 'null'
-          description: Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
-        role:
-          $ref: '#/components/schemas/ReturnChatEventRole'
-        timestamp:
-          type: integer
-          format: int64
-          description: Time at which the Chat Event occurred. Measured in seconds since the Unix epoch.
-        type:
-          $ref: '#/components/schemas/ReturnChatEventType'
+          description: 'Version number for a Config.
+
+
+            Configs, Prompts, Custom Voices, and Tools are versioned. This versioning system supports iterative development, allowing you to progressively refine configurations and revert to previous versions if needed.
+
+
+            Version numbers are integer values representing different iterations of the Config. Each update to the Config increments its version number.'
       required:
-      - chat_id
       - id
-      - role
-      - timestamp
-      - type
-      description: A description of a single event in a chat returned from the server
-      title: return_chat_event
+      description: The Config associated with this Chat.
+      title: return_config_spec
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -272,6 +272,16 @@ apis:
     url: asyncapi/hume-ai-asyncapi.yml
   - type: Documentation
     url: https://dev.hume.ai/docs/expression-measurement
+- aid: hume-ai:hume-ai-speech-to-speech-evi-api
+  name: Hume AI Speech To Speech (EVI) API
+  description: The Speech To Speech (EVI) API from Hume AI — 0 operation(s) for speech to speech (evi).
+  humanURL: https://dev.hume.ai/reference
+  baseURL: https://api.hume.ai
+  tags:
+  - Speech To Speech (EVI)
+  properties:
+  - type: OpenAPI
+    url: openapi/hume-ai-speech-to-speech-evi-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/hume-ai-agentic-access.yml

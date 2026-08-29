@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Speech-to-speech (EVI) subpackage_controlPlane API
+  title: Speech-to-speech (EVI) Subpackage Control Plane API
   version: 1.0.0
 servers:
 - url: https://api.hume.ai
@@ -45,91 +45,49 @@ paths:
               $ref: '#/components/schemas/ControlPlanePublishEvent'
 components:
   schemas:
-    ValidationError:
+    controlPlane_send_Response_200:
       type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PauseAssistantMessage:
-      type: object
-      properties:
-        custom_session_id:
-          type:
-          - string
-          - 'null'
-          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-        type:
-          type: string
-          enum:
-          - pause_assistant_message
-          description: 'The type of message sent through the socket; must be `pause_assistant_message` for our server to correctly identify and process it as a Pause Assistant message.
-
-
-            Once this message is sent, EVI will not respond until a [Resume Assistant message](/reference/empathic-voice-interface-evi/chat/chat#send.Resume%20Assistant%20Message.type) is sent. When paused, EVI won''t respond, but transcriptions of your audio inputs will still be recorded.'
-      required:
-      - type
-      description: '**Pause responses from EVI.** Chat history is still saved and sent after resuming. Once this message is sent, EVI will not respond until a Resume Assistant message is sent.
-
-
-        When paused, EVI won''t respond, but transcriptions of your audio inputs will still be recorded. See our [Pause Response Guide](/docs/speech-to-speech-evi/features/pause-responses) for further details.'
-      title: PauseAssistantMessage
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    UserInput:
-      type: object
-      properties:
-        custom_session_id:
-          type:
-          - string
-          - 'null'
-          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-        text:
-          type: string
-          description: 'User text to insert into the conversation. Text sent through a User Input message is treated as the user''s speech to EVI. EVI processes this input and provides a corresponding response.
-
-
-            Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.'
-        type:
-          type: string
-          enum:
-          - user_input
-          description: The type of message sent through the socket; must be `user_input` for our server to correctly identify and process it as a User Input message.
-      required:
-      - text
-      - type
-      description: '**User text to insert into the conversation.** Text sent through a User Input message is treated as the user''s speech to EVI. EVI processes this input and provides a corresponding response.
-
-
-        Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.'
-      title: UserInput
-    ValidationErrorLocItems:
+      properties: {}
+      description: Empty response body
+      title: controlPlane_send_Response_200
+    ControlPlanePublishEvent:
       oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
+      - $ref: '#/components/schemas/SessionSettings'
+      - $ref: '#/components/schemas/UserInput'
+      - $ref: '#/components/schemas/AssistantInput'
+      - $ref: '#/components/schemas/ToolResponseMessage'
+      - $ref: '#/components/schemas/ToolErrorMessage'
+      - $ref: '#/components/schemas/PauseAssistantMessage'
+      - $ref: '#/components/schemas/ResumeAssistantMessage'
+      title: ControlPlanePublishEvent
     ToolType:
       type: string
       enum:
       - builtin
       - function
       title: ToolType
+    AudioConfiguration:
+      type: object
+      properties:
+        channels:
+          type: integer
+          description: Number of audio channels.
+        codec:
+          type:
+          - string
+          - 'null'
+          description: Optional codec information.
+        encoding:
+          $ref: '#/components/schemas/Encoding'
+          description: Encoding format of the audio input, such as `linear16`.
+        sample_rate:
+          type: integer
+          description: Audio sample rate. Number of samples per second in the audio input, measured in Hertz.
+      required:
+      - channels
+      - encoding
+      - sample_rate
+      title: AudioConfiguration
     AssistantInput:
       type: object
       properties:
@@ -156,6 +114,125 @@ components:
 
         Our model adds appropriate emotional inflections and tones to the text based on the user''s expressions and the context of the conversation. The synthesized audio is streamed back to the user as an Assistant Message.'
       title: AssistantInput
+    ToolResponseMessage:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Return value of the tool call. Contains the output generated by the tool to pass back to EVI.
+        custom_session_id:
+          type:
+          - string
+          - 'null'
+          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+        tool_call_id:
+          type: string
+          description: 'The unique identifier for a specific tool call instance.
+
+
+            This ID is used to track the request and response of a particular tool invocation, ensuring that the correct response is linked to the appropriate request. The specified `tool_call_id` must match the one received in the [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.tool_call_id).'
+        tool_name:
+          type:
+          - string
+          - 'null'
+        tool_type:
+          oneOf:
+          - $ref: '#/components/schemas/ToolType'
+          - type: 'null'
+        type:
+          type: string
+          enum:
+          - tool_response
+          description: 'The type of message sent through the socket; for a Tool Response message, this must be `tool_response`.
+
+
+            Upon receiving a [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type) and successfully invoking the function, this message is sent to convey the result of the function call back to EVI.'
+      required:
+      - content
+      - tool_call_id
+      - type
+      description: '**Return value of the tool call.** Contains the output generated by the tool to pass back to EVI. Upon receiving a Tool Call message and successfully invoking the function, this message is sent to convey the result of the function call back to EVI.
+
+
+        For built-in tools implemented on the server, you will receive this message type rather than a `ToolCallMessage`. See our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.'
+      title: ToolResponseMessage
+    ContextType:
+      type: string
+      enum:
+      - persistent
+      - temporary
+      title: ContextType
+    BuiltinToolConfig:
+      type: object
+      properties:
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
+        name:
+          $ref: '#/components/schemas/BuiltInTool'
+      required:
+      - name
+      title: BuiltinToolConfig
+    ResumeAssistantMessage:
+      type: object
+      properties:
+        custom_session_id:
+          type:
+          - string
+          - 'null'
+          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+        type:
+          type: string
+          enum:
+          - resume_assistant_message
+          description: 'The type of message sent through the socket; must be `resume_assistant_message` for our server to correctly identify and process it as a Resume Assistant message.
+
+
+            Upon resuming, if any audio input was sent during the pause, EVI will retain context from all messages sent but only respond to the last user message. (e.g., If you ask EVI two questions while paused and then send a `resume_assistant_message`, EVI will respond to the second question and have added the first question to its conversation context.)'
+      required:
+      - type
+      description: '**Resume responses from EVI.** Chat history sent while paused will now be sent.
+
+
+        Upon resuming, if any audio input was sent during the pause, EVI will retain context from all messages sent but only respond to the last user message. See our [Pause Response Guide](/docs/speech-to-speech-evi/features/pause-responses) for further details.'
+      title: ResumeAssistantMessage
+    BuiltInTool:
+      type: string
+      enum:
+      - web_search
+      - hang_up
+      title: BuiltInTool
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    ValidationError:
+      type: object
+      properties:
+        loc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
+          type: string
+        type:
+          type: string
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     SessionSettings:
       type: object
       properties:
@@ -276,38 +353,34 @@ components:
 
         These settings can be adjusted dynamically based on the requirements of each session to ensure optimal performance and user experience. See our [Session Settings Guide](/docs/speech-to-speech-evi/configuration/session-settings) for a complete list of configurable settings.'
       title: SessionSettings
-    ControlPlanePublishEvent:
-      oneOf:
-      - $ref: '#/components/schemas/SessionSettings'
-      - $ref: '#/components/schemas/UserInput'
-      - $ref: '#/components/schemas/AssistantInput'
-      - $ref: '#/components/schemas/ToolResponseMessage'
-      - $ref: '#/components/schemas/ToolErrorMessage'
-      - $ref: '#/components/schemas/PauseAssistantMessage'
-      - $ref: '#/components/schemas/ResumeAssistantMessage'
-      title: ControlPlanePublishEvent
-    AudioConfiguration:
+    PauseAssistantMessage:
       type: object
       properties:
-        channels:
-          type: integer
-          description: Number of audio channels.
-        codec:
+        custom_session_id:
           type:
           - string
           - 'null'
-          description: Optional codec information.
-        encoding:
-          $ref: '#/components/schemas/Encoding'
-          description: Encoding format of the audio input, such as `linear16`.
-        sample_rate:
-          type: integer
-          description: Audio sample rate. Number of samples per second in the audio input, measured in Hertz.
+          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+        type:
+          type: string
+          enum:
+          - pause_assistant_message
+          description: 'The type of message sent through the socket; must be `pause_assistant_message` for our server to correctly identify and process it as a Pause Assistant message.
+
+
+            Once this message is sent, EVI will not respond until a [Resume Assistant message](/reference/empathic-voice-interface-evi/chat/chat#send.Resume%20Assistant%20Message.type) is sent. When paused, EVI won''t respond, but transcriptions of your audio inputs will still be recorded.'
       required:
-      - channels
-      - encoding
-      - sample_rate
-      title: AudioConfiguration
+      - type
+      description: '**Pause responses from EVI.** Chat history is still saved and sent after resuming. Once this message is sent, EVI will not respond until a Resume Assistant message is sent.
+
+
+        When paused, EVI won''t respond, but transcriptions of your audio inputs will still be recorded. See our [Pause Response Guide](/docs/speech-to-speech-evi/features/pause-responses) for further details.'
+      title: PauseAssistantMessage
+    Encoding:
+      type: string
+      enum:
+      - linear16
+      title: Encoding
     Context:
       type: object
       properties:
@@ -323,24 +396,33 @@ components:
       required:
       - text
       title: Context
-    controlPlane_send_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: controlPlane_send_Response_200
-    BuiltinToolConfig:
+    UserInput:
       type: object
       properties:
-        fallback_content:
+        custom_session_id:
           type:
           - string
           - 'null'
-          description: Optional text passed to the supplemental LLM if the tool call fails. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation.
-        name:
-          $ref: '#/components/schemas/BuiltInTool'
+          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
+        text:
+          type: string
+          description: 'User text to insert into the conversation. Text sent through a User Input message is treated as the user''s speech to EVI. EVI processes this input and provides a corresponding response.
+
+
+            Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.'
+        type:
+          type: string
+          enum:
+          - user_input
+          description: The type of message sent through the socket; must be `user_input` for our server to correctly identify and process it as a User Input message.
       required:
-      - name
-      title: BuiltinToolConfig
+      - text
+      - type
+      description: '**User text to insert into the conversation.** Text sent through a User Input message is treated as the user''s speech to EVI. EVI processes this input and provides a corresponding response.
+
+
+        Expression measurement results are not available for User Input messages, as the prosody model relies on audio input and cannot process text alone.'
+      title: UserInput
     ToolErrorMessage:
       type: object
       properties:
@@ -395,70 +477,11 @@ components:
 
         For built-in tools implemented on the server, you will receive this message type rather than a `ToolCallMessage` if the tool fails. See our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.'
       title: ToolErrorMessage
-    BuiltInTool:
-      type: string
-      enum:
-      - web_search
-      - hang_up
-      title: BuiltInTool
-    Encoding:
-      type: string
-      enum:
-      - linear16
-      title: Encoding
-    ToolResponseMessage:
-      type: object
-      properties:
-        content:
-          type: string
-          description: Return value of the tool call. Contains the output generated by the tool to pass back to EVI.
-        custom_session_id:
-          type:
-          - string
-          - 'null'
-          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-        tool_call_id:
-          type: string
-          description: 'The unique identifier for a specific tool call instance.
-
-
-            This ID is used to track the request and response of a particular tool invocation, ensuring that the correct response is linked to the appropriate request. The specified `tool_call_id` must match the one received in the [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.tool_call_id).'
-        tool_name:
-          type:
-          - string
-          - 'null'
-        tool_type:
-          oneOf:
-          - $ref: '#/components/schemas/ToolType'
-          - type: 'null'
-        type:
-          type: string
-          enum:
-          - tool_response
-          description: 'The type of message sent through the socket; for a Tool Response message, this must be `tool_response`.
-
-
-            Upon receiving a [Tool Call message](/reference/empathic-voice-interface-evi/chat/chat#receive.Tool%20Call%20Message.type) and successfully invoking the function, this message is sent to convey the result of the function call back to EVI.'
-      required:
-      - content
-      - tool_call_id
-      - type
-      description: '**Return value of the tool call.** Contains the output generated by the tool to pass back to EVI. Upon receiving a Tool Call message and successfully invoking the function, this message is sent to convey the result of the function call back to EVI.
-
-
-        For built-in tools implemented on the server, you will receive this message type rather than a `ToolCallMessage`. See our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.'
-      title: ToolResponseMessage
     ErrorLevel:
       type: string
       enum:
       - warn
       title: ErrorLevel
-    ContextType:
-      type: string
-      enum:
-      - persistent
-      - temporary
-      title: ContextType
     Tool:
       type: object
       properties:
@@ -489,29 +512,6 @@ components:
       - parameters
       - type
       title: Tool
-    ResumeAssistantMessage:
-      type: object
-      properties:
-        custom_session_id:
-          type:
-          - string
-          - 'null'
-          description: Used to manage conversational state, correlate frontend and backend data, and persist conversations across EVI sessions.
-        type:
-          type: string
-          enum:
-          - resume_assistant_message
-          description: 'The type of message sent through the socket; must be `resume_assistant_message` for our server to correctly identify and process it as a Resume Assistant message.
-
-
-            Upon resuming, if any audio input was sent during the pause, EVI will retain context from all messages sent but only respond to the last user message. (e.g., If you ask EVI two questions while paused and then send a `resume_assistant_message`, EVI will respond to the second question and have added the first question to its conversation context.)'
-      required:
-      - type
-      description: '**Resume responses from EVI.** Chat history sent while paused will now be sent.
-
-
-        Upon resuming, if any audio input was sent during the pause, EVI will retain context from all messages sent but only respond to the last user message. See our [Pause Response Guide](/docs/speech-to-speech-evi/features/pause-responses) for further details.'
-      title: ResumeAssistantMessage
   securitySchemes:
     bearerAuth:
       type: apiKey
