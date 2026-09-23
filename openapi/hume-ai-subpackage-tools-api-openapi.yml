@@ -11,10 +11,10 @@ paths:
     post:
       operationId: create-tool
       summary: Create tool
-      description: 'Creates a **Tool** that can be added to an [EVI configuration](/reference/speech-to-speech-evi/configs/create-config).
+      description: 'Creates a **Tool** that can be added to an EVI configuration.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -41,7 +41,7 @@ paths:
       description: 'Fetches a paginated list of **Tools**.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -95,7 +95,7 @@ paths:
       description: 'Fetches a list of a **Tool''s** versions.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -148,7 +148,7 @@ paths:
       description: 'Updates a **Tool** by creating a new version of the **Tool**.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -182,7 +182,7 @@ paths:
       description: 'Updates the name of a **Tool**.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -216,7 +216,7 @@ paths:
       description: 'Deletes a **Tool** and its versions.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -246,7 +246,7 @@ paths:
       description: 'Fetches a specified version of a **Tool**.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -287,7 +287,7 @@ paths:
       description: 'Updates the description of a specified **Tool** version.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -333,7 +333,7 @@ paths:
       description: 'Deletes a specified version of a **Tool**.
 
 
-        Refer to our [tool use](/docs/speech-to-speech-evi/features/tool-use#function-calling) guide for comprehensive instructions on defining and integrating tools into EVI.'
+        Refer to our tool use guide for comprehensive instructions on defining and integrating tools into EVI.'
       tags:
       - subpackage_tools
       parameters:
@@ -370,17 +370,103 @@ paths:
                 $ref: '#/components/schemas/tools_delete-tool-version_Response_200'
 components:
   schemas:
-    ReturnUserDefinedToolToolType:
+    posted_user_defined_tool_version:
+      type: object
+      properties:
+        description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
+        fallback_content:
+          type:
+          - string
+          - 'null'
+          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
+        parameters:
+          type: string
+          description: 'Stringified JSON defining the parameters used by this version of the Tool.
+
+
+            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
+        version_description:
+          type:
+          - string
+          - 'null'
+          description: An optional description of the Tool version.
+      required:
+      - parameters
+      description: A new version of an existing tool to be posted to the server
+      title: posted_user_defined_tool_version
+    tools_delete-tool_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_delete-tool_Response_200
+    return_paged_user_defined_tools:
+      type: object
+      properties:
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        tools_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_user_defined_tool'
+          description: List of tools returned for the specified `page_number` and `page_size`.
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - page_number
+      - page_size
+      - tools_page
+      - total_pages
+      description: A paginated list of user defined tool versions returned from the server
+      title: return_paged_user_defined_tools
+    tools_update-tool-name_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_update-tool-name_Response_200
+    ReturnUserDefinedToolVersionType:
       type: string
       enum:
-      - BUILTIN
-      - FUNCTION
-      title: ReturnUserDefinedToolToolType
+      - FIXED
+      - LATEST
+      title: ReturnUserDefinedToolVersionType
     tools_delete-tool-version_Response_200:
       type: object
       properties: {}
       description: Empty response body
       title: tools_delete-tool-version_Response_200
+    posted_user_defined_tool_name:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+      required:
+      - name
+      description: A tool name change to be posted to the server
+      title: posted_user_defined_tool_name
     posted_user_defined_tool:
       type: object
       properties:
@@ -421,75 +507,6 @@ components:
       - parameters
       description: A tool to be posted to the server
       title: posted_user_defined_tool
-    return_paged_user_defined_tools:
-      type: object
-      properties:
-        page_number:
-          type: integer
-          description: 'The page number of the returned list.
-
-
-            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
-        page_size:
-          type: integer
-          description: 'The maximum number of items returned per page.
-
-
-            This value corresponds to the `page_size` parameter specified in the request.'
-        tools_page:
-          type: array
-          items:
-            $ref: '#/components/schemas/return_user_defined_tool'
-          description: List of tools returned for the specified `page_number` and `page_size`.
-        total_pages:
-          type: integer
-          description: The total number of pages in the collection.
-      required:
-      - page_number
-      - page_size
-      - tools_page
-      - total_pages
-      description: A paginated list of user defined tool versions returned from the server
-      title: return_paged_user_defined_tools
-    posted_user_defined_tool_name:
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
-
-
-            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
-
-            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
-
-
-            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
-      required:
-      - name
-      description: A tool name change to be posted to the server
-      title: posted_user_defined_tool_name
-    tools_update-tool-name_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: tools_update-tool-name_Response_200
-    posted_user_defined_tool_version_description:
-      type: object
-      properties:
-        version_description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of the Tool version.
-      description: A tool version description to be posted to the server
-      title: posted_user_defined_tool_version_description
-    ReturnUserDefinedToolVersionType:
-      type: string
-      enum:
-      - FIXED
-      - LATEST
-      title: ReturnUserDefinedToolVersionType
     return_user_defined_tool:
       type: object
       properties:
@@ -554,39 +571,22 @@ components:
       - version_type
       description: A specific tool version returned from the server
       title: return_user_defined_tool
-    posted_user_defined_tool_version:
+    posted_user_defined_tool_version_description:
       type: object
       properties:
-        description:
-          type:
-          - string
-          - 'null'
-          description: An optional description of what the Tool does, used by the supplemental LLM to choose when and how to call the function.
-        fallback_content:
-          type:
-          - string
-          - 'null'
-          description: Optional text passed to the supplemental LLM in place of the tool call result. The LLM then uses this text to generate a response back to the user, ensuring continuity in the conversation if the Tool errors.
-        parameters:
-          type: string
-          description: 'Stringified JSON defining the parameters used by this version of the Tool.
-
-
-            These parameters define the inputs needed for the Tool''s execution, including the expected data type and description for each input field. Structured as a stringified JSON schema, this format ensures the Tool receives data in the expected format.'
         version_description:
           type:
           - string
           - 'null'
           description: An optional description of the Tool version.
-      required:
-      - parameters
-      description: A new version of an existing tool to be posted to the server
-      title: posted_user_defined_tool_version
-    tools_delete-tool_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: tools_delete-tool_Response_200
+      description: A tool version description to be posted to the server
+      title: posted_user_defined_tool_version_description
+    ReturnUserDefinedToolToolType:
+      type: string
+      enum:
+      - BUILTIN
+      - FUNCTION
+      title: ReturnUserDefinedToolToolType
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -55,12 +55,6 @@ webhooks:
       - Speech To Speech (EVI)
 components:
   schemas:
-    WebhookEventChatStartType:
-      type: string
-      enum:
-      - new_chat_group
-      - resumed_chat_group
-      title: WebhookEventChatStartType
     ToolCallMessage:
       type: object
       properties:
@@ -110,6 +104,69 @@ components:
 
         Contains the tool name, parameters (as a stringified JSON schema), whether a response is required from the developer (either in the form of a `ToolResponseMessage` or a `ToolErrorMessage`), the unique tool call ID for tracking the request and response, and the tool type. See our [Tool Use Guide](/docs/speech-to-speech-evi/features/tool-use) for further details.'
       title: ToolCallMessage
+    WebhookEventToolCall:
+      type: object
+      properties:
+        chat_group_id:
+          type: string
+          description: Unique ID of the **Chat Group** associated with the **Chat** session.
+        chat_id:
+          type: string
+          description: Unique ID of the **Chat** session.
+        config_id:
+          type:
+          - string
+          - 'null'
+          description: Unique ID of the EVI **Config** used for the session.
+        caller_number:
+          type:
+          - string
+          - 'null'
+          description: Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration.
+        custom_session_id:
+          type:
+          - string
+          - 'null'
+          description: User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/custom-language-model) in the EVI Config.
+        event_name:
+          type: string
+          enum:
+          - tool_call
+          description: Always `tool_call`.
+        timestamp:
+          type: integer
+          description: Unix timestamp (in milliseconds) indicating when the tool call was triggered.
+        tool_call_message:
+          $ref: '#/components/schemas/ToolCallMessage'
+          description: The tool call.
+        twilio_metadata:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          description: Twilio metadata associated with the chat. This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration. Fields may include `call_sid`, `account_sid`, `from_number`, `to_number`, `caller_name`, `caller_number`, `from_city`, `from_state`, `from_zip`, `from_country`, `to_city`, `to_state`, `to_zip`, and `to_country`.If a specific metadata is not available, this field will be set to an empty string.
+      required:
+      - chat_group_id
+      - chat_id
+      - config_id
+      - caller_number
+      - custom_session_id
+      - timestamp
+      - tool_call_message
+      - twilio_metadata
+      title: WebhookEventToolCall
+    WebhookEventChatStatus:
+      type: string
+      enum:
+      - ACTIVE
+      - USER_ENDED
+      - USER_TIMEOUT
+      - INACTIVITY_TIMEOUT
+      - MAX_DURATION_TIMEOUT
+      - SILENCE_TIMEOUT
+      - ERROR
+      title: WebhookEventChatStatus
     WebhookEventChatStarted:
       type: object
       properties:
@@ -162,17 +219,18 @@ components:
       - start_time
       - twilio_metadata
       title: WebhookEventChatStarted
-    WebhookEventChatStatus:
+    WebhookEventChatStartType:
       type: string
       enum:
-      - ACTIVE
-      - USER_ENDED
-      - USER_TIMEOUT
-      - INACTIVITY_TIMEOUT
-      - MAX_DURATION_TIMEOUT
-      - SILENCE_TIMEOUT
-      - ERROR
-      title: WebhookEventChatStatus
+      - new_chat_group
+      - resumed_chat_group
+      title: WebhookEventChatStartType
+    ToolType:
+      type: string
+      enum:
+      - builtin
+      - function
+      title: ToolType
     WebhookEventChatEnded:
       type: object
       properties:
@@ -229,64 +287,6 @@ components:
       - end_time
       - twilio_metadata
       title: WebhookEventChatEnded
-    WebhookEventToolCall:
-      type: object
-      properties:
-        chat_group_id:
-          type: string
-          description: Unique ID of the **Chat Group** associated with the **Chat** session.
-        chat_id:
-          type: string
-          description: Unique ID of the **Chat** session.
-        config_id:
-          type:
-          - string
-          - 'null'
-          description: Unique ID of the EVI **Config** used for the session.
-        caller_number:
-          type:
-          - string
-          - 'null'
-          description: Phone number of the caller in E.164 format (e.g., `+12223333333`). This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration.
-        custom_session_id:
-          type:
-          - string
-          - 'null'
-          description: User-defined session ID. Relevant only when employing a [custom language model](/docs/empathic-voice-interface-evi/custom-language-model) in the EVI Config.
-        event_name:
-          type: string
-          enum:
-          - tool_call
-          description: Always `tool_call`.
-        timestamp:
-          type: integer
-          description: Unix timestamp (in milliseconds) indicating when the tool call was triggered.
-        tool_call_message:
-          $ref: '#/components/schemas/ToolCallMessage'
-          description: The tool call.
-        twilio_metadata:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: string
-          description: Twilio metadata associated with the chat. This field is included only if the Chat was created via the [Twilio phone calling](/docs/empathic-voice-interface-evi/phone-calling) integration. Fields may include `call_sid`, `account_sid`, `from_number`, `to_number`, `caller_name`, `caller_number`, `from_city`, `from_state`, `from_zip`, `from_country`, `to_city`, `to_state`, `to_zip`, and `to_country`.If a specific metadata is not available, this field will be set to an empty string.
-      required:
-      - chat_group_id
-      - chat_id
-      - config_id
-      - caller_number
-      - custom_session_id
-      - timestamp
-      - tool_call_message
-      - twilio_metadata
-      title: WebhookEventToolCall
-    ToolType:
-      type: string
-      enum:
-      - builtin
-      - function
-      title: ToolType
   securitySchemes:
     bearerAuth:
       type: apiKey

@@ -11,7 +11,10 @@ paths:
     post:
       operationId: synthesize-json-streaming
       summary: Text-to-Speech (Streamed JSON)
-      description: "Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. \n\nThe response is a stream of JSON objects including audio encoded in base64."
+      description: 'Streams synthesized speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech''s style and prosody.
+
+
+        The response is a stream of JSON objects including audio encoded in base64.'
       tags:
       - ''
       parameters:
@@ -108,7 +111,10 @@ paths:
     post:
       operationId: synthesize-file
       summary: Text-to-Speech (File)
-      description: "Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech's style and prosody. \n\nThe response contains the generated audio file in the requested format."
+      description: 'Synthesizes one or more input texts into speech using the specified voice. If no voice is provided, a novel voice will be generated dynamically. Optionally, additional context can be included to influence the speech''s style and prosody.
+
+
+        The response contains the generated audio file in the requested format.'
       tags:
       - ''
       parameters:
@@ -247,7 +253,19 @@ paths:
                   description: 'The set of timestamp types to include in the response. When used in multipart/form-data, specify each value using bracket notation: `include_timestamp_types[0]=word&include_timestamp_types[1]=phoneme`. Only supported for Octave 2 requests.'
 components:
   schemas:
-    OctaveBodyArgsStreamFormat:
+    VoiceId:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID associated with the **Voice**.
+        provider:
+          $ref: '#/components/schemas/VoiceProvider'
+          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
+      required:
+      - id
+      title: VoiceId
+    Format:
       oneOf:
       - type: object
         properties:
@@ -282,34 +300,62 @@ components:
       discriminator:
         propertyName: type
       description: Specifies the output audio file format.
-      title: OctaveBodyArgsStreamFormat
-    OctaveBodyArgsStreamContext:
-      oneOf:
-      - $ref: '#/components/schemas/ContextGenerationId'
-      - $ref: '#/components/schemas/ContextUtterances'
-      description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-      title: OctaveBodyArgsStreamContext
-    OctaveVersion:
-      type: string
-      enum:
-      - '1'
-      - '2'
-      description: 'Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume
+      title: Format
+    OctaveBodyArgsStream:
+      type: object
+      properties:
+        context:
+          oneOf:
+          - $ref: '#/components/schemas/OctaveBodyArgsStreamContext'
+          - type: 'null'
+          description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+        format:
+          $ref: '#/components/schemas/OctaveBodyArgsStreamFormat'
+          description: Specifies the output audio file format.
+        include_timestamp_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimestampType'
+          description: The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+        instant_mode:
+          type: boolean
+          default: true
+          description: "Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). \n- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.\n- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).\n- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted)."
+        num_generations:
+          type: integer
+          default: 1
+          description: 'Number of audio generations to produce from the input utterances.
 
-        automatically routes the request to the most appropriate model. Setting a specific version ensures stable and
 
-        repeatable behavior across requests.
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.'
+        split_utterances:
+          type: boolean
+          default: true
+          description: "Controls how audio output is segmented in the response.\n\n- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.\n\n- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. \n\nThis setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output."
+        strip_headers:
+          type: boolean
+          default: false
+          description: If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+        utterances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Utterance'
+          description: 'A list of **Utterances** to be converted to speech output.
 
 
-        Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.'
+        version:
+          $ref: '#/components/schemas/OctaveVersion'
+          description: 'Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
 
-        `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
 
 
-        For a comparison of Octave versions, see the
-
-        [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.'
-      title: OctaveVersion
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.'
+      required:
+      - utterances
+      title: OctaveBodyArgsStream
     OctaveResponse:
       type: object
       properties:
@@ -326,6 +372,16 @@ components:
       - generations
       - request_id
       title: OctaveResponse
+    ContextUtterances:
+      type: object
+      properties:
+        utterances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Utterance'
+      required:
+      - utterances
+      title: ContextUtterances
     Utterance:
       type: object
       properties:
@@ -362,6 +418,121 @@ components:
       required:
       - text
       title: Utterance
+    V0TtsVoiceConversionFilePostRequestBodyContentMultipartFormDataSchemaContext:
+      oneOf:
+      - $ref: '#/components/schemas/ContextGenerationId'
+      - $ref: '#/components/schemas/ContextUtterances'
+      description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+      title: V0TtsVoiceConversionFilePostRequestBodyContentMultipartFormDataSchemaContext
+    OctaveBodyArgsStreamFormat:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - mp3
+            description: 'Discriminator value: mp3'
+        required:
+        - type
+        description: Mp3Format variant
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - pcm
+            description: 'Discriminator value: pcm'
+        required:
+        - type
+        description: PcmFormat variant
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - wav
+            description: 'Discriminator value: wav'
+        required:
+        - type
+        description: WavFormat variant
+      discriminator:
+        propertyName: type
+      description: Specifies the output audio file format.
+      title: OctaveBodyArgsStreamFormat
+    TimestampType:
+      type: string
+      enum:
+      - word
+      - phoneme
+      title: TimestampType
+    Generation:
+      type: object
+      properties:
+        audio:
+          type: string
+          description: The generated audio output in the requested format, encoded as a base64 string.
+        duration:
+          type: number
+          format: double
+          description: Duration of the generated audio in seconds.
+        encoding:
+          $ref: '#/components/schemas/Encoding'
+        file_size:
+          type: integer
+          description: Size of the generated audio in bytes.
+        generation_id:
+          type: string
+          format: uuid4
+          description: A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
+        snippets:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/Snippet-Output'
+          description: A list of snippet groups where each group corresponds to an utterance in the request. Each group contains segmented snippets that represent the original utterance divided into more natural-sounding units optimized for speech delivery.
+      required:
+      - audio
+      - duration
+      - encoding
+      - file_size
+      - generation_id
+      - snippets
+      title: Generation
+    VoiceName:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of a **Voice**.
+        provider:
+          $ref: '#/components/schemas/VoiceProvider'
+          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
+      required:
+      - name
+      title: VoiceName
+    MillisecondInterval:
+      type: object
+      properties:
+        begin:
+          type: integer
+          description: Start time of the interval in milliseconds.
+        end:
+          type: integer
+          description: End time of the interval in milliseconds.
+      required:
+      - begin
+      - end
+      title: MillisecondInterval
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
     Snippet-Output:
       type: object
       properties:
@@ -403,6 +574,114 @@ components:
       - transcribed_text
       - utterance_index
       title: Snippet-Output
+    OctaveBodyArgsStreamContext:
+      oneOf:
+      - $ref: '#/components/schemas/ContextGenerationId'
+      - $ref: '#/components/schemas/ContextUtterances'
+      description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+      title: OctaveBodyArgsStreamContext
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    OctaveBodyArgs:
+      type: object
+      properties:
+        context:
+          oneOf:
+          - $ref: '#/components/schemas/OctaveBodyArgsContext'
+          - type: 'null'
+          description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+        format:
+          $ref: '#/components/schemas/Format'
+          description: Specifies the output audio file format.
+        include_timestamp_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimestampType'
+          description: The set of timestamp types to include in the response. Only supported for Octave 2 requests.
+        num_generations:
+          type: integer
+          default: 1
+          description: 'Number of audio generations to produce from the input utterances.
+
+
+            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.'
+        split_utterances:
+          type: boolean
+          default: true
+          description: "Controls how audio output is segmented in the response.\n\n- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.\n\n- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. \n\nThis setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output."
+        strip_headers:
+          type: boolean
+          default: false
+          description: If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
+        utterances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Utterance'
+          description: 'A list of **Utterances** to be converted to speech output.
+
+
+            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.'
+        version:
+          $ref: '#/components/schemas/OctaveVersion'
+          description: 'Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
+
+
+            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+
+            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.'
+      required:
+      - utterances
+      title: OctaveBodyArgs
+    OctaveBodyArgsContext:
+      oneOf:
+      - $ref: '#/components/schemas/ContextGenerationId'
+      - $ref: '#/components/schemas/ContextUtterances'
+      description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
+      title: OctaveBodyArgsContext
+    Timestamp-Output:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The word or phoneme text that the timestamp corresponds to.
+        time:
+          $ref: '#/components/schemas/MillisecondInterval'
+          description: The start and end timestamps for the word or phoneme in milliseconds.
+        type:
+          $ref: '#/components/schemas/TimestampType'
+      required:
+      - text
+      - time
+      - type
+      title: Timestamp-Output
+    ContextGenerationId:
+      type: object
+      properties:
+        generation_id:
+          type: string
+          format: uuid4
+          description: The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
+      required:
+      - generation_id
+      title: ContextGenerationId
+    Encoding:
+      type: object
+      properties:
+        format:
+          $ref: '#/components/schemas/FormatType'
+          description: Format for the output audio.
+        sample_rate:
+          type: integer
+          description: The sample rate (`Hz`) of the generated audio. The default sample rate is `48000 Hz`.
+      required:
+      - format
+      - sample_rate
+      description: Encoding information about the generated audio, including the `format` and `sample_rate`.
+      title: Encoding
     TtsOutput:
       oneOf:
       - type: object
@@ -494,75 +773,27 @@ components:
       discriminator:
         propertyName: type
       title: TtsOutput
-    VoiceName:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name of a **Voice**.
-        provider:
-          $ref: '#/components/schemas/VoiceProvider'
-          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
-      required:
-      - name
-      title: VoiceName
-    VoiceId:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID associated with the **Voice**.
-        provider:
-          $ref: '#/components/schemas/VoiceProvider'
-          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
-      required:
-      - id
-      title: VoiceId
-    TimestampType:
+    OctaveVersion:
       type: string
       enum:
-      - word
-      - phoneme
-      title: TimestampType
-    Generation:
-      type: object
-      properties:
-        audio:
-          type: string
-          description: The generated audio output in the requested format, encoded as a base64 string.
-        duration:
-          type: number
-          format: double
-          description: Duration of the generated audio in seconds.
-        encoding:
-          $ref: '#/components/schemas/Encoding'
-        file_size:
-          type: integer
-          description: Size of the generated audio in bytes.
-        generation_id:
-          type: string
-          format: uuid4
-          description: A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
-        snippets:
-          type: array
-          items:
-            type: array
-            items:
-              $ref: '#/components/schemas/Snippet-Output'
-          description: A list of snippet groups where each group corresponds to an utterance in the request. Each group contains segmented snippets that represent the original utterance divided into more natural-sounding units optimized for speech delivery.
-      required:
-      - audio
-      - duration
-      - encoding
-      - file_size
-      - generation_id
-      - snippets
-      title: Generation
-    VoiceRef:
-      oneOf:
-      - $ref: '#/components/schemas/VoiceId'
-      - $ref: '#/components/schemas/VoiceName'
-      title: VoiceRef
+      - '1'
+      - '2'
+      description: 'Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume
+
+        automatically routes the request to the most appropriate model. Setting a specific version ensures stable and
+
+        repeatable behavior across requests.
+
+
+        Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a
+
+        `voice`. Requests that set `version: 2` without a voice will be rejected.
+
+
+        For a comparison of Octave versions, see the
+
+        [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.'
+      title: OctaveVersion
     FormatType:
       type: string
       enum:
@@ -570,35 +801,18 @@ components:
       - pcm
       - wav
       title: FormatType
-    V0TtsVoiceConversionFilePostRequestBodyContentMultipartFormDataSchemaContext:
+    V0TtsVoiceConversionJsonPostRequestBodyContentMultipartFormDataSchemaContext:
       oneOf:
       - $ref: '#/components/schemas/ContextGenerationId'
       - $ref: '#/components/schemas/ContextUtterances'
       description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-      title: V0TtsVoiceConversionFilePostRequestBodyContentMultipartFormDataSchemaContext
-    ContextUtterances:
-      type: object
-      properties:
-        utterances:
-          type: array
-          items:
-            $ref: '#/components/schemas/Utterance'
-      required:
-      - utterances
-      title: ContextUtterances
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
+      title: V0TtsVoiceConversionJsonPostRequestBodyContentMultipartFormDataSchemaContext
+    VoiceProvider:
+      type: string
+      enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+      title: VoiceProvider
     ValidationError:
       type: object
       properties:
@@ -615,219 +829,11 @@ components:
       - msg
       - type
       title: ValidationError
-    OctaveBodyArgs:
-      type: object
-      properties:
-        context:
-          oneOf:
-          - $ref: '#/components/schemas/OctaveBodyArgsContext'
-          - type: 'null'
-          description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-        format:
-          $ref: '#/components/schemas/Format'
-          description: Specifies the output audio file format.
-        include_timestamp_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimestampType'
-          description: The set of timestamp types to include in the response. Only supported for Octave 2 requests.
-        num_generations:
-          type: integer
-          default: 1
-          description: 'Number of audio generations to produce from the input utterances.
-
-
-            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.'
-        split_utterances:
-          type: boolean
-          default: true
-          description: "Controls how audio output is segmented in the response.\n\n- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.\n\n- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. \n\nThis setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output."
-        strip_headers:
-          type: boolean
-          default: false
-          description: If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-        utterances:
-          type: array
-          items:
-            $ref: '#/components/schemas/Utterance'
-          description: 'A list of **Utterances** to be converted to speech output.
-
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.'
-        version:
-          $ref: '#/components/schemas/OctaveVersion'
-          description: 'Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.'
-      required:
-      - utterances
-      title: OctaveBodyArgs
-    ContextGenerationId:
-      type: object
-      properties:
-        generation_id:
-          type: string
-          format: uuid4
-          description: The ID of a prior TTS generation to use as context for generating consistent speech style and prosody across multiple requests. Including context may increase audio generation times.
-      required:
-      - generation_id
-      title: ContextGenerationId
-    Timestamp-Output:
-      type: object
-      properties:
-        text:
-          type: string
-          description: The word or phoneme text that the timestamp corresponds to.
-        time:
-          $ref: '#/components/schemas/MillisecondInterval'
-          description: The start and end timestamps for the word or phoneme in milliseconds.
-        type:
-          $ref: '#/components/schemas/TimestampType'
-      required:
-      - text
-      - time
-      - type
-      title: Timestamp-Output
-    Encoding:
-      type: object
-      properties:
-        format:
-          $ref: '#/components/schemas/FormatType'
-          description: Format for the output audio.
-        sample_rate:
-          type: integer
-          description: The sample rate (`Hz`) of the generated audio. The default sample rate is `48000 Hz`.
-      required:
-      - format
-      - sample_rate
-      description: Encoding information about the generated audio, including the `format` and `sample_rate`.
-      title: Encoding
-    Format:
+    VoiceRef:
       oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - mp3
-            description: 'Discriminator value: mp3'
-        required:
-        - type
-        description: Mp3Format variant
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - pcm
-            description: 'Discriminator value: pcm'
-        required:
-        - type
-        description: PcmFormat variant
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - wav
-            description: 'Discriminator value: wav'
-        required:
-        - type
-        description: WavFormat variant
-      discriminator:
-        propertyName: type
-      description: Specifies the output audio file format.
-      title: Format
-    VoiceProvider:
-      type: string
-      enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-      title: VoiceProvider
-    V0TtsVoiceConversionJsonPostRequestBodyContentMultipartFormDataSchemaContext:
-      oneOf:
-      - $ref: '#/components/schemas/ContextGenerationId'
-      - $ref: '#/components/schemas/ContextUtterances'
-      description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-      title: V0TtsVoiceConversionJsonPostRequestBodyContentMultipartFormDataSchemaContext
-    MillisecondInterval:
-      type: object
-      properties:
-        begin:
-          type: integer
-          description: Start time of the interval in milliseconds.
-        end:
-          type: integer
-          description: End time of the interval in milliseconds.
-      required:
-      - begin
-      - end
-      title: MillisecondInterval
-    OctaveBodyArgsContext:
-      oneOf:
-      - $ref: '#/components/schemas/ContextGenerationId'
-      - $ref: '#/components/schemas/ContextUtterances'
-      description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-      title: OctaveBodyArgsContext
-    OctaveBodyArgsStream:
-      type: object
-      properties:
-        context:
-          oneOf:
-          - $ref: '#/components/schemas/OctaveBodyArgsStreamContext'
-          - type: 'null'
-          description: Utterances to use as context for generating consistent speech style and prosody across multiple requests. These will not be converted to speech output.
-        format:
-          $ref: '#/components/schemas/OctaveBodyArgsStreamFormat'
-          description: Specifies the output audio file format.
-        include_timestamp_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/TimestampType'
-          description: The set of timestamp types to include in the response. Only supported for Octave 2 requests.
-        instant_mode:
-          type: boolean
-          default: true
-          description: "Enables ultra-low latency streaming, significantly reducing the time until the first audio chunk is received. Recommended for real-time applications requiring immediate audio playback. For further details, see our documentation on [instant mode](/docs/text-to-speech-tts/overview#ultra-low-latency-streaming-instant-mode). \n- A [voice](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.utterances.voice) must be specified when instant mode is enabled. Dynamic voice generation is not supported with this mode.\n- Instant mode is only supported for streaming endpoints (e.g., [/v0/tts/stream/json](/reference/text-to-speech-tts/synthesize-json-streaming), [/v0/tts/stream/file](/reference/text-to-speech-tts/synthesize-file-streaming)).\n- Ensure only a single generation is requested ([num_generations](/reference/text-to-speech-tts/synthesize-json-streaming#request.body.num_generations) must be `1` or omitted)."
-        num_generations:
-          type: integer
-          default: 1
-          description: 'Number of audio generations to produce from the input utterances.
-
-
-            Using `num_generations` enables faster processing than issuing multiple sequential requests. Additionally, specifying `num_generations` allows prosody continuation across all generations without repeating context, ensuring each generation sounds slightly different while maintaining contextual consistency.'
-        split_utterances:
-          type: boolean
-          default: true
-          description: "Controls how audio output is segmented in the response.\n\n- When **enabled** (`true`), input utterances are automatically split into natural-sounding speech segments.\n\n- When **disabled** (`false`), the response maintains a strict one-to-one mapping between input utterances and output snippets. \n\nThis setting affects how the `snippets` array is structured in the response, which may be important for applications that need to track the relationship between input text and generated audio segments. When setting to `false`, avoid including utterances with long `text`, as this can result in distorted output."
-        strip_headers:
-          type: boolean
-          default: false
-          description: If enabled, the audio for all the chunks of a generation, once concatenated together, will constitute a single audio file. Otherwise, if disabled, each chunk's audio will be its own audio file, each with its own headers (if applicable).
-        utterances:
-          type: array
-          items:
-            $ref: '#/components/schemas/Utterance'
-          description: 'A list of **Utterances** to be converted to speech output.
-
-
-            An **Utterance** is a unit of input for [Octave](/docs/text-to-speech-tts/overview), and includes input `text`, an optional `description` to serve as the prompt for how the speech should be delivered, an optional `voice` specification, and additional controls to guide delivery for `speed` and `trailing_silence`.'
-        version:
-          $ref: '#/components/schemas/OctaveVersion'
-          description: 'Selects the Octave model version used to synthesize speech for this request. If you omit this field, Hume automatically routes the request to the most appropriate model. Setting a specific version ensures stable and repeatable behavior across requests.
-
-
-            Use `2` to opt into the latest Octave capabilities. When you specify version `2`, you must also provide a `voice`. Requests that set `version: 2` without a voice will be rejected.
-
-
-            For a comparison of Octave versions, see the [Octave versions](/docs/text-to-speech-tts/overview#octave-versions) section in the TTS overview.'
-      required:
-      - utterances
-      title: OctaveBodyArgsStream
+      - $ref: '#/components/schemas/VoiceId'
+      - $ref: '#/components/schemas/VoiceName'
+      title: VoiceRef
   securitySchemes:
     bearerAuth:
       type: apiKey

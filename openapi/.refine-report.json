@@ -39,10 +39,12 @@
     "hume-ai-tts-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "hume-ai-tts-openapi.yml: declared missing tag: ",
     "hume-ai-voices-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "hume-ai-voices-openapi.yml: declared missing tag: subpackage_voices"
+    "hume-ai-voices-openapi.yml: declared missing tag: subpackage_voices",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "hume-ai-default-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-speech-to-speech-evi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-batch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-chatgroups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-chats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
