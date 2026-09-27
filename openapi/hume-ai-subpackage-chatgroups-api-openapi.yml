@@ -259,6 +259,161 @@ components:
       - num_chats
       description: A description of chat_group and its status
       title: return_chat_group
+    return_paged_chat_groups:
+      type: object
+      properties:
+        chat_groups_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_chat_group'
+          description: List of Chat Groups and their metadata returned for the specified `page_number` and `page_size`.
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        pagination_direction:
+          $ref: '#/components/schemas/ReturnPagedChatGroupsPaginationDirection'
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - chat_groups_page
+      - page_number
+      - page_size
+      - pagination_direction
+      - total_pages
+      description: A paginated list of chat_groups returned from the server
+      title: return_paged_chat_groups
+    ReturnChatGroupPagedChatsPaginationDirection:
+      type: string
+      enum:
+      - ASC
+      - DESC
+      title: ReturnChatGroupPagedChatsPaginationDirection
+    ReturnChatEventRole:
+      type: string
+      enum:
+      - USER
+      - AGENT
+      - SYSTEM
+      - TOOL
+      title: ReturnChatEventRole
+    return_chat_event:
+      type: object
+      properties:
+        chat_id:
+          type: string
+          description: Identifier for the Chat this event occurred in. Formatted as a UUID.
+        emotion_features:
+          type:
+          - string
+          - 'null'
+          description: 'Stringified JSON containing the prosody model inference results.
+
+
+            EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio. Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.'
+        id:
+          type: string
+          description: Identifier for a Chat Event. Formatted as a UUID.
+        message_text:
+          type:
+          - string
+          - 'null'
+          description: The text of the Chat Event. This field contains the message content for each event type listed in the `type` field.
+        metadata:
+          type:
+          - string
+          - 'null'
+          description: Stringified JSON with additional metadata about the chat event.
+        related_event_id:
+          type:
+          - string
+          - 'null'
+          description: Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
+        role:
+          $ref: '#/components/schemas/ReturnChatEventRole'
+        timestamp:
+          type: integer
+          format: int64
+          description: Time at which the Chat Event occurred. Measured in seconds since the Unix epoch.
+        type:
+          $ref: '#/components/schemas/ReturnChatEventType'
+      required:
+      - chat_id
+      - id
+      - role
+      - timestamp
+      - type
+      description: A description of a single event in a chat returned from the server
+      title: return_chat_event
+    return_chat_group_paged_events:
+      type: object
+      properties:
+        events_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_chat_event'
+          description: List of Chat Events for the specified `page_number` and `page_size`.
+        id:
+          type: string
+          description: Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        pagination_direction:
+          $ref: '#/components/schemas/ReturnChatGroupPagedEventsPaginationDirection'
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - events_page
+      - id
+      - page_number
+      - page_size
+      - pagination_direction
+      - total_pages
+      description: A paginated list of chat events that occurred across chats in this chat_group from the server
+      title: return_chat_group_paged_events
+    ReturnChatGroupPagedEventsPaginationDirection:
+      type: string
+      enum:
+      - ASC
+      - DESC
+      title: ReturnChatGroupPagedEventsPaginationDirection
+    ReturnChatEventType:
+      type: string
+      enum:
+      - AGENT_MESSAGE
+      - ASSISTANT_PROSODY
+      - CHAT_START_MESSAGE
+      - CHAT_END_MESSAGE
+      - FUNCTION_CALL
+      - FUNCTION_CALL_RESPONSE
+      - PAUSE_ONSET
+      - RESUME_ONSET
+      - SESSION_SETTINGS
+      - SYSTEM_PROMPT
+      - USER_INTERRUPTION
+      - USER_MESSAGE
+      - USER_RECORDING_START_MESSAGE
+      title: ReturnChatEventType
     return_config_spec:
       type: object
       properties:
@@ -333,20 +488,76 @@ components:
       - total_pages
       description: A description of chat_group and its status with a paginated list of each chat in the chat_group
       title: return_chat_group_paged_chats
-    ReturnPagedChatGroupsPaginationDirection:
+    return_chat:
+      type: object
+      properties:
+        chat_group_id:
+          type: string
+          description: Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
+        config:
+          $ref: '#/components/schemas/return_config_spec'
+        end_timestamp:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Time at which the Chat ended. Measured in seconds since the Unix epoch.
+        event_count:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: The total number of events currently in this chat.
+        id:
+          type: string
+          description: Identifier for a Chat. Formatted as a UUID.
+        metadata:
+          type:
+          - string
+          - 'null'
+          description: Stringified JSON with additional metadata about the chat.
+        start_timestamp:
+          type: integer
+          format: int64
+          description: Time at which the Chat started. Measured in seconds since the Unix epoch.
+        status:
+          $ref: '#/components/schemas/ReturnChatStatus'
+      required:
+      - chat_group_id
+      - id
+      - start_timestamp
+      - status
+      description: A description of chat and its status
+      title: return_chat
+    ReturnChatAudioReconstructionStatus:
+      type: string
+      enum:
+      - QUEUED
+      - IN_PROGRESS
+      - COMPLETE
+      - ERROR
+      - CANCELLED
+      title: ReturnChatAudioReconstructionStatus
+    ReturnChatGroupPagedAudioReconstructionsPaginationDirection:
       type: string
       enum:
       - ASC
       - DESC
-      title: ReturnPagedChatGroupsPaginationDirection
-    return_paged_chat_groups:
+      title: ReturnChatGroupPagedAudioReconstructionsPaginationDirection
+    return_chat_group_paged_audio_reconstructions:
       type: object
       properties:
-        chat_groups_page:
+        audio_reconstructions_page:
           type: array
           items:
-            $ref: '#/components/schemas/return_chat_group'
-          description: List of Chat Groups and their metadata returned for the specified `page_number` and `page_size`.
+            $ref: '#/components/schemas/ReturnChatAudioReconstruction'
+          description: List of chat audio reconstructions returned for the specified page number and page size.
+        id:
+          type: string
+          description: Identifier for the chat group. Formatted as a UUID.
+        num_chats:
+          type: integer
+          description: Total number of chats in this chatgroup
         page_number:
           type: integer
           description: 'The page number of the returned list.
@@ -360,24 +571,24 @@ components:
 
             This value corresponds to the `page_size` parameter specified in the request.'
         pagination_direction:
-          $ref: '#/components/schemas/ReturnPagedChatGroupsPaginationDirection'
+          $ref: '#/components/schemas/ReturnChatGroupPagedAudioReconstructionsPaginationDirection'
         total_pages:
           type: integer
           description: The total number of pages in the collection.
+        user_id:
+          type: string
+          description: Identifier for the user that owns this chat. Formatted as a UUID.
       required:
-      - chat_groups_page
+      - audio_reconstructions_page
+      - id
+      - num_chats
       - page_number
       - page_size
       - pagination_direction
       - total_pages
-      description: A paginated list of chat_groups returned from the server
-      title: return_paged_chat_groups
-    ReturnChatGroupPagedChatsPaginationDirection:
-      type: string
-      enum:
-      - ASC
-      - DESC
-      title: ReturnChatGroupPagedChatsPaginationDirection
+      - user_id
+      description: A paginated list of chat reconstructions for a particular chatgroup
+      title: return_chat_group_paged_audio_reconstructions
     ReturnChatAudioReconstruction:
       type: object
       properties:
@@ -427,223 +638,12 @@ components:
       - INACTIVITY_TIMEOUT
       - ERROR
       title: ReturnChatStatus
-    return_chat_group_paged_audio_reconstructions:
-      type: object
-      properties:
-        audio_reconstructions_page:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReturnChatAudioReconstruction'
-          description: List of chat audio reconstructions returned for the specified page number and page size.
-        id:
-          type: string
-          description: Identifier for the chat group. Formatted as a UUID.
-        num_chats:
-          type: integer
-          description: Total number of chats in this chatgroup
-        page_number:
-          type: integer
-          description: 'The page number of the returned list.
-
-
-            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
-        page_size:
-          type: integer
-          description: 'The maximum number of items returned per page.
-
-
-            This value corresponds to the `page_size` parameter specified in the request.'
-        pagination_direction:
-          $ref: '#/components/schemas/ReturnChatGroupPagedAudioReconstructionsPaginationDirection'
-        total_pages:
-          type: integer
-          description: The total number of pages in the collection.
-        user_id:
-          type: string
-          description: Identifier for the user that owns this chat. Formatted as a UUID.
-      required:
-      - audio_reconstructions_page
-      - id
-      - num_chats
-      - page_number
-      - page_size
-      - pagination_direction
-      - total_pages
-      - user_id
-      description: A paginated list of chat reconstructions for a particular chatgroup
-      title: return_chat_group_paged_audio_reconstructions
-    return_chat_group_paged_events:
-      type: object
-      properties:
-        events_page:
-          type: array
-          items:
-            $ref: '#/components/schemas/return_chat_event'
-          description: List of Chat Events for the specified `page_number` and `page_size`.
-        id:
-          type: string
-          description: Identifier for the Chat Group. Any Chat resumed from this Chat Group will have the same `chat_group_id`. Formatted as a UUID.
-        page_number:
-          type: integer
-          description: 'The page number of the returned list.
-
-
-            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
-        page_size:
-          type: integer
-          description: 'The maximum number of items returned per page.
-
-
-            This value corresponds to the `page_size` parameter specified in the request.'
-        pagination_direction:
-          $ref: '#/components/schemas/ReturnChatGroupPagedEventsPaginationDirection'
-        total_pages:
-          type: integer
-          description: The total number of pages in the collection.
-      required:
-      - events_page
-      - id
-      - page_number
-      - page_size
-      - pagination_direction
-      - total_pages
-      description: A paginated list of chat events that occurred across chats in this chat_group from the server
-      title: return_chat_group_paged_events
-    return_chat_event:
-      type: object
-      properties:
-        chat_id:
-          type: string
-          description: Identifier for the Chat this event occurred in. Formatted as a UUID.
-        emotion_features:
-          type:
-          - string
-          - 'null'
-          description: 'Stringified JSON containing the prosody model inference results.
-
-
-            EVI uses the prosody model to measure 48 expressions related to speech and vocal characteristics. These results contain a detailed emotional and tonal analysis of the audio. Scores typically range from 0 to 1, with higher values indicating a stronger confidence level in the measured attribute.'
-        id:
-          type: string
-          description: Identifier for a Chat Event. Formatted as a UUID.
-        message_text:
-          type:
-          - string
-          - 'null'
-          description: The text of the Chat Event. This field contains the message content for each event type listed in the `type` field.
-        metadata:
-          type:
-          - string
-          - 'null'
-          description: Stringified JSON with additional metadata about the chat event.
-        related_event_id:
-          type:
-          - string
-          - 'null'
-          description: Identifier for a related chat event. Currently only seen on ASSISTANT_PROSODY events, to point back to the ASSISTANT_MESSAGE that generated these prosody scores
-        role:
-          $ref: '#/components/schemas/ReturnChatEventRole'
-        timestamp:
-          type: integer
-          format: int64
-          description: Time at which the Chat Event occurred. Measured in seconds since the Unix epoch.
-        type:
-          $ref: '#/components/schemas/ReturnChatEventType'
-      required:
-      - chat_id
-      - id
-      - role
-      - timestamp
-      - type
-      description: A description of a single event in a chat returned from the server
-      title: return_chat_event
-    ReturnChatGroupPagedEventsPaginationDirection:
+    ReturnPagedChatGroupsPaginationDirection:
       type: string
       enum:
       - ASC
       - DESC
-      title: ReturnChatGroupPagedEventsPaginationDirection
-    ReturnChatEventRole:
-      type: string
-      enum:
-      - USER
-      - AGENT
-      - SYSTEM
-      - TOOL
-      title: ReturnChatEventRole
-    return_chat:
-      type: object
-      properties:
-        chat_group_id:
-          type: string
-          description: Identifier for the Chat Group. Any chat resumed from this Chat will have the same `chat_group_id`. Formatted as a UUID.
-        config:
-          $ref: '#/components/schemas/return_config_spec'
-        end_timestamp:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          description: Time at which the Chat ended. Measured in seconds since the Unix epoch.
-        event_count:
-          type:
-          - integer
-          - 'null'
-          format: int64
-          description: The total number of events currently in this chat.
-        id:
-          type: string
-          description: Identifier for a Chat. Formatted as a UUID.
-        metadata:
-          type:
-          - string
-          - 'null'
-          description: Stringified JSON with additional metadata about the chat.
-        start_timestamp:
-          type: integer
-          format: int64
-          description: Time at which the Chat started. Measured in seconds since the Unix epoch.
-        status:
-          $ref: '#/components/schemas/ReturnChatStatus'
-      required:
-      - chat_group_id
-      - id
-      - start_timestamp
-      - status
-      description: A description of chat and its status
-      title: return_chat
-    ReturnChatEventType:
-      type: string
-      enum:
-      - AGENT_MESSAGE
-      - ASSISTANT_PROSODY
-      - CHAT_START_MESSAGE
-      - CHAT_END_MESSAGE
-      - FUNCTION_CALL
-      - FUNCTION_CALL_RESPONSE
-      - PAUSE_ONSET
-      - RESUME_ONSET
-      - SESSION_SETTINGS
-      - SYSTEM_PROMPT
-      - USER_INTERRUPTION
-      - USER_MESSAGE
-      - USER_RECORDING_START_MESSAGE
-      title: ReturnChatEventType
-    ReturnChatGroupPagedAudioReconstructionsPaginationDirection:
-      type: string
-      enum:
-      - ASC
-      - DESC
-      title: ReturnChatGroupPagedAudioReconstructionsPaginationDirection
-    ReturnChatAudioReconstructionStatus:
-      type: string
-      enum:
-      - QUEUED
-      - IN_PROGRESS
-      - COMPLETE
-      - ERROR
-      - CANCELLED
-      title: ReturnChatAudioReconstructionStatus
+      title: ReturnPagedChatGroupsPaginationDirection
   securitySchemes:
     bearerAuth:
       type: apiKey

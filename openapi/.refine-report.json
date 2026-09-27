@@ -15,10 +15,12 @@
     "hume-ai-subpackage-prompts-api-openapi.yml",
     "hume-ai-subpackage-tools-api-openapi.yml",
     "hume-ai-subpackage-batch-api-openapi.yml",
-    "hume-ai-default-api-openapi.yml",
+    "hume-ai-tts-api-openapi.yml",
     "hume-ai-subpackage-voices-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -37,10 +39,17 @@
     "hume-ai-expression-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0; renamed 66 component key(s) illegal in 3.x (e.g. batch:BoundingBox)",
     "hume-ai-expression-openapi.yml: declared missing tag: subpackage_batch",
     "hume-ai-tts-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "hume-ai-tts-openapi.yml: declared missing tag: ",
+    "hume-ai-tts-openapi.yml: tagged paths POST /v0/tts/stream/json -> Tts",
+    "hume-ai-tts-openapi.yml: tagged paths POST /v0/tts/stream/file -> Tts",
+    "hume-ai-tts-openapi.yml: tagged paths POST /v0/tts -> Tts",
+    "hume-ai-tts-openapi.yml: tagged paths POST /v0/tts/file -> Tts",
+    "hume-ai-tts-openapi.yml: tagged paths POST /v0/tts/voice_conversion/file -> Tts",
+    "hume-ai-tts-openapi.yml: tagged paths POST /v0/tts/voice_conversion/json -> Tts",
+    "hume-ai-tts-openapi.yml: declared missing tag: Tts",
     "hume-ai-voices-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "hume-ai-voices-openapi.yml: declared missing tag: subpackage_voices",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: hume-ai-default-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 10 total)"
   ],
   "skipped": [
     "hume-ai-default-api-openapi.yml: previously refined output, superseded by openapi/_original/",
