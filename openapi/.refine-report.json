@@ -18,9 +18,7 @@
     "hume-ai-tts-api-openapi.yml",
     "hume-ai-subpackage-voices-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -48,11 +46,9 @@
     "hume-ai-tts-openapi.yml: declared missing tag: Tts",
     "hume-ai-voices-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "hume-ai-voices-openapi.yml: declared missing tag: subpackage_voices",
-    "superseded outputs removed: hume-ai-default-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 10 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
-    "hume-ai-default-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-speech-to-speech-evi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-batch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-chatgroups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -61,6 +57,7 @@
     "hume-ai-subpackage-controlplane-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-prompts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "hume-ai-subpackage-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "hume-ai-subpackage-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "hume-ai-subpackage-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "hume-ai-tts-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }
