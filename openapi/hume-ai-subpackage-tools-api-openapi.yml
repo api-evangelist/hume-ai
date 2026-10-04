@@ -370,12 +370,36 @@ paths:
                 $ref: '#/components/schemas/tools_delete-tool-version_Response_200'
 components:
   schemas:
-    ReturnUserDefinedToolVersionType:
-      type: string
-      enum:
-      - FIXED
-      - LATEST
-      title: ReturnUserDefinedToolVersionType
+    return_paged_user_defined_tools:
+      type: object
+      properties:
+        page_number:
+          type: integer
+          description: 'The page number of the returned list.
+
+
+            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
+        page_size:
+          type: integer
+          description: 'The maximum number of items returned per page.
+
+
+            This value corresponds to the `page_size` parameter specified in the request.'
+        tools_page:
+          type: array
+          items:
+            $ref: '#/components/schemas/return_user_defined_tool'
+          description: List of tools returned for the specified `page_number` and `page_size`.
+        total_pages:
+          type: integer
+          description: The total number of pages in the collection.
+      required:
+      - page_number
+      - page_size
+      - tools_page
+      - total_pages
+      description: A paginated list of user defined tool versions returned from the server
+      title: return_paged_user_defined_tools
     posted_user_defined_tool:
       type: object
       properties:
@@ -416,41 +440,6 @@ components:
       - parameters
       description: A tool to be posted to the server
       title: posted_user_defined_tool
-    tools_delete-tool_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: tools_delete-tool_Response_200
-    return_paged_user_defined_tools:
-      type: object
-      properties:
-        page_number:
-          type: integer
-          description: 'The page number of the returned list.
-
-
-            This value corresponds to the `page_number` parameter specified in the request. Pagination uses zero-based indexing.'
-        page_size:
-          type: integer
-          description: 'The maximum number of items returned per page.
-
-
-            This value corresponds to the `page_size` parameter specified in the request.'
-        tools_page:
-          type: array
-          items:
-            $ref: '#/components/schemas/return_user_defined_tool'
-          description: List of tools returned for the specified `page_number` and `page_size`.
-        total_pages:
-          type: integer
-          description: The total number of pages in the collection.
-      required:
-      - page_number
-      - page_size
-      - tools_page
-      - total_pages
-      description: A paginated list of user defined tool versions returned from the server
-      title: return_paged_user_defined_tools
     return_user_defined_tool:
       type: object
       properties:
@@ -525,6 +514,35 @@ components:
           description: An optional description of the Tool version.
       description: A tool version description to be posted to the server
       title: posted_user_defined_tool_version_description
+    ReturnUserDefinedToolToolType:
+      type: string
+      enum:
+      - BUILTIN
+      - FUNCTION
+      title: ReturnUserDefinedToolToolType
+    posted_user_defined_tool_name:
+      type: object
+      properties:
+        name:
+          type: string
+          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
+
+
+            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
+
+            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
+
+
+            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
+      required:
+      - name
+      description: A tool name change to be posted to the server
+      title: posted_user_defined_tool_name
+    tools_delete-tool_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: tools_delete-tool_Response_200
     posted_user_defined_tool_version:
       type: object
       properties:
@@ -553,12 +571,12 @@ components:
       - parameters
       description: A new version of an existing tool to be posted to the server
       title: posted_user_defined_tool_version
-    ReturnUserDefinedToolToolType:
+    ReturnUserDefinedToolVersionType:
       type: string
       enum:
-      - BUILTIN
-      - FUNCTION
-      title: ReturnUserDefinedToolToolType
+      - FIXED
+      - LATEST
+      title: ReturnUserDefinedToolVersionType
     tools_delete-tool-version_Response_200:
       type: object
       properties: {}
@@ -569,24 +587,6 @@ components:
       properties: {}
       description: Empty response body
       title: tools_update-tool-name_Response_200
-    posted_user_defined_tool_name:
-      type: object
-      properties:
-        name:
-          type: string
-          description: 'Name of the built-in tool to use. Hume supports the following built-in tools:
-
-
-            - **web_search:** enables EVI to search the web for up-to-date information when applicable.
-
-            - **hang_up:** closes the WebSocket connection when appropriate (e.g., after detecting a farewell in the conversation).
-
-
-            For more information, see our guide on [using built-in tools](/docs/speech-to-speech-evi/features/tool-use#using-built-in-tools).'
-      required:
-      - name
-      description: A tool name change to be posted to the server
-      title: posted_user_defined_tool_name
   securitySchemes:
     bearerAuth:
       type: apiKey
