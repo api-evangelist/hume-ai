@@ -1,0 +1,12 @@
+{
+ "url": "https://dev.hume.ai/openapi/text-to-speech-tts.yaml",
+ "requested_url": "https://dev.hume.ai/openapi/text-to-speech-tts.yaml",
+ "status": 200,
+ "content_type": "application/x-yaml; charset=utf-8",
+ "bytes": 9293,
+ "sha256": "7f3ab4d8acdff0345f19da38e51e5a205f0fc0658408ae9bfdccf8a86faca81e",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
