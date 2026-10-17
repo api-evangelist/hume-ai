@@ -136,52 +136,33 @@ paths:
                 $ref: '#/components/schemas/voices_delete_Response_200'
 components:
   schemas:
-    OctaveVoiceDesignSaveResponse:
+    voices_delete_Response_200:
+      type: object
+      properties: {}
+      description: Empty response body
+      title: voices_delete_Response_200
+    ValidationError:
       type: object
       properties:
-        id:
-          type:
-          - string
-          - 'null'
-          format: uuid4
-          description: The unique ID associated with the **Voice**.
-        name:
-          type: string
-          description: The name of a **Voice**.
-        provider:
-          $ref: '#/components/schemas/VoiceProvider'
-          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
-      required:
-      - id
-      - name
-      - provider
-      title: OctaveVoiceDesignSaveResponse
-    ValidationErrorLocItems:
-      oneOf:
-      - type: string
-      - type: integer
-      title: ValidationErrorLocItems
-    HTTPValidationError:
-      type: object
-      properties:
-        detail:
+        loc:
           type: array
           items:
-            $ref: '#/components/schemas/ValidationError'
-      title: HTTPValidationError
-    OctaveVoiceDesignSaveArgs:
-      type: object
-      properties:
-        generation_id:
+            $ref: '#/components/schemas/ValidationErrorLocItems'
+        msg:
           type: string
-          description: A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
-        name:
+        type:
           type: string
-          description: The name of a **Voice**.
       required:
-      - generation_id
-      - name
-      title: OctaveVoiceDesignSaveArgs
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    VoiceProvider:
+      type: string
+      enum:
+      - HUME_AI
+      - CUSTOM_VOICE
+      title: VoiceProvider
     return_paged_octave_public_voices:
       type: object
       properties:
@@ -212,6 +193,52 @@ components:
       - voices_page
       description: A paginated list Octave voices available for text-to-speech
       title: return_paged_octave_public_voices
+    OctaveVoiceDesignSaveResponse:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: uuid4
+          description: The unique ID associated with the **Voice**.
+        name:
+          type: string
+          description: The name of a **Voice**.
+        provider:
+          $ref: '#/components/schemas/VoiceProvider'
+          description: "Specifies the source provider associated with the chosen voice.\n\n- **`HUME_AI`**: Select voices from Hume's [Voice Library](https://app.hume.ai/tts/voice-library), containing a variety of preset, shared voices.\n- **`CUSTOM_VOICE`**: Select from voices you've personally generated and saved in your account. \n\nIf no provider is explicitly set, the default provider is `CUSTOM_VOICE`. When using voices from Hume's **Voice Library**, you must explicitly set the provider to `HUME_AI`.\n\nPreset voices from Hume's **Voice Library** are accessible by all users. In contrast, your custom voices are private and accessible only via requests authenticated with your API key."
+      required:
+      - id
+      - name
+      - provider
+      title: OctaveVoiceDesignSaveResponse
+    HTTPValidationError:
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+      title: HTTPValidationError
+    ValidationErrorLocItems:
+      oneOf:
+      - type: string
+      - type: integer
+      title: ValidationErrorLocItems
+    OctaveVoiceDesignSaveArgs:
+      type: object
+      properties:
+        generation_id:
+          type: string
+          description: A unique ID associated with this TTS generation that can be used as context for generating consistent speech style and prosody across multiple requests.
+        name:
+          type: string
+          description: The name of a **Voice**.
+      required:
+      - generation_id
+      - name
+      title: OctaveVoiceDesignSaveArgs
     return_voice_octave_public:
       type: object
       properties:
@@ -237,33 +264,6 @@ components:
       - provider
       description: An Octave voice available for text-to-speech
       title: return_voice_octave_public
-    voices_delete_Response_200:
-      type: object
-      properties: {}
-      description: Empty response body
-      title: voices_delete_Response_200
-    ValidationError:
-      type: object
-      properties:
-        loc:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationErrorLocItems'
-        msg:
-          type: string
-        type:
-          type: string
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    VoiceProvider:
-      type: string
-      enum:
-      - HUME_AI
-      - CUSTOM_VOICE
-      title: VoiceProvider
   securitySchemes:
     bearerAuth:
       type: apiKey
