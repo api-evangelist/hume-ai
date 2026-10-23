@@ -269,3 +269,9 @@ components:
       type: apiKey
       in: header
       name: X-Hume-Api-Key
+x-provenance:
+  method: harvested
+  publisher: Hume AI
+  source: https://dev.hume.ai/openapi/text-to-speech-tts.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
