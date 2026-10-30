@@ -1,4 +1,4 @@
-# Hume AI (hume-ai)
+# Hume AI
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,123 +66,156 @@
 
 Hume AI builds empathic voice and emotional AI models. The platform exposes four published APIs: Voices, Octave Text-to-Speech, Empathic Voice Interface (EVI / speech-to-speech), and Expression Measurement (multimodal emotion analysis). REST + WebSocket interfaces are documented with public OpenAPI and AsyncAPI specifications at https://dev.hume.ai/.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/hume-ai/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/hume-ai/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Voice · Empathic · Emotion · Multi-Modal · Conversational AI · Real-Time
 
-## Tags
+## Hume AI on APIs.io
 
-- AI
-- Voice
-- Empathic
-- Emotion
-- Multimodal
+Everything profiled for Hume AI is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hume-ai/](https://apis.io/providers/hume-ai/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (10)
 
-- **Created:** 2026-05-08
-- **Modified:** 2026-05-29
+- [Hume AI Subpackage Batch API](https://apis.io/apis/hume-ai/hume-ai-subpackage-batch-api/) — The subpackage_batch API from Hume AI — 4 operation(s) for subpackage_batch.
+- [Hume AI Subpackage Chat Groups API](https://apis.io/apis/hume-ai/hume-ai-subpackage-chatgroups-api/) — The subpackage_chatGroups API from Hume AI — 4 operation(s) for subpackage_chatgroups.
+- [Hume AI Subpackage Chats API](https://apis.io/apis/hume-ai/hume-ai-subpackage-chats-api/) — The subpackage_chats API from Hume AI — 3 operation(s) for subpackage_chats.
+- [Hume AI Subpackage Configs API](https://apis.io/apis/hume-ai/hume-ai-subpackage-configs-api/) — The subpackage_configs API from Hume AI — 3 operation(s) for subpackage_configs.
+- [Hume AI Subpackage Control Plane API](https://apis.io/apis/hume-ai/hume-ai-subpackage-controlplane-api/) — The subpackage_controlPlane API from Hume AI — 1 operation(s) for subpackage_controlplane.
+- [Hume AI Subpackage Prompts API](https://apis.io/apis/hume-ai/hume-ai-subpackage-prompts-api/) — The subpackage_prompts API from Hume AI — 3 operation(s) for subpackage_prompts.
+- [Hume AI Subpackage Tools API](https://apis.io/apis/hume-ai/hume-ai-subpackage-tools-api/) — The subpackage_tools API from Hume AI — 3 operation(s) for subpackage_tools.
+- [Hume AI Subpackage Voices API](https://apis.io/apis/hume-ai/hume-ai-subpackage-voices-api/) — The subpackage_voices API from Hume AI — 1 operation(s) for subpackage_voices.
+- [Hume AI Speech To Speech (EVI) API](https://apis.io/apis/hume-ai/hume-ai-speech-to-speech-evi-api/) — The Speech To Speech (EVI) API from Hume AI — 0 operation(s) for speech to speech (evi).
+- [Hume AI Tts API](https://apis.io/apis/hume-ai/hume-ai-tts-api/) — The Tts API from Hume AI — 6 operation(s) for tts.
 
-## APIs
+### Published properties
 
-### Hume Voices API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-REST API for managing custom voices used by Hume's TTS and EVI products. Supports voice creation, listing, and deletion. Bearer token auth.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://dev.hume.ai/reference](https://dev.hume.ai/reference)
-- **Base URL:** `https://api.hume.ai`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Hume AI WebSocket APIs](https://apis.io/asyncapis/hume-ai/hume-ai-asyncapi/)
 
-- Voices
-- Voice Cloning
-- TTS
+#### Event channels (3)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://dev.hume.ai/reference)
-- [OpenAPI](openapi/hume-ai-voices-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hume-ai-voices.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hume-ai-voices.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [/chat](https://apis.io/channels/hume-ai/chat/)
+- [/chat/{chat_id}/connect](https://apis.io/channels/hume-ai/chat-chat-id-connect/)
+- [/models](https://apis.io/channels/hume-ai/models/)
 
-### Hume Octave Text-to-Speech API
+#### Agentic access (1)
 
-REST API for synthesizing expressive speech using Octave. Supports streamed JSON/file and standard JSON/file responses, plus voice conversion endpoints.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://dev.hume.ai/docs/text-to-speech-tts](https://dev.hume.ai/docs/text-to-speech-tts)
-- **Base URL:** `https://api.hume.ai`
+- [Hume Ai Agentic Access](https://apis.io/agentic-access/hume-ai/hume-ai-agentic-access/)
 
-#### Tags
+#### Collections (13)
 
-- TTS
-- Speech Synthesis
-- Streaming
-- Octave
+Postman and Open Collection request collections.
 
-#### Properties
+- [Speech-to-speech (EVI)  API](https://apis.io/collections/hume-ai/open-hume-ai-default-api/)
+- [Speech-to-speech (EVI)](https://apis.io/collections/hume-ai/open-hume-ai-evi/)
+- [Expression Measurement API](https://apis.io/collections/hume-ai/open-hume-ai-expression/)
+- [Speech-to-speech (EVI) subpackage_batch API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-batch-api/)
+- [Speech-to-speech (EVI) subpackage_chatGroups API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-chatgroups-api/)
+- [Speech-to-speech (EVI) subpackage_chats API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-chats-api/)
+- [Speech-to-speech (EVI) subpackage_configs API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-configs-api/)
+- [Speech-to-speech (EVI) subpackage_controlPlane API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-controlplane-api/)
+- [Speech-to-speech (EVI) subpackage_prompts API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-prompts-api/)
+- [Speech-to-speech (EVI) subpackage_tools API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-tools-api/)
+- [Speech-to-speech (EVI) subpackage_voices API](https://apis.io/collections/hume-ai/open-hume-ai-subpackage-voices-api/)
+- [Text-to-Speech (TTS)](https://apis.io/collections/hume-ai/open-hume-ai-tts/)
+- [Voices](https://apis.io/collections/hume-ai/open-hume-ai-voices/)
 
-- [Documentation](https://dev.hume.ai/docs/text-to-speech-tts)
-- [OpenAPI](openapi/hume-ai-tts-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hume-ai-tts.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hume-ai-tts.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Pricing](https://www.hume.ai/pricing)
+#### Governance rules (1)
 
-### Hume Empathic Voice Interface (EVI) API
+Spectral rulesets for the provider's contracts.
 
-Real-time emotionally intelligent speech-to-speech voice interface delivered over WebSockets. Includes configuration, prompt, and tool management plus chat history, chat group operations, and webhook events for tool calls and chat lifecycle.
+- [Hume AI — asyncapi rules](https://apis.io/rules/hume-ai/hume-ai-asyncapi-spectral-rules/)
 
-- **Human URL:** [https://dev.hume.ai/docs/speech-to-speech-evi](https://dev.hume.ai/docs/speech-to-speech-evi)
-- **Base URL:** `https://api.hume.ai`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- EVI
-- Speech-to-Speech
-- WebSocket
-- Realtime
-- Empathic
+- [Hume Ai Authentication](https://apis.io/security/hume-ai/hume-ai-authentication/)
+- [Hume Ai Domain Security](https://apis.io/security/hume-ai/hume-ai-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://dev.hume.ai/docs/speech-to-speech-evi)
-- [OpenAPI](openapi/hume-ai-evi-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hume-ai-evi.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hume-ai-evi.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](https://dev.hume.ai/asyncapi.yaml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [AsyncAPI](asyncapi/hume-ai-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+Published plans, tiers and prices.
 
-### Hume Expression Measurement API
+- [Hume Ai Plans Pricing](https://apis.io/plans/hume-ai/hume-ai-plans-pricing/)
 
-Multimodal emotion analysis API for face, voice, language, and burst expression. Offers batch inference jobs over images/audio/video/text, and streaming inference.
+#### Rate limits (1)
 
-- **Human URL:** [https://dev.hume.ai/docs/expression-measurement](https://dev.hume.ai/docs/expression-measurement)
-- **Base URL:** `https://api.hume.ai`
+Published request limits.
 
-#### Tags
+- [Hume Ai Rate Limits](https://apis.io/rate-limits/hume-ai/hume-ai-rate-limits/)
 
-- Expression Measurement
-- Emotion
-- Multimodal
-- Batch
-- Streaming
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://dev.hume.ai/docs/expression-measurement)
-- [OpenAPI](openapi/hume-ai-expression-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/hume-ai-expression.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/hume-ai-expression.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [AsyncAPI](asyncapi/hume-ai-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+- [Hume Ai Finops](https://apis.io/finops/hume-ai/hume-ai-finops/)
 
-## Common Properties
+## Where to find this API
 
-- [GitHub Organization](https://github.com/HumeAI)
-- [LinkedIn](https://www.linkedin.com/company/hume-ai)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.hume.ai/)
 - [Documentation](https://dev.hume.ai/)
-- [Plans](plans/hume-ai-plans-pricing.yml)
-- [Rate Limits](rate-limits/hume-ai-rate-limits.yml)
-- [Fin Ops](finops/hume-ai-finops.yml)
+- [Blog](https://www.hume.ai/blog)
+- [GitHub](https://github.com/HumeAI)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.4** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 55.5 |
+| Contract governance | 11.4 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 18.4 |
+
+**Agent readiness 28.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.9** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hume-ai/](https://apis.io/providers/hume-ai/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Hume AI: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hume-ai/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
